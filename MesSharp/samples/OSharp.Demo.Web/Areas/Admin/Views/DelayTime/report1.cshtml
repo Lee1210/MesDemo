@@ -1,0 +1,88 @@
+﻿@using OSharp.Utility.Extensions
+@using OSharp.Web.Mvc.Extensions
+
+@{
+    ViewBag.Title = "Welcome";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Welcome</h2>
+<div id="main" style="height:400px"></div>
+<script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+
+<script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: 'http://echarts.baidu.com/build/dist'
+        }
+    });
+    function submitEdits(objs) {
+        $.post("@ViewBag.Report1", { dtos: JSON.stringify(objs) }, ajaxResultHandler);
+    }
+    function ajaxResultHandler(data) {
+        if (data.Type == "Success") {
+            grid.datagrid("reload");
+        }
+        if (data.Type == "Error") {
+            $.osharp.easyui.msg.error(data.Content);
+        } else {
+            $.osharp.easyui.msg.tip(data.Content);
+        }
+    }
+    function test(parameters) {
+        // var data1 = ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"];
+        var data1=@Html.Raw(ViewBag.data1);
+        var data2 = @Html.Raw(ViewBag.data2);
+       // var data2 = [5, 20, 60, 10, 10, 20];
+        require(
+        [
+            'echarts',
+             'echarts/chart/line',
+            'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+        ],
+        function (ec) {
+            // 基于准备好的dom，初始化echarts图表
+            var myChart = ec.init(document.getElementById('main'));
+
+            var option = {
+                tooltip: {
+                    show: true
+                },
+                legend: {
+                    data: ['销量']
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: data1
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        "name": "销量",
+                        "type": "bar",
+                        "data": data2
+                    }
+                ]
+            };
+
+            // 为echarts对象加载数据
+            myChart.setOption(option);
+        }
+    );
+    }
+    // 使用
+
+</script>
+<button onclick="test()">test</button>
+@*<ul>
+    <li>组织机构数量：@ViewBag.Data.OrganizationCount</li>
+    <li>角色数量：@ViewBag.Data.RoleCount</li>
+    <li>用户数量：@ViewBag.Data.UserCount</li>
+</ul>*@

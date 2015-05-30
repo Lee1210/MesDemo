@@ -1,0 +1,104 @@
+﻿<#+
+// <copyright file="Template1.tt" company="China">
+//  Copyright © China. All Rights Reserved.
+// </copyright>
+
+public class ControllerTemplate : CSharpTemplate
+{
+    private T4ModelInfo _model;
+
+    public ControllerTemplate(T4ModelInfo model)
+    {
+        _model = model;
+    }
+
+    public string FileName
+    {
+        get{ return string.Format("{0}Controller.cs", _model.Name); }
+    }
+	public override string TransformText()
+	{
+		base.TransformText();
+        
+#>
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+
+using Mes.Demo.Contracts;
+using Mes.Demo.Dtos.Test;
+using Mes.Demo.Models.Test;
+using Mes.Utility;
+using Mes.Utility.Data;
+using Mes.Web.Mvc.Binders;
+using Mes.Web.Mvc.Security;
+using Mes.Web.UI;
+
+
+namespace Mes.Demo.Web.Areas.Admin.Controllers
+{
+    public class <#=_model.Name #>Controller : AdminBaseController
+    {
+        public I<#=_model.ModuleName #>Contract <#=_model.ModuleName #>Contract { get; set; }
+
+
+
+        [AjaxOnly]
+        public ActionResult GridData(int? id)
+        {
+            int total;
+            GridRequest request = new GridRequest(Request);
+            var datas = GetQueryData<<#=_model.Name #>, int>(<#=_model.ModuleName #>Contract.<#=_model.Name #>s, out total, request).Select(m => new
+            {
+<#+     
+            List<string> igoreString=new List<string>{"Timestamp"};
+        foreach (var pro in _model.Properties)
+            {            
+                //过滤忽略的字符串和导航关系
+                if (!igoreString.Contains(pro.Name)&&pro.PropertyType.Name!="ICollection`1")
+                {
+
+        #>
+                m.<#=pro.Name #>,
+<#+        
+                } 
+            } 
+#>        
+            });
+            return Json(new GridData<object>(datas, total), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult Add([ModelBinder(typeof(JsonBinder<<#=_model.Name #>Dto>))] ICollection<<#=_model.Name #>Dto> dtos)
+        {
+            dtos.CheckNotNull("dtos");
+            OperationResult result = <#=_model.ModuleName #>Contract.Add<#=_model.Name #>s(dtos.ToArray());
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult Edit([ModelBinder(typeof(JsonBinder<<#=_model.Name #>Dto>))] ICollection<<#=_model.Name #>Dto> dtos)
+        {
+            dtos.CheckNotNull("dtos");
+            OperationResult result = <#=_model.ModuleName #>Contract.Edit<#=_model.Name #>s(dtos.ToArray());
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult Delete([ModelBinder(typeof(JsonBinder<int>))] ICollection<int> ids)
+        {
+            ids.CheckNotNull("ids");
+            OperationResult result = <#=_model.ModuleName #>Contract.Delete<#=_model.Name #>s(ids.ToArray());
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
+       
+	}
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

@@ -1,0 +1,24 @@
+﻿
+
+
+<#+
+public class DtoGenerator : Generator
+{
+    public List<DtoTemplate> Templates{get; set;}
+  
+    public DtoGenerator ()
+    {
+        Templates=new List<DtoTemplate>();
+    }
+    
+    protected override void RunCore()
+    {
+        foreach(DtoTemplate tempalte in this.Templates)
+        {
+            tempalte.RenderToFile(tempalte.FileName);
+        }
+    }
+       
+      
+}
+#>

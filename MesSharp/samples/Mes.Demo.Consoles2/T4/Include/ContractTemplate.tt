@@ -1,0 +1,76 @@
+﻿<#+
+// <copyright file="Template1.tt" company="China">
+//  Copyright © China. All Rights Reserved.
+// </copyright>
+
+public class ContractTemplate : CSharpTemplate
+{
+    private T4ModelInfo _model;
+
+    public ContractTemplate(T4ModelInfo model)
+    {
+        _model = model;
+    }
+
+    public string FileName
+    {
+            get{ return string.Format("I{0}Contract.{1}.cs", _model.ModuleName,_model.Name); }
+    }
+	public override string TransformText()
+	{
+		base.TransformText();
+        
+#>
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using Mes.Core;
+using Mes.Demo.Dtos.Test;
+using Mes.Demo.Models.Test;
+using Mes.Utility.Data;
+
+namespace Mes.Demo.Contracts
+{
+	public partial interface I<#=_model.ModuleName #>Contract:IDependency
+    {
+        /// <summary>
+        /// 获取<#=_model.Description#> 信息查询数据集
+        /// </summary>
+        IQueryable<<#=_model.Name#>> <#=_model.Name#>s { get; }
+        
+        /// <summary>
+        /// 检查<#=_model.Description#>信息是否存在
+        /// </summary>
+        /// <param name="predicate">检查谓语表达式</param>
+        /// <param name="id">更新的<#=_model.Description#>信息编号</param>
+        /// <returns><#=_model.Description#>信息是否存在</returns>
+        bool Check<#=_model.Name#>Exists(Expression<Func<<#=_model.Name#>, bool>> predicate, int id = 0);
+        
+        /// <summary>
+        /// 添加<#=_model.Description#>信息
+        /// </summary>
+        /// <param name="dtos">要添加的<#=_model.Description#>信息DTO信息</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult Add<#=_model.Name#>s(params <#=_model.Name#>Dto[] dtos);
+        
+        /// <summary>
+        /// 更新<#=_model.Description#>信息
+        /// </summary>
+        /// <param name="dtos">包含更新信息的<#=_model.Description#>DTO信息</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult Edit<#=_model.Name#>s(params <#=_model.Name#>Dto[] dtos);
+
+        /// <summary>
+        /// 删除<#=_model.Description#>信息
+        /// </summary>
+        /// <param name="ids">要删除的<#=_model.Description#>信息编号</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult Delete<#=_model.Name#>s(params int[] ids);
+    }
+}
+      
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

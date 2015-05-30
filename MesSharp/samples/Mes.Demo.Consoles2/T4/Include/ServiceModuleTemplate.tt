@@ -1,0 +1,42 @@
+﻿<#+
+// <copyright file="Template1.tt" company="China">
+//  Copyright © China. All Rights Reserved.
+// </copyright>
+
+public class ServiceModuleTemplate : CSharpTemplate
+{
+    private string _ModuleName;
+
+    public ServiceModuleTemplate(string ModuleName)
+    {
+        _ModuleName = ModuleName;
+    }
+
+    public string FileName
+    {
+            get{ return string.Format("{0}Service.cs", _ModuleName); }
+    }
+	public override string TransformText()
+	{
+		base.TransformText();
+        
+#>
+using Mes.Core;
+using Mes.Core.Data;
+using Mes.Demo.Contracts;
+
+namespace Mes.Demo.Services.<#=_ModuleName #>
+{
+	public partial class <#=_ModuleName #>Service :ServiceBase, I<#=_ModuleName #>Contract
+    {
+        public <#=_ModuleName #>Service(IUnitOfWork unitOfWork)
+            : base(unitOfWork)
+        { }
+    }
+}
+      
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

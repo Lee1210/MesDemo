@@ -1,0 +1,71 @@
+﻿<#+
+// <copyright file="Template1.tt" company="China">
+//  Copyright © China. All Rights Reserved.
+// </copyright>
+
+public class DtoTemplate : CSharpTemplate
+{
+    private T4ModelInfo _model;
+
+    public DtoTemplate(T4ModelInfo model)
+    {
+        _model = model;
+    }
+
+    public string FileName
+    {
+        get{ return string.Format("{0}Dto.cs", _model.Name); }
+    }
+	public override string TransformText()
+	{
+		base.TransformText();
+        
+#>
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Mes.Core.Data;
+using Mes.Demo.Models.Identity;
+
+
+namespace Mes.Demo.Dtos.<#=_model.ModuleName #>
+{
+	public class <#=_model.Name #>Dto : IAddDto, IEditDto<int>
+    {
+      <#+           
+         foreach(var pro in _model.Properties){
+         var test = "";
+         List<string> igoreList = new List<string> { "CreatedTime", "Timestamp","IsDeleted" };
+         switch (pro.PropertyType.Name)
+              {
+                case "String":
+                      test = "string";
+                      break;
+                case "Int32":
+                      test = "int";
+                      break;
+                case "Boolean":
+                      test = "bool";
+                      break;
+                default:
+                      break;
+               }       
+          if (!igoreList.Contains(pro.Name))
+              {
+            if (pro.PropertyType.Name != "ICollection`1"){
+      #>             
+          public <#=test #> <#=pro.Name #> {get;set;}
+      <#+ 
+                //  WriteLine("public "+test+" "+pro.Name+" { get;set;}");
+            }   
+              }
+         
+        }
+      #>          
+		
+	}
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

@@ -1,0 +1,82 @@
+﻿<#@ template language="C#" debug="True" hostSpecific="true" #> 
+<#@ output extension="cs" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="$(ProjectDir)bin\Debug\Mes.Utility.dll" #>
+<#@ assembly name="$(ProjectDir)bin\Debug\Mes.Core.dll" #>
+<#@ import namespace="System.IO" #>         
+<#@ import namespace="System.Linq" #> 
+<#@ import namespace="System.Text" #> 
+<#@ import namespace="System.Reflection" #>  
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="Mes.Utility.Extensions" #>
+<#@ import namespace="Mes.Utility.Develop.T4" #>
+<#@ import namespace="Mes.Core.Data" #>  
+<#@ include file="T4Toolbox.tt" #> 
+<#@ include file="Include\DtoTemplate.tt" #> 
+<#@ include file="Include\ContractTemplate.tt" #>
+<#@ include file="Include\EntityConfigurationTemplate.tt" #>
+<#@ include file="Include\ServiceTemplate.tt" #>
+<#@ include file="Include\ServiceModuleTemplate.tt" #>
+<#@ include file="Include\ControllerTemplate.tt" #>
+<#@ include file="Include\DtoGenerator.tt" #> 
+<# 
+	string currentPath = Path.GetDirectoryName(Host.TemplateFile);
+    string projectPath = currentPath.Substring(0, currentPath.IndexOf(@"\T4"));
+	string modelFile = Path.Combine(projectPath, @"bin\Debug\Mes.Demo.Contracts.dll");
+    byte[] fileData = File.ReadAllBytes(modelFile);
+	Assembly assembly = Assembly.Load(fileData); 
+    Type baseType = typeof(EntityBase<>);
+    List<string> classlist=new List<string>{"Station","Line" };  
+   
+    
+    IEnumerable<Type> modelTypes = assembly.GetTypes().Where(m =>classlist.Contains(m.Name));   
+  
+    foreach(Type modelType in modelTypes) 
+    {
+        T4ModelInfo model = new T4ModelInfo(modelType, true); 
+
+        DtoTemplate config = new DtoTemplate(model);         
+        string path = model.UseModuleDir 
+            ? string.Format(@"{0}\Dtos\{1}", projectPath, model.ModuleName)
+            : string.Format(@"{0}\Dtos", projectPath);
+        config.Output.Encoding = Encoding.UTF8;
+        config.RenderToFile(Path.Combine(path, config.FileName));
+
+        ContractTemplate configContractTemplate = new ContractTemplate(model);        
+        path = model.UseModuleDir  
+            ? string.Format(@"{0}\Contracts\{1}", projectPath, model.ModuleName)
+            : string.Format(@"{0}\Contracts", projectPath);
+        configContractTemplate.Output.Encoding = Encoding.UTF8;
+        configContractTemplate.RenderToFile(Path.Combine(path, configContractTemplate.FileName));
+
+        EntityConfigurationTemplate entityConfigurationTemplate = new EntityConfigurationTemplate(model);        
+        path = model.UseModuleDir  
+            ? string.Format(@"{0}\ModelConfigurations\{1}", projectPath, model.ModuleName)
+            : string.Format(@"{0}\ModelConfigurations", projectPath);
+        entityConfigurationTemplate.Output.Encoding = Encoding.UTF8;
+        entityConfigurationTemplate.RenderToFile(Path.Combine(path, entityConfigurationTemplate.FileName));
+
+        ServiceTemplate serviceTemplate = new ServiceTemplate(model);        
+        path = model.UseModuleDir   
+            ? string.Format(@"{0}\Services\{1}", projectPath, model.ModuleName)
+            : string.Format(@"{0}\Services", projectPath); 
+        serviceTemplate.Output.Encoding = Encoding.UTF8;
+        serviceTemplate.RenderToFile(Path.Combine(path, serviceTemplate.FileName));       
+        ControllerTemplate controllerTemplate = new ControllerTemplate(model);        
+        path = model.UseModuleDir  
+            ? string.Format(@"{0}\Controllers\{1}", projectPath, model.ModuleName)
+            : string.Format(@"{0}\Controllers", projectPath);
+        controllerTemplate.Output.Encoding = Encoding.UTF8;
+        controllerTemplate.RenderToFile(Path.Combine(path, controllerTemplate.FileName));
+    }
+    
+     List<string> modulelist=new List<string>{"Test" };  
+    foreach(string module in modulelist)
+    {
+        ServiceModuleTemplate serviceModuleTemplate = new ServiceModuleTemplate(module);        
+        string path = string.Format(@"{0}\Services\{1}", projectPath, module);           
+        serviceModuleTemplate.Output.Encoding = Encoding.UTF8;
+        serviceModuleTemplate.RenderToFile(Path.Combine(path, serviceModuleTemplate.FileName));
+    }
+ #>

@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{551EFF10-0793-47AC-962D-B310D6B9AAC7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mes.Demo.Consoles2</RootNamespace>
+    <AssemblyName>Mes.Demo.Consoles2</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contracts\Test\ITestContract.Line.cs" />
+    <Compile Include="Contracts\Test\ITestContract.Station.cs" />
+    <Compile Include="Controllers\Test\LineController.cs" />
+    <Compile Include="Controllers\Test\StationController.cs" />
+    <Compile Include="Dtos\Test\LineDto.cs" />
+    <Compile Include="Dtos\Test\StationDto.cs" />
+    <Compile Include="ModelConfigurations\Test\LineConfiguration.cs" />
+    <Compile Include="ModelConfigurations\Test\StationConfiguration.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Test\TestService.cs" />
+    <Compile Include="Services\Test\TestService.Line.cs" />
+    <Compile Include="Services\Test\TestService.Station.cs" />
+    <Compile Include="T4\Dto.cs" />
+    <Compile Include="T4\Dto1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Dto.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T4\Include\ContractTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContractTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T4\Include\ControllerTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControllerTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T4\Include\DtoGenerator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DtoGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T4\Include\DtoTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DtoTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T4\Include\EntityConfigurationTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityConfigurationTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T4\Include\ServiceModuleTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServiceModuleTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T4\Include\ServiceTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServiceTemplate.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="T4\Dto.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Dto1.cs</LastGenOutput>
+      <LastOutputs>
+..\Contracts\Test\ITestContract.Line.cs
+..\Contracts\Test\ITestContract.Station.cs
+..\Controllers\Test\LineController.cs
+..\Controllers\Test\StationController.cs
+..\Dtos\Test\LineDto.cs
+..\Dtos\Test\StationDto.cs
+..\ModelConfigurations\Test\LineConfiguration.cs
+..\ModelConfigurations\Test\StationConfiguration.cs
+..\Services\Test\TestService.cs
+..\Services\Test\TestService.Line.cs
+..\Services\Test\TestService.Station.cs
+.\Dto1.cs
+</LastOutputs>
+    </None>
+    <None Include="T4\Include\ContractTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ContractTemplate.cs</LastGenOutput>
+    </None>
+    <None Include="T4\Include\ControllerTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ControllerTemplate.cs</LastGenOutput>
+    </None>
+    <None Include="T4\Include\DtoGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DtoGenerator.cs</LastGenOutput>
+    </None>
+    <None Include="T4\Include\DtoTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DtoTemplate.cs</LastGenOutput>
+    </None>
+    <None Include="T4\Include\EntityConfigurationTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EntityConfigurationTemplate.cs</LastGenOutput>
+    </None>
+    <None Include="T4\Include\ServiceModuleTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ServiceModuleTemplate.cs</LastGenOutput>
+    </None>
+    <None Include="T4\Include\ServiceTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ServiceTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OSharp.Utility\Mes.Utility.csproj">
+      <Project>{946e0a0a-8280-46b3-893e-1b00a554ccab}</Project>
+      <Name>Mes.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OSharp.Demo.Contracts\Mes.Demo.Contracts.csproj">
+      <Project>{2e6d22c7-37d5-4f1f-8d3e-2bcbd8f71b88}</Project>
+      <Name>Mes.Demo.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

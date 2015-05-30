@@ -1,0 +1,44 @@
+﻿<#+
+// <copyright file="Template1.tt" company="China">
+//  Copyright © China. All Rights Reserved.
+// </copyright>
+
+public class EntityConfigurationTemplate : CSharpTemplate
+{
+    private T4ModelInfo _model;
+
+    public EntityConfigurationTemplate(T4ModelInfo model)
+    {
+        _model = model;
+    }
+
+    public string FileName
+    {
+            get{ return string.Format("{0}Configuration.cs",_model.Name); }
+    }
+	public override string TransformText()
+	{
+		base.TransformText();
+        
+#>
+using Mes.Core.Data.Entity;
+using Mes.Demo.Models.Test;
+
+namespace Mes.Demo.ModelConfigurations.<#=_model.ModuleName #>
+{
+    public class <#=_model.Name#>Configuration:EntityConfigurationBase<<#=_model.Name#>,int>
+    {
+        public <#=_model.Name#>Configuration()
+        {
+          
+        }
+    }
+}
+
+
+      
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>
