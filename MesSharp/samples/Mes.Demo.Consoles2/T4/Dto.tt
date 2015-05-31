@@ -20,6 +20,7 @@
 <#@ include file="Include\ServiceModuleTemplate.tt" #>
 <#@ include file="Include\ControllerTemplate.tt" #>
 <#@ include file="Include\DtoGenerator.tt" #> 
+<#@ include file="Include\ViewTemplate.tt" #>
 <# 
 	string currentPath = Path.GetDirectoryName(Host.TemplateFile);
     string projectPath = currentPath.Substring(0, currentPath.IndexOf(@"\T4"));
@@ -62,13 +63,21 @@
             ? string.Format(@"{0}\Services\{1}", projectPath, model.ModuleName)
             : string.Format(@"{0}\Services", projectPath); 
         serviceTemplate.Output.Encoding = Encoding.UTF8;
-        serviceTemplate.RenderToFile(Path.Combine(path, serviceTemplate.FileName));       
+        serviceTemplate.RenderToFile(Path.Combine(path, serviceTemplate.FileName));   
+    
         ControllerTemplate controllerTemplate = new ControllerTemplate(model);        
         path = model.UseModuleDir  
             ? string.Format(@"{0}\Controllers\{1}", projectPath, model.ModuleName)
             : string.Format(@"{0}\Controllers", projectPath);
         controllerTemplate.Output.Encoding = Encoding.UTF8;
         controllerTemplate.RenderToFile(Path.Combine(path, controllerTemplate.FileName));
+
+        ViewTemplate viewTemplate = new ViewTemplate(model);         
+        path = model.UseModuleDir   
+            ? string.Format(@"{0}\Views\{1}", projectPath, model.Name)
+            : string.Format(@"{0}\Views", projectPath);
+        viewTemplate.Output.Encoding = Encoding.UTF8;  
+        viewTemplate.RenderToFile(Path.Combine(path, viewTemplate.FileName));
     }
     
      List<string> modulelist=new List<string>{"Test" };  

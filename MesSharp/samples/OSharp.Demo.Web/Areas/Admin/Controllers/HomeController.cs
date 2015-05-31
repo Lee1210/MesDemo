@@ -35,6 +35,8 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                         new TreeNode() { Text = "用户管理", IconCls = "pic_5", Url = Url.Action("Index", "Users") },
                         new TreeNode() { Text = "角色管理", IconCls = "pic_198", Url = Url.Action("Index", "Roles") },
                         new TreeNode() { Text = "组织机构管理", IconCls = "pic_93", Url = Url.Action("Index", "Organizations") },
+                        new TreeNode() { Text = "线体管理", IconCls = "pic_93", Url = Url.Action("Index", "Line") },
+                        new TreeNode() { Text = "站点管理", IconCls = "pic_93", Url = Url.Action("Index", "Station") },
                     }
                 },
                 new TreeNode()

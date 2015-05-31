@@ -54,7 +54,6 @@
     <Compile Include="Services\Test\TestService.cs" />
     <Compile Include="Services\Test\TestService.Line.cs" />
     <Compile Include="Services\Test\TestService.Station.cs" />
-    <Compile Include="T4\Dto.cs" />
     <Compile Include="T4\Dto1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -95,6 +94,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ServiceTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="T4\Include\ViewTemplate1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewTemplate.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -113,6 +117,8 @@
 ..\Services\Test\TestService.cs
 ..\Services\Test\TestService.Line.cs
 ..\Services\Test\TestService.Station.cs
+..\Views\Line\Index.cshtml
+..\Views\Station\Index.cshtml
 .\Dto1.cs
 </LastOutputs>
     </None>
@@ -144,6 +150,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ServiceTemplate.cs</LastGenOutput>
     </None>
+    <None Include="T4\Include\ViewTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ViewTemplate1.cs</LastGenOutput>
+    </None>
+    <None Include="Views\Line\Index.cshtml" />
+    <None Include="Views\Station\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
