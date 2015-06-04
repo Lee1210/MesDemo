@@ -4,16 +4,46 @@
 
     ViewBag.GridId = "users";
     ViewBag.GridDataUrl = Url.Action("GridData");
+    ViewBag.AddUrl = Url.Action("Add");
+    ViewBag.EditUrl = Url.Action("Edit");
+    ViewBag.DeleteUrl = Url.Action("Delete");
+    ViewBag.User2Role = Url.Action("User2Role");
 }
 @section customScript
 {
-<script type="text/javascript">
-    columns = [[
-        { field: "Id", title: "编号", width: 40, halign: "center", align: "right", sortable: true },
-        { field: "Name", title: "用户名", width: 150, sortable: true },
-        { field: "NickName", title: "用户昵称", width: 150, sortable: true },
-        { field: "IsDeleted", title: "已删除", width: 80, sortable: true, align: "center", formatter: formatBoolean },
-        { field: "CreatedTime", title: "创建时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } }
-    ]];
-</script>
+    <script type="text/javascript">
+        columns = [
+            [
+                
+                { field: "Name", title: "用户名", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,100]" } } },
+                { field: "NickName", title: "用户昵称", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
+                { field: "Email", title: "电子邮箱", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,100]" } } },
+                { field: "IsDeleted", title: "已删除", width: 80, sortable: true, align: "center",  formatter: formatBoolean, editor: { type: "combobox", options: { required: true, data: $.Mes.data.bool, valueField: "id", textField: "text" } }  },
+                { field: "CreatedTime", title: "创建时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } },
+                {
+                    field: "oopt", title: "对应角色", width: 150,
+                    align: 'center',
+                    formatter: function (value, rec) {
+                        var btn = '<a class="editcls" onclick="navigation1((\'' + rec.Id + '\'))" href="javascript:void(0)">编辑</a>';
+                        return btn;
+                    }
+                }
+
+            ]
+        ];
+        var User2Role_testUserId = 0;
+        function navigation1() {
+            User2Role_testUserId = arguments[0];
+            $('#navigation1').dialog({
+                title: 'User Id:' + arguments[0],
+                width: 400,
+                height: 200,
+                closed: false,
+                cache: false,
+                href: '@ViewBag.User2Role/' + arguments[0],
+                modal: true
+            });
+        }
+    </script>
+    <div id="navigation1"></div>
 }

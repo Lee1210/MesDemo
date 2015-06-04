@@ -141,5 +141,42 @@ namespace Mes.Demo.Contracts
         OperationResult SetUserRoles(int id, int[] roleIds);
 
         #endregion
+
+        #region
+
+        /// <summary>
+        /// 获取菜单信息查询数据集
+        /// </summary>
+        IQueryable<Menu> Menus { get; }
+
+        /// <summary>
+        /// 检查菜单信息信息是否存在
+        /// </summary>
+        /// <param name="predicate">检查谓语表达式</param>
+        /// <param name="id">更新的菜单信息编号</param>
+        /// <returns>菜单信息是否存在</returns>
+        bool CheckMenuExists(Expression<Func<Menu, bool>> predicate, int id = 0);
+
+        /// <summary>
+        /// 添加菜单信息信息
+        /// </summary>
+        /// <param name="dtos">要菜单的用户信息DTO信息</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult AddMenus(params MenuDto[] dtos);
+
+        /// <summary>
+        /// 更新菜单信息信息
+        /// </summary>
+        /// <param name="dtos">包含更新信息的菜单信息DTO信息</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult EditMenus(params MenuDto[] dtos);
+
+        /// <summary>
+        /// 删除菜单信息信息
+        /// </summary>
+        /// <param name="ids">要删除的菜单信息编号</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult DeleteMenus(params int[] ids);
+        #endregion
     }
 }

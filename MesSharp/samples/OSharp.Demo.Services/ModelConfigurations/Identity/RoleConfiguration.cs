@@ -13,7 +13,7 @@ namespace Mes.Demo.ModelConfigurations.Identity
     {
         partial void RoleConfigurationAppend()
         {
-            HasRequired(m => m.Organization).WithMany(n => n.Roles);
+       //     HasRequired(m => m.Organization).WithMany(n => n.Roles);
         }
     }
 }

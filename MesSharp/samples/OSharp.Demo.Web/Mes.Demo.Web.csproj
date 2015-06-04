@@ -401,10 +401,12 @@
     <Content Include="Areas\Admin\Views\Organizations\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_TreeGridLayout.cshtml" />
     <None Include="Areas\Admin\Views\Line\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\Role2User.cshtml" />
     <None Include="Areas\Admin\Views\Station\Index.cshtml">
       <SubType>
       </SubType>
     </None>
+    <Content Include="Areas\Admin\Views\Users\User2Role.cshtml" />
     <None Include="Scripts\jquery-1.11.1.intellisense.js" />
     <Content Include="Scripts\easyloader.js" />
     <Content Include="Scripts\jquery-1.11.1.js" />
@@ -504,7 +506,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56679</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1020</IISUrl>
+          <IISUrl>http://localhost:1021</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

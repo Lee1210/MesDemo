@@ -18,6 +18,7 @@ namespace Mes.Demo.Dtos
             Mapper.CreateMap<OrganizationDto, Organization>();
             Mapper.CreateMap<UserDto, User>();
             Mapper.CreateMap<RoleDto, Role>();
+            Mapper.CreateMap<MenuDto, Menu>();
 
             //Test
             Mapper.CreateMap<LineDto, Line>();

@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 
 using Mes.Demo.Dtos.Identity;
 using Mes.Demo.Models.Identity;
+using Mes.Utility;
 using Mes.Utility.Data;
 
 
@@ -41,7 +42,7 @@ namespace Mes.Demo.Services
         /// <returns>业务操作结果</returns>
         public OperationResult AddUsers(params UserDto[] dtos)
         {
-            throw new NotImplementedException();
+            return UserRepository.Insert(dtos);
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Mes.Demo.Services
         /// <returns>业务操作结果</returns>
         public OperationResult EditUsers(params UserDto[] dtos)
         {
-            throw new NotImplementedException();
+            return UserRepository.Update(dtos);
         }
 
         /// <summary>
@@ -61,18 +62,33 @@ namespace Mes.Demo.Services
         /// <returns>业务操作结果</returns>
         public OperationResult DeleteUsers(params int[] ids)
         {
-            throw new NotImplementedException();
+            return UserRepository.Delete(ids);
         }
 
         /// <summary>
         /// 设置用户的角色
         /// </summary>
         /// <param name="id">用户编号</param>
-        /// <param name="roleIds">角色编号集合</param>
+        /// <param name="select">角色编号集合</param>
         /// <returns>业务操作结果</returns>
-        public OperationResult SetUserRoles(int id, int[] roleIds)
+        public OperationResult SetUserRoles(int id, int[] select)
         {
-            throw new NotImplementedException();
+            var user = UserRepository.GetByKey(id);
+            OperationResult operationResult = new OperationResult(OperationResultType.Success);
+            int[] beforeSelect = user.Roles.Select(r => r.Id).ToArray();
+            try
+            {
+                select.CheckNotNullOrEmpty("select");
+            }
+            catch (Exception)
+            {
+                select = new int[0];
+            }
+
+            beforeSelect.Except(select).ToList().ForEach(n => user.Roles.Remove(RoleRepository.GetByKey(n)));
+            select.Except(beforeSelect).ToList().ForEach(n => user.Roles.Add(RoleRepository.GetByKey(n)));
+            operationResult.Message = "修改了：" + UserRepository.UnitOfWork.SaveChanges() + "条数据";
+            return operationResult;
         }
 
         #endregion

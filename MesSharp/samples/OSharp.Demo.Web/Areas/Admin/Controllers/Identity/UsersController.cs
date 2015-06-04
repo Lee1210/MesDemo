@@ -6,48 +6,112 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using Mes.Demo.Contracts;
+using Mes.Demo.Dtos.Identity;
+using Mes.Demo.Models.Identity;
+using Mes.Utility;
+using Mes.Utility.Data;
+using Mes.Web.Mvc.Binders;
 using Mes.Web.Mvc.Security;
 using Mes.Web.UI;
 
 
 namespace Mes.Demo.Web.Areas.Admin.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : AdminBaseController
     {
-        #region Ajax功能
-
-        #region 获取数据
+        public IIdentityContract IdentityContract { get; set; }
+  
 
         [AjaxOnly]
         public ActionResult GridData()
         {
-            List<object> data = new List<object>();
-            for (int i = 1; i <= 20; i++)
+            int total;
+            GridRequest request = new GridRequest(Request);
+            var datas = GetQueryData<User, int>(IdentityContract.Users, out total, request).Select(m => new
             {
-                var item = new { Id = i, Name = "UserName" + i, NickName = "用户" + i, IsDeleted = false, CreatedTime = DateTime.Now.AddMinutes(i) };
-                data.Add(item);
-            }
-            return Json(new GridData<object>(data, data.Count), JsonRequestBehavior.AllowGet);
+                m.Name,
+                m.NickName,
+                m.IsLocked,
+                m.Id,
+                m.IsDeleted,
+                m.CreatedTime, 
+                m.Email
+
+            });
+            return Json(new GridData<object>(datas, total), JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
+        
 
         #region 验证数据
 
         #endregion
 
         #region 功能方法
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult Add([ModelBinder(typeof(JsonBinder<UserDto>))] ICollection<UserDto> dtos)
+        {
+            dtos.CheckNotNull("dtos");
+            OperationResult result = IdentityContract.AddUsers(dtos.ToArray());
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult Edit([ModelBinder(typeof(JsonBinder<UserDto>))] ICollection<UserDto> dtos)
+        {
+            dtos.CheckNotNull("dtos");
+            OperationResult result = IdentityContract.EditUsers(dtos.ToArray());
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult Delete([ModelBinder(typeof(JsonBinder<int>))] ICollection<int> ids)
+        {
+            ids.CheckNotNull("ids");
+            OperationResult result = IdentityContract.DeleteUsers(ids.ToArray());
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetRoles()
+        {
+            var roles = IdentityContract.Roles.ToList();
+            List<object> data = new List<object>();
+            foreach (var role in roles)
+            {
+                var item = new { Id = role.Id, Name = role.Name };
+                data.Add(item);
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult User2Role(int? id)
+        {
+            var firstOrDefault = IdentityContract.Users.FirstOrDefault(u => u.Id == id);
+            if (firstOrDefault != null)
+            {
+                var data = firstOrDefault.Roles.Select(r => r.Id);
+                ViewBag.SelectedId = string.Join(",", data);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult EditUser2Role(int userId, int[] selectId)
+        {
+            OperationResult result = IdentityContract.SetUserRoles(userId, selectId);
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
-        #endregion
+
+       
 
         #region 视图功能
 
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         #endregion
     }

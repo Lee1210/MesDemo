@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelConfigurations\Identity\MenuConfigurations.cs" />
     <Compile Include="ModelConfigurations\Identity\OrganizationConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -82,6 +83,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\IdentityService.Role.cs" />
+    <Compile Include="Services\IdentityService.Menu.cs" />
     <Compile Include="Services\IdentityService.User.cs">
       <SubType>Code</SubType>
     </Compile>

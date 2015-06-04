@@ -42,24 +42,7 @@ namespace Mes.Demo.Services
         /// <returns>业务操作结果</returns>
         public OperationResult AddRoles(params RoleDto[] dtos)
         {
-            return RoleRepository.Insert(dtos,
-                dto =>
-                {
-                    if (RoleRepository.CheckExists(m => m.Name == dto.Name && m.Organization.Id == dto.OrganizationId))
-                    {
-                        throw new Exception("同组织机构中名称为“{0}”的角色已存在，不能重复添加。".FormatWith(dto.Name));
-                    }
-                },
-                (dto, entity) =>
-                {
-                    Organization organization = OrganizationRepository.GetByKey(dto.OrganizationId);
-                    if (organization == null)
-                    {
-                        throw new Exception("要加入的组织机构不存在。");
-                    }
-                    entity.Organization = organization;
-                    return entity;
-                });
+            return RoleRepository.Insert(dtos);
         }
 
         /// <summary>
@@ -69,24 +52,7 @@ namespace Mes.Demo.Services
         /// <returns>业务操作结果</returns>
         public OperationResult EditRoles(params RoleDto[] dtos)
         {
-            return RoleRepository.Update(dtos,
-                dto =>
-                {
-                    if (RoleRepository.CheckExists(m => m.Name == dto.Name && m.Organization.Id == dto.OrganizationId, dto.Id))
-                    {
-                        throw new Exception("同组织机构中名称为“{0}”的角色已存在，不能重复添加。".FormatWith(dto.Name));
-                    }
-                },
-                (dto, entity) =>
-                {
-                    Organization organization = OrganizationRepository.GetByKey(dto.OrganizationId);
-                    if (organization == null)
-                    {
-                        throw new Exception("要加入的组织机构不存在。");
-                    }
-                    entity.Organization = organization;
-                    return entity;
-                });
+            return RoleRepository.Update(dtos);
         }
 
         /// <summary>

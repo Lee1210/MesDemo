@@ -42,5 +42,10 @@ namespace Mes.Demo.Services
         /// 获取或设置 用户扩展信息仓储对象
         /// </summary>
         public IRepository<UserExtend, int> UserExtendRepository { protected get; set; }
+
+        /// <summary>
+        /// 获取或设置 菜单信息仓储对象
+        /// </summary>
+        public IRepository<Menu, int> MenuRepository { protected get; set; } 
     }
 }

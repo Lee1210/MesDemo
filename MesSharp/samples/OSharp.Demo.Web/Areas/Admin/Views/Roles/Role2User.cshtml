@@ -1,0 +1,65 @@
+﻿@using System.Web.UI.WebControls
+@{
+    Layout = null;
+    ViewBag.GetRoles = Url.Action("GetRoles");
+    ViewBag.EditUser2Role = Url.Action("EditUser2Role");
+}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title id="title">3</title>
+    <link rel="stylesheet" type="text/css" href="/Content/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/Content/themes/icon.css">
+    <script src="/Scripts/jquery-1.11.1.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.easyui-1.4.1.js" type="text/javascript"></script>
+</head>
+<body>
+    <div>
+        <input id="User2Role" name="dept" />
+
+        <a id="save" class="easyui-linkbutton">保存</a>
+    </div>
+
+    <script>
+        $('#save').bind('click', submitEdits);
+        function ajaxResultHandler(data) {
+            if (data.Type == "Success") {
+
+            }
+            if (data.Type == "Error") {
+                $.Mes.easyui.msg.error(data.Content);
+            } else {
+                $.Mes.easyui.msg.tip(data.Content);
+            }
+        }
+        function submitEdits(objs) {
+            $.post("@ViewBag.EditUser2Role", { userId: User2Role_testUserId, selectId: $('#User2Role').combogrid('getValues') }, ajaxResultHandler);
+        }
+        $('#User2Role').combogrid({
+            panelWidth: 500,
+            multiple: true,
+            idField: 'Id',
+            textField: 'Id',
+            method: 'get',
+            url: "@ViewBag.GetRoles",
+            fitColumns: true,
+            value: '@ViewBag.SelectedId',
+            columns: [
+                [
+                    { field: 'ck', checkbox: true },
+                    { field: "Id", title: "编号", width: 40, halign: "center", align: "right", sortable: true },
+                    { field: "Name", title: "角色名", width: 150, sortable: true }
+                ]
+            ]
+
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+

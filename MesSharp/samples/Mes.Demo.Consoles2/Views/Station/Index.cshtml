@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "角色信息列表";
+    ViewBag.Title = "站别信息列表";
     Layout = "~/Areas/Admin/Views/Shared/_DataGridLayout.cshtml";
-
-    ViewBag.GridId = "roles";
+    ViewBag.GridId = "Station";
     ViewBag.GridDataUrl = Url.Action("GridData");
     ViewBag.AddUrl = Url.Action("Add");
     ViewBag.EditUrl = Url.Action("Edit");
     ViewBag.DeleteUrl = Url.Action("Delete");
+   
 }
 @section customScript
 {
@@ -23,15 +23,15 @@
                 field: "oopt", title: "对应角色", width: 150,
                 align: 'center',
                 formatter: function (value, rec) {
-                    var btn = '<a class="editcls" onclick="navigation1((\'' + rec.Id + '\'))" href="javascript:void(0)">编辑</a>';
+                    var btn = '<a class="editcls" onclick="UpdateUser2Role((\'' + rec.Id + '\'))" href="javascript:void(0)">编辑</a>';
                     return btn;
                 }
             }
         ]];
         var User2Role_testUserId = 0;
-        function navigation1() {
+        function UpdateUser2Role() {
             User2Role_testUserId = arguments[0];
-            $('#navigation1').dialog({
+            $('#User2Role_dlg').dialog({
                 title: 'User Id:' + arguments[0],
                 width: 400,
                 height: 200,
@@ -41,6 +41,8 @@
                 modal: true
             });
         }
+
     </script>
-    <div id="navigation1"></div>
+    <div id="User2Role_dlg"></div>
 }
+

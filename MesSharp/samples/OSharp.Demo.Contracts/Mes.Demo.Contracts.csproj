@@ -54,11 +54,13 @@
     <Compile Include="Contracts\Test\ITestContract.Line.cs" />
     <Compile Include="Contracts\Test\ITestContract.Station.cs" />
     <Compile Include="Dtos\DtoMappers.cs" />
+    <Compile Include="Dtos\Identity\MenuDto.cs" />
     <Compile Include="Dtos\Identity\OrganizationDto.cs" />
     <Compile Include="Dtos\Identity\RoleDto.cs" />
     <Compile Include="Dtos\Identity\UserDto.cs" />
     <Compile Include="Dtos\Test\LineDto.cs" />
     <Compile Include="Dtos\Test\StationDto.cs" />
+    <Compile Include="Models\Identity\Menu.cs" />
     <Compile Include="Models\Identity\Organization.cs" />
     <Compile Include="Models\Identity\Role.cs" />
     <Compile Include="Models\Identity\User.cs" />

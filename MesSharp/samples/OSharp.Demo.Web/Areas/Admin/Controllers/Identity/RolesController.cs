@@ -38,10 +38,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         {
             int total;
             GridRequest request = new GridRequest(Request);
-            if (id.HasValue && id.Value > 0)
-            {
-                request.FilterGroup.Rules.Add(new FilterRule("Organization.Id", id.Value));
-            }
+         
             var datas = GetQueryData<Role, int>(IdentityContract.Roles, out total, request).Select(m => new
             {
                 m.Id,
@@ -49,9 +46,8 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 m.Remark,
                 m.IsAdmin,
                 m.IsLocked,
-                OrganizationId = m.Organization.Id,
-                OrganizationName = m.Organization.Name,
-                UserCount = m.Users.Count
+                m.CreatedTime,
+              
             });
             return Json(new GridData<object>(datas, total), JsonRequestBehavior.AllowGet);
         }

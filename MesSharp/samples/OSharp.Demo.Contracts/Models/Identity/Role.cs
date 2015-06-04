@@ -46,11 +46,13 @@ namespace Mes.Demo.Models.Identity
         /// <summary>
         /// 获取或设置 角色所属组织机构
         /// </summary>
-        public virtual Organization Organization { get; set; }
+      //  public virtual Organization Organization { get; set; }
 
         /// <summary>
         /// 获取或设置 拥有此角色的用户集合
         /// </summary>
         public virtual ICollection<User> Users { get; set; }
+
+        public virtual ICollection<Menu> Menus { get; set; } 
     }
 }
