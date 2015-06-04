@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 
 using Mes.Demo.Dtos.Identity;
 using Mes.Demo.Models.Identity;
+using Mes.Utility;
 using Mes.Utility.Data;
 using Mes.Utility.Extensions;
 
@@ -65,6 +66,25 @@ namespace Mes.Demo.Services
             return RoleRepository.Delete(ids);
         }
 
+        public OperationResult SetRoleUsers(int id, int[] select)
+        {
+            var role = RoleRepository.GetByKey(id);
+            OperationResult operationResult = new OperationResult(OperationResultType.Success);
+            int[] beforeSelect = role.Users.Select(r => r.Id).ToArray();
+            try
+            {
+                select.CheckNotNullOrEmpty("select");
+            }
+            catch (Exception)
+            {
+                select = new int[0];
+            }
+
+            beforeSelect.Except(select).ToList().ForEach(n => role.Users.Remove(UserRepository.GetByKey(n)));
+            select.Except(beforeSelect).ToList().ForEach(n => role.Users.Add(UserRepository.GetByKey(n)));
+            operationResult.Message = "修改了：" + UserRepository.UnitOfWork.SaveChanges() + "条数据";
+            return operationResult;
+        }
         #endregion
     }
 }

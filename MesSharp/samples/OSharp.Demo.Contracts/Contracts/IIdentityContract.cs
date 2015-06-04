@@ -94,6 +94,14 @@ namespace Mes.Demo.Contracts
         /// <returns>业务操作结果</returns>
         OperationResult DeleteRoles(params int[] ids);
 
+        /// <summary>
+        /// 设置角色的用户
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <param name="userIds">用户编号集合</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult SetRoleUsers(int id, int[] userIds);
+
         #endregion
 
         #region 用户信息业务

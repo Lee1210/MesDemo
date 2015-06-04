@@ -7,7 +7,7 @@
     ViewBag.AddUrl = Url.Action("Add");
     ViewBag.EditUrl = Url.Action("Edit");
     ViewBag.DeleteUrl = Url.Action("Delete");
-    ViewBag.User2Role = Url.Action("User2Role");
+    ViewBag.Navigation1 = Url.Action("User2Role");
 }
 @section customScript
 {
@@ -40,7 +40,7 @@
                 height: 200,
                 closed: false,
                 cache: false,
-                href: '@ViewBag.User2Role/' + arguments[0],
+                href: '@ViewBag.Navigation1/' + arguments[0],
                 modal: true
             });
         }

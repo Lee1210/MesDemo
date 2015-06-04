@@ -83,6 +83,35 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetUsers()
+        {
+            var users = IdentityContract.Users.ToList();
+            List<object> data = new List<object>();
+            foreach (var user in users)
+            {
+                var item = new { Id = user.Id, Name = user.Name };
+                data.Add(item);
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Role2User(int? id)
+        {
+            var firstOrDefault = IdentityContract.Roles.FirstOrDefault(u => u.Id == id);
+            if (firstOrDefault != null)
+            {
+                var data = firstOrDefault.Users.Select(r => r.Id);
+                ViewBag.SelectedId = string.Join(",", data);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult EditRole2User(int userId, int[] selectId)
+        {
+            OperationResult result = IdentityContract.SetRoleUsers(userId, selectId);
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         #endregion

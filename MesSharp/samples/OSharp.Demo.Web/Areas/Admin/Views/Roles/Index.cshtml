@@ -7,6 +7,7 @@
     ViewBag.AddUrl = Url.Action("Add");
     ViewBag.EditUrl = Url.Action("Edit");
     ViewBag.DeleteUrl = Url.Action("Delete");
+    ViewBag.Navigation1 = Url.Action("Role2User");
 }
 @section customScript
 {
@@ -20,7 +21,7 @@
             { field: "Remark", title: "角色描述", width: 300, sortable: true, editor: { type: "textarea", options: { validType: "length[1,500]" } } },
             { field: "CreatedTime", title: "创建时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } },
             {
-                field: "oopt", title: "对应角色", width: 150,
+                field: "oopt", title: "对应用户", width: 150,
                 align: 'center',
                 formatter: function (value, rec) {
                     var btn = '<a class="editcls" onclick="navigation1((\'' + rec.Id + '\'))" href="javascript:void(0)">编辑</a>';
@@ -32,12 +33,12 @@
         function navigation1() {
             User2Role_testUserId = arguments[0];
             $('#navigation1').dialog({
-                title: 'User Id:' + arguments[0],
+                title: 'Role Id:' + arguments[0],
                 width: 400,
                 height: 200,
                 closed: false,
                 cache: false,
-                href: '@ViewBag.User2Role/' + arguments[0],
+                href: '@ViewBag.Navigation1/' + arguments[0],
                 modal: true
             });
         }
