@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 using Mes.Demo.Contracts;
 using Mes.Demo.Dtos.Identity;
 using Mes.Demo.Models.Identity;
+using Mes.Demo.Web.ViewModels;
 using Mes.Utility;
 using Mes.Utility.Data;
 using Mes.Utility.Extensions;
@@ -94,6 +96,65 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             }
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+       
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult EditRole2Privage(int userId, int[] selectId)
+        {
+            OperationResult result = IdentityContract.SetRolePrivages(userId, selectId);
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult EditRole2User(int userId, int[] selectId)
+        {
+            OperationResult result = IdentityContract.SetRoleUsers(userId, selectId);
+            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetMenuData(int id)
+        {
+            var menus=IdentityContract.Menus.ToList();
+            var role2menus = IdentityContract.Roles.First(r => r.Id == id).Menus.Select(m=>m.Id);
+            var data = new ArrayList();
+            foreach (var menu in menus.Where(m=>m.TreePath=="1"))
+            {
+                var childrentest = new ArrayList();
+                foreach (var childrenitem in menu.Children)
+                {
+                    if (role2menus.Contains(childrenitem.Id))
+                    {
+                        childrentest.Add(new { id = childrenitem.Id, text = childrenitem.Remark ,@checked=true});
+                    }
+                    else
+                    {
+                        childrentest.Add(new { id = childrenitem.Id, text = childrenitem.Remark });
+                    }
+                }
+                if (role2menus.Contains(menu.Id))
+                    data.Add(new { id = menu.Id, text = menu.Remark, children = childrentest, @checked = true });
+                else
+                {
+                    data.Add(new { id = menu.Id, text = menu.Remark, children = childrentest });
+                }
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+            //var children = new ArrayList();
+
+            //var data12 = new { text = "Item12" };
+            //children.Add(data12);
+            //var data1 = new { text = "Item1", state = "closed", children = children };
+            //var data2 = new {text="Item2" };
+            //data.Add(data1);
+            //data.Add(data2);
+        }
+
+        #endregion
+
+
         public ActionResult Role2User(int? id)
         {
             var firstOrDefault = IdentityContract.Roles.FirstOrDefault(u => u.Id == id);
@@ -104,16 +165,10 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             }
             return View();
         }
-
-        [HttpPost]
-        [AjaxOnly]
-        public ActionResult EditRole2User(int userId, int[] selectId)
+        public ActionResult Role2Privage()
         {
-            OperationResult result = IdentityContract.SetRoleUsers(userId, selectId);
-            return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
+            return View();
         }
-        #endregion
-
         #endregion
     }
 }

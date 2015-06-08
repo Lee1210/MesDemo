@@ -8,6 +8,8 @@
     ViewBag.EditUrl = Url.Action("Edit");
     ViewBag.DeleteUrl = Url.Action("Delete");
     ViewBag.Navigation1 = Url.Action("Role2User");
+    ViewBag.Navigation2 = Url.Action("Role2Privage");
+}
 }
 @section customScript
 {
@@ -27,7 +29,15 @@
                     var btn = '<a class="editcls" onclick="navigation1((\'' + rec.Id + '\'))" href="javascript:void(0)">编辑</a>';
                     return btn;
                 }
-            }
+            },
+             {
+                 field: "oopt2", title: "对应菜单", width: 150,
+                 align: 'center',
+                 formatter: function (value, rec) {
+                     var btn = '<a class="editcls" onclick="navigation2((\'' + rec.Id + '\'))" href="javascript:void(0)">编辑</a>';
+                     return btn;
+                 }
+             }
         ]];
         var User2Role_testUserId = 0;
         function navigation1() {
@@ -41,7 +51,20 @@
                 href: '@ViewBag.Navigation1/' + arguments[0],
                 modal: true
             });
+        };
+        function navigation2() {
+            User2Role_testUserId = arguments[0];
+            $('#navigation2').dialog({
+                title: 'Role Id:' + arguments[0],
+                width: 400,
+                height: 200,
+                closed: false,
+                cache: false,
+                href: '@ViewBag.Navigation2/' + arguments[0],
+                modal: true
+            });
         }
     </script>
     <div id="navigation1"></div>
+    <div id="navigation2"></div>
 }

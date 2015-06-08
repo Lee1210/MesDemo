@@ -400,8 +400,10 @@
     <Content Include="Areas\Admin\Views\Roles\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Organizations\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_TreeGridLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Login.cshtml" />
     <None Include="Areas\Admin\Views\Line\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Role2User.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\Role2Privage.cshtml" />
     <None Include="Areas\Admin\Views\Station\Index.cshtml">
       <SubType>
       </SubType>

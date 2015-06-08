@@ -138,7 +138,9 @@ namespace Mes.Demo.Consoles
 
         private static void Method03()
         {
-          
+            List<Menu> list= _program.IdentityContract.Menus.ToList();
+           
+            Console.WriteLine(list.FirstOrDefault(m=>m.Id==5).Children.Count);
         }
 
         private static void Method04()

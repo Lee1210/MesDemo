@@ -6,7 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using Mes.Demo.Contracts;
 using Mes.Demo.Web.ViewModels;
+using Mes.Utility;
 using Mes.Utility.Logging;
 using Mes.Web.Mvc.Security;
 
@@ -16,6 +18,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(HomeController));
+        public IIdentityContract IdentityContract { get; set; }
 
         #region Ajax功能
 
@@ -97,6 +100,22 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         public ActionResult Welcome()
         {
             return View();
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public ActionResult LoginResult(string username,string password)
+        {
+            username.CheckNotNullOrEmpty("username");
+            password.CheckNotNullOrEmpty("password");
+            var user = IdentityContract.Users.FirstOrDefault(u => u.Name == username && u.Password == password);
+            if (user == null)
+                return Login();
+            else
+                return View("Index"); 
         }
     }
 }

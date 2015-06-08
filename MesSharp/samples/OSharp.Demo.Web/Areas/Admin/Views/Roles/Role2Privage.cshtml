@@ -1,0 +1,62 @@
+﻿@using System.Web.UI.WebControls
+@{
+    Layout = null;
+    ViewBag.GetMenus = Url.Action("GetMenuData");
+    ViewBag.EditRole2Privage = Url.Action("EditRole2Privage");
+}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title id="title">3</title>
+    <link rel="stylesheet" type="text/css" href="/Content/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/Content/themes/icon.css">
+    <script src="/Scripts/jquery-1.11.1.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.easyui-1.4.1.js" type="text/javascript"></script>
+</head>
+<body>
+    <div>
+        <ul id="Role2Privage" ></ul>
+
+        <a id="save2" class="easyui-linkbutton">保存</a>
+    </div>
+
+    <script>
+        $('#save2').bind('click', submitEdits);
+        function ajaxResultHandler(data) {
+            if (data.Type == "Success") {
+
+            }
+            if (data.Type == "Error") {
+                $.Mes.easyui.msg.error(data.Content);
+            } else {
+                $.Mes.easyui.msg.tip(data.Content);
+            }
+        }
+        function submitEdits(objs) {
+            var nodes = $('#Role2Privage').tree('getChecked');
+            var s = [];
+            for (var i = 0; i < nodes.length; i++) {
+                s.splice(1,0,nodes[i].id);
+            }
+            $.post("@ViewBag.EditRole2Privage", { userId: User2Role_testUserId, selectId: s }, ajaxResultHandler);
+        }
+
+        $('#Role2Privage').tree({
+            method: 'get',
+            url: "@ViewBag.GetMenus/" + User2Role_testUserId,
+            checkbox: true,
+            animate: true,
+            cascadeCheck: false
+           
+        });
+
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+

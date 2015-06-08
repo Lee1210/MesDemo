@@ -85,6 +85,26 @@ namespace Mes.Demo.Services
             operationResult.Message = "修改了：" + UserRepository.UnitOfWork.SaveChanges() + "条数据";
             return operationResult;
         }
+
+        public OperationResult SetRolePrivages(int id, int[] select)
+        {
+            var role = RoleRepository.GetByKey(id);
+            OperationResult operationResult = new OperationResult(OperationResultType.Success);
+            int[] beforeSelect = role.Menus.Select(r => r.Id).ToArray();
+            try
+            {
+                select.CheckNotNullOrEmpty("select");
+            }
+            catch (Exception)
+            {
+                select = new int[0];
+            }
+
+            beforeSelect.Except(select).ToList().ForEach(n => role.Menus.Remove(MenuRepository.GetByKey(n)));
+            select.Except(beforeSelect).ToList().ForEach(n => role.Menus.Add(MenuRepository.GetByKey(n)));
+            operationResult.Message = "修改了：" + MenuRepository.UnitOfWork.SaveChanges() + "条数据";
+            return operationResult;
+        }
         #endregion
     }
 }

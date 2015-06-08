@@ -186,5 +186,7 @@ namespace Mes.Demo.Contracts
         /// <returns>业务操作结果</returns>
         OperationResult DeleteMenus(params int[] ids);
         #endregion
+
+        OperationResult SetRolePrivages(int userId, int[] selectId);
     }
 }
