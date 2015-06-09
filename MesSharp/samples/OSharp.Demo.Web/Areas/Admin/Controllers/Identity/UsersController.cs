@@ -1,9 +1,5 @@
-﻿
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 using Mes.Demo.Contracts;
@@ -32,6 +28,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             {
                 m.Name,
                 m.NickName,
+                m.Password,
                 m.IsLocked,
                 m.Id,
                 m.IsDeleted,

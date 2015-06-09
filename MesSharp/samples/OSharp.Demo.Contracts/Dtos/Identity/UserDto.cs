@@ -1,8 +1,10 @@
 ﻿
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 using Mes.Core.Data;
+using Mes.Utility.DataAnnotations;
 
 
 namespace Mes.Demo.Dtos.Identity
@@ -17,13 +19,13 @@ namespace Mes.Demo.Dtos.Identity
         /// <summary>
         /// 获取或设置 唯一用户名
         /// </summary>
-        [Required, StringLength(100)]
+        [Required, StringLength(100),Description("用户名")]
         public string Name { get; set; }
 
         /// <summary>
         /// 获取或设置 密码
         /// </summary>
-        [StringLength(100)]
+        [StringLength(100), Password(RequiredDigit = false,RequiredLowercase=false, RequiredLength = 3),Description("密码")]
         public string Password { get; set; }
 
         /// <summary>

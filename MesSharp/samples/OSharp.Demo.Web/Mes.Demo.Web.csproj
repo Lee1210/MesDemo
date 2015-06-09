@@ -401,7 +401,6 @@
     <Content Include="Areas\Admin\Views\Organizations\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_TreeGridLayout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Login.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Login2.cshtml" />
     <None Include="Areas\Admin\Views\Line\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Role2User.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Role2Privage.cshtml" />
@@ -493,9 +492,7 @@
       <Name>Mes.Demo.Services</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Views\Default1\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

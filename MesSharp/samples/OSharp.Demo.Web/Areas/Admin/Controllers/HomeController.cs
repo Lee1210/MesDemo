@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 
 using Mes.Demo.Contracts;
+using Mes.Demo.Dtos.Identity;
+using Mes.Demo.Models.Identity;
 using Mes.Demo.Web.ViewModels;
 using Mes.Utility;
 using Mes.Utility.Logging;
@@ -27,52 +29,39 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         [AjaxOnly]
         public ActionResult GetMenuData()
         {
-            List<TreeNode> nodes = new List<TreeNode>()
+            User user = (User)Session["user"];
+            if (user == null)
             {
-                new TreeNode()
-                {
-                    Text = "权限",
-                    IconCls = "pic_26",
-                    Children = new List<TreeNode>()
-                    {
-                        new TreeNode() { Text = "用户管理", IconCls = "pic_5", Url = Url.Action("Index", "Users") },
-                        new TreeNode() { Text = "角色管理", IconCls = "pic_198", Url = Url.Action("Index", "Roles") },
-                        new TreeNode() { Text = "组织机构管理", IconCls = "pic_93", Url = Url.Action("Index", "Organizations") },
-                        new TreeNode() { Text = "线体管理", IconCls = "pic_93", Url = Url.Action("Index", "Line") },
-                        new TreeNode() { Text = "站点管理", IconCls = "pic_93", Url = Url.Action("Index", "Station") },
-                    }
-                },
-                new TreeNode()
-                {
-                    Text = "系统",
-                    IconCls = "pic_100",
-                    Children = new List<TreeNode>()
-                    {
-                        new TreeNode() { Text = "操作日志", IconCls = "pic_125", Url = Url.Action("Index", "OperateLogs") },
-                        new TreeNode() { Text = "系统日志", IconCls = "pic_101", Url = Url.Action("Index", "SystemLogs") },
-                        new TreeNode() { Text = "系统设置", IconCls = "pic_89", Url = Url.Action("Index", "SystemSettings") }
-                    }
-                }
-            };
-
-            Action<ICollection<TreeNode>> action = list =>
+                return RedirectToAction("Login");
+            }
+            User user2 = IdentityContract.Users.FirstOrDefault(u => u.Name == user.Name && u.Password == user.Password);
+            if (user2 == null)
             {
-                foreach (TreeNode node in list)
-                {
-                    node.Id = "node" + node.Text;
-                }
-            };
-
-            foreach (TreeNode node in nodes)
+                return RedirectToAction("Login");
+            }
+            List<Menu> menus = new List<Menu>();
+            foreach (var role in user2.Roles.ToList())
             {
-                node.Id = "node" + node.Text;
-                if (node.Children != null && node.Children.Count > 0)
+                menus.AddRange(role.Menus); 
+            }
+            List<TreeNode> treeNode0 = new List<TreeNode>();
+            foreach (var menu in menus.Where(m=>m.TreePath=="1").Distinct().OrderBy(m=>m.SortCode))
+            {
+                TreeNode treeNode1 = new TreeNode();
+                treeNode1.Id = menu.Id.ToString();
+                treeNode1.Text = menu.Remark;
+                treeNode1.IconCls = "pic_26";
+                List<TreeNode> children= new List<TreeNode>();
+                foreach (var child in menu.Children)
                 {
-                    action(node.Children);
+                    if (menus.Contains(child))
+                    children.Add(new TreeNode() {Id =child.Id.ToString(), Text = child.Remark, IconCls = "pic_93", Url = Url.Action("Index", child.Name) });
                 }
+                treeNode1.Children = children;
+                treeNode0.Add(treeNode1);
             }
 
-            return Json(nodes, JsonRequestBehavior.AllowGet);
+            return Json(treeNode0, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -101,21 +90,17 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         {
             return View();
         }
+        
 
-        public ActionResult Login()
+        public ActionResult Login(UserDto userDto)
         {
-            return View();
-        }
-
-        public ActionResult LoginResult(string username,string password)
-        {
-            username.CheckNotNullOrEmpty("username");
-            password.CheckNotNullOrEmpty("password");
-            var user = IdentityContract.Users.FirstOrDefault(u => u.Name == username && u.Password == password);
+            
+            var user = IdentityContract.Users.FirstOrDefault(u => u.Name == userDto.Name && u.Password == userDto.Password);
             if (user == null)
-                return Login();
-            else
-                return View("Index"); 
+                return View();
+            Session.Add("user",user);
+            return RedirectToAction("Index");
         }
+      
     }
 }
