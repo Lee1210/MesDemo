@@ -108,6 +108,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Views\Problem\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Content\images\checkmark.gif" />
     <Content Include="Content\images\checknomark.gif" />
     <Content Include="Content\images\icon.png" />
@@ -404,6 +407,7 @@
     <None Include="Areas\Admin\Views\Line\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Role2User.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Role2Privage.cshtml" />
+    <Content Include="Areas\Admin\Views\Problem\report.cshtml" />
     <None Include="Areas\Admin\Views\Station\Index.cshtml">
       <SubType>
       </SubType>
@@ -455,6 +459,7 @@
     <Compile Include="Areas\Admin\Controllers\Identity\OrganizationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\Identity\RolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\Identity\UsersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SiteManagement\ProblemController.cs" />
     <Compile Include="Areas\Admin\Controllers\Test\LineController.cs" />
     <Compile Include="Areas\Admin\Controllers\Test\StationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -467,6 +472,10 @@
     <Compile Include="ViewModels\TreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\osharp2\src\Util\Util.csproj">
+      <Project>{eece9b01-394b-4b1a-964a-6d9dcef14fa2}</Project>
+      <Name>Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\OSharp.Core.Data.Entity\Mes.Core.Data.Entity.NET45.csproj">
       <Project>{d58a373c-1a9c-4bf7-833d-427e4aef8502}</Project>
       <Name>Mes.Core.Data.Entity.NET45</Name>

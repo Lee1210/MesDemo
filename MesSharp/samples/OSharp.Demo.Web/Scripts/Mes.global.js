@@ -87,7 +87,15 @@
             }
             format = format || "yyyy-MM-dd hh:mm:ss";
             return (new Date(parseInt(value.substring(value.indexOf('(') + 1, value.indexOf(')'))))).format(format);
+        },
+        formatDate2: function (value, format) {
+            if (!value) {
+                return "";
+            }
+            format = format || "yyyy-MM-dd hh:mm:ss";
+            return value.format(format);
         }
+
     };
     //查询条件类
     $.Mes.filter = {

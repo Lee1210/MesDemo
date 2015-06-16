@@ -55,6 +55,11 @@
         };
 
         var beginEditRow = function (index) {
+          
+            var row = grid.datagrid("getSelected");
+            var time = row.ProblemTime;
+            $(".datagrid-cell-c1-Id").attr("test_time", time);
+            console.debug("time:" + time);
             @if (toolbarItem == null || !toolbarItem.Contains(",save"))
             {
                 @Html.Raw("return;")

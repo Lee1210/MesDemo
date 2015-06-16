@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Welcome";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.DepartmentReport = "DepartmentReport";
+    ViewBag.WorkersReport = "WorkersReport";
+}
+
+<h2>Welcome</h2>
+
+<button onclick="test1(this)">by部门</button>
+<button onclick="test2(this)">by解决者</button>
+<p>
+@Html.Label("开始日期")<input id="dd" type="text" class="easyui-datebox" required="required">
+</p>
+
+<div id="main" style="height:400px"></div>
+<script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+
+<script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: 'http://echarts.baidu.com/build/dist'
+        }
+    });
+
+    function test1(objs) {
+       var datetime1 = $('#dd').datebox('getValue');
+       $.post("@ViewBag.DepartmentReport", { fromDate: datetime1 }, ajaxResultHandler, "json");
+    }
+    function test2(objs) {
+        var datetime1 = $('#dd').datebox('getValue');
+        $.post("@ViewBag.WorkersReport", { fromDate: datetime1 }, ajaxResultHandler, "json");
+    }
+
+    function ajaxResultHandler(data) {
+        var seriesList = data.seriesList;
+        //var xAxisdata = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+        //var legenddata = ['最高气温0', '最高气温1', '最高气温2'];
+        //var titletext = '未来一周气温变化';
+        //var titlesubtext = '纯属虚构';
+        var xAxisdata = data.xAxisdata;
+        var legenddata = data.legenddata;
+        var titletext = data.titletext;
+        var titlesubtext = data.titlesubtext;
+        require(
+        [
+            'echarts',
+             'echarts/chart/line',
+            'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+        ],
+        function (ec) {
+            // 基于准备好的dom，初始化echarts图表
+            var myChart = ec.init(document.getElementById('main'));
+
+            var option = {
+                title: {
+                    text: titletext,
+                    subtext: titlesubtext
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: legenddata
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        dataView: { show: true, readOnly: false },
+                        magicType: { show: true, type: ['line', 'bar'] },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                calculable: true,
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: xAxisdata
+
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value} 次'
+                        }
+                    }
+                ],
+                series: seriesList
+
+            };
+
+            // 为echarts对象加载数据
+            myChart.setOption(option);
+        }
+    );
+    }
+
+
+
+</script>
+

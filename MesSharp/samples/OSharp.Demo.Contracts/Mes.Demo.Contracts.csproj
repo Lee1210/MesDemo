@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IIdentityContract.cs" />
+    <Compile Include="Contracts\SiteManagement\ISiteManagement.Problem.cs" />
     <Compile Include="Contracts\Test\ITestContract.Line.cs" />
     <Compile Include="Contracts\Test\ITestContract.Station.cs" />
     <Compile Include="Dtos\DtoMappers.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Dtos\Identity\OrganizationDto.cs" />
     <Compile Include="Dtos\Identity\RoleDto.cs" />
     <Compile Include="Dtos\Identity\UserDto.cs" />
+    <Compile Include="Dtos\SiteManagement\ProblemDto.cs" />
     <Compile Include="Dtos\Test\LineDto.cs" />
     <Compile Include="Dtos\Test\StationDto.cs" />
     <Compile Include="Models\Identity\Menu.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Models\Identity\Role.cs" />
     <Compile Include="Models\Identity\User.cs" />
     <Compile Include="Models\Identity\UserExtend.cs" />
+    <Compile Include="Models\SiteManagement\Problem.cs" />
     <Compile Include="Models\Test\Line.cs" />
     <Compile Include="Models\Test\Station.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,6 +85,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

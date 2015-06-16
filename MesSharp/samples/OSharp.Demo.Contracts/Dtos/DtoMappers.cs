@@ -1,10 +1,10 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 
 using Mes.Demo.Dtos.Identity;
+using Mes.Demo.Dtos.SiteManagement;
 using Mes.Demo.Dtos.Test;
 using Mes.Demo.Models.Identity;
+using Mes.Demo.Models.SiteManagement;
 using Mes.Demo.Models.Test;
 
 
@@ -23,6 +23,9 @@ namespace Mes.Demo.Dtos
             //Test
             Mapper.CreateMap<LineDto, Line>();
             Mapper.CreateMap<StationDto, Station>();
+
+            //SiteManagement
+            Mapper.CreateMap<ProblemDto, Problem>();
         }
     }
 }

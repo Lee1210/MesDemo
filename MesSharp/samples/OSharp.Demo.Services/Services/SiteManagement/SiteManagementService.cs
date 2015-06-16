@@ -6,12 +6,14 @@
 using Mes.Core;
 using Mes.Core.Data;
 using Mes.Demo.Contracts;
+using Mes.Demo.Contracts.SiteManagement;
+
 
 namespace Mes.Demo.Services.Test
 {
-	public partial class TestService :ServiceBase, ITestContract
+	public partial class SiteManagementService :ServiceBase, ISiteManagementContract
     {
-        public TestService(IUnitOfWork unitOfWork)
+        public SiteManagementService(IUnitOfWork unitOfWork)
             : base(unitOfWork)
         { }
     }

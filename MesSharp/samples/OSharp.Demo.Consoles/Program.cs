@@ -14,6 +14,8 @@ using Mes.Demo.Models.Identity;
 using Mes.Utility.Develop.T4;
 using Mes.Utility.Extensions;
 
+using Util;
+
 
 namespace Mes.Demo.Consoles
 {
@@ -145,7 +147,22 @@ namespace Mes.Demo.Consoles
 
         private static void Method04()
         {
-            
+            DateTime date = Conv.ToDate("2015-07-04");
+            DateTime beginTime ;
+            DateTime endTime ;
+            if (date.DayOfWeek != 0)
+            {
+                 beginTime = date.AddDays((double)(1 - date.DayOfWeek));
+                 endTime = date.AddDays((double)(7 - date.DayOfWeek));
+            }
+            else
+            {
+                endTime = date;
+                beginTime = date.AddDays(-6);
+            }
+            Console.WriteLine(beginTime);
+            Console.WriteLine(endTime);
+            Console.ReadKey();
         }
 
         private static void Method05()

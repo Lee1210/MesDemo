@@ -41,19 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\Test\ITestContract.Line.cs" />
-    <Compile Include="Contracts\Test\ITestContract.Station.cs" />
-    <Compile Include="Controllers\Test\LineController.cs" />
-    <Compile Include="Controllers\Test\StationController.cs" />
-    <Compile Include="Dtos\Test\LineDto.cs" />
-    <Compile Include="Dtos\Test\StationDto.cs" />
-    <Compile Include="ModelConfigurations\Test\LineConfiguration.cs" />
-    <Compile Include="ModelConfigurations\Test\StationConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Test\TestService.cs" />
-    <Compile Include="Services\Test\TestService.Line.cs" />
-    <Compile Include="Services\Test\TestService.Station.cs" />
     <Compile Include="T4\Dto1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -154,8 +143,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ViewTemplate1.cs</LastGenOutput>
     </None>
-    <None Include="Views\Line\Index.cshtml" />
-    <None Include="Views\Station\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
