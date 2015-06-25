@@ -106,7 +106,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             if (date.DayOfWeek != 0)
             {
                 beginTime = date.AddDays((double)(1 - date.DayOfWeek));
-                endTime = date.AddDays((double)(7 - date.DayOfWeek));
+                endTime = date.AddDays((double)(8 - date.DayOfWeek));
             }
             else
             {
@@ -120,7 +120,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             //标题
             const string titletext = "异常工时";
             //子标题
-            var titlesubtext = beginTime.ToDateString() + "-" + endTime.ToDateString();
+            var titlesubtext = beginTime.ToString("yyyyMMdd") + "-" + (endTime.ToString("yyyyMMdd").ToInt()-1);
             for (int i = 0; i < 7; i++)
             {
                 xAxisdata.Add(beginTime.AddDays(i).ToDateString());

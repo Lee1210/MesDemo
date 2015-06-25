@@ -414,7 +414,20 @@
     </None>
     <Content Include="Areas\Admin\Views\Users\User2Role.cshtml" />
     <None Include="Scripts\jquery-1.11.1.intellisense.js" />
+    <Content Include="Scripts\chart\bar.js" />
+    <Content Include="Scripts\chart\chord.js" />
+    <Content Include="Scripts\chart\eventRiver.js" />
+    <Content Include="Scripts\chart\force.js" />
+    <Content Include="Scripts\chart\funnel.js" />
+    <Content Include="Scripts\chart\gauge.js" />
+    <Content Include="Scripts\chart\k.js" />
+    <Content Include="Scripts\chart\line.js" />
+    <Content Include="Scripts\chart\map.js" />
+    <Content Include="Scripts\chart\pie.js" />
+    <Content Include="Scripts\chart\radar.js" />
+    <Content Include="Scripts\chart\scatter.js" />
     <Content Include="Scripts\easyloader.js" />
+    <Content Include="Scripts\echarts.js" />
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\jquery-1.11.1.min.js" />
     <Content Include="Scripts\jquery-1.11.1.min.map" />
@@ -450,7 +463,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />

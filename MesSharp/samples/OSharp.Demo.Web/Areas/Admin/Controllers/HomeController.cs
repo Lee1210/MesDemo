@@ -55,7 +55,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 foreach (var child in menu.Children)
                 {
                     if (menus.Contains(child))
-                    children.Add(new TreeNode() {Id =child.Id.ToString(), Text = child.Remark, IconCls = "pic_93", Url = Url.Action("Index", child.Name) });
+                    children.Add(new TreeNode() {Id =child.Id.ToString(), Text = child.Remark, IconCls = "pic_93", Url = Url.Action(child.ActionName, child.Name) });
                 }
                 treeNode1.Children = children;
                 treeNode0.Add(treeNode1);

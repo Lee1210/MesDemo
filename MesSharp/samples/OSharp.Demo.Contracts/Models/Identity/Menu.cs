@@ -31,6 +31,9 @@ namespace Mes.Demo.Models.Identity
         [Required, StringLength(50)]
         public string Name { get; set; }
 
+        [StringLength(50)]
+        public string ActionName { get; set; }
+
         /// <summary>
         /// 获取或设置 描述
         /// </summary>
@@ -68,5 +71,7 @@ namespace Mes.Demo.Models.Identity
         /// 获取或设置 角色信息集合
         /// </summary>
         public virtual ICollection<Role> Roles { get; set; }
+
+         
     }
 }

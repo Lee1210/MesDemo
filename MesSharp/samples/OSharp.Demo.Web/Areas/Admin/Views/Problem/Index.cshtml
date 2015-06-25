@@ -11,66 +11,65 @@
 @section customScript
 {
     <script type="text/javascript">
-        var selectTreeData = null;
-        var Department = [{ text: "部门1", value: "部门1" }, { text: "部门2", value: "部门2" }, { text: "部门3", value: "部门3" }, { text: "部门4", value: "部门4" }];
-        var Factory = [{ text: "工厂1", value: "工厂1" }, { text: "工厂2", value: "工厂2" }, { text: "工厂3", value: "工厂3" }, { text: "工厂4", value: "工厂4" }];
-        var QuestionFrom = [{ text: "来源1", value: "来源1" }, { text: "来源2", value: "来源2" }, { text: "来源3", value: "来源3" }, { text: "来源4", value: "来源4" }];
-        var ProblemType = [{ text: "类型1", value: "类型1" }, { text: "类型2", value: "类型2" }, { text: "类型3", value: "类型3" }, { text: "类型4", value: "类型4" }];
-        $.extend($.fn.datagrid.defaults.editors, {
-            numberspinner: {
-                init: function (container, options) {
-                    var input = $('<input type="text">').appendTo(container);
-                    return input.numberspinner(options);
-                },
-                destroy: function (target) {
-                    $(target).numberspinner('destroy');
-                },
-                getValue: function (target) {
-                    return $(target).numberspinner('getValue');
-                },
-                setValue: function (target, value) {
-                    $(target).numberspinner('setValue', value);
-                },
-                resize: function (target, width) {
-                    $(target).numberspinner('resize', width);
-                }
+    var selectTreeData = null;
+    var Department = [{ text: "部门1", value: "部门1" }, { text: "部门2", value: "部门2" }, { text: "部门3", value: "部门3" }, { text: "部门4", value: "部门4" }];
+    var Factory = [{ text: "工厂1", value: "工厂1" }, { text: "工厂2", value: "工厂2" }, { text: "工厂3", value: "工厂3" }, { text: "工厂4", value: "工厂4" }];
+    var QuestionFrom = [{ text: "来源1", value: "来源1" }, { text: "来源2", value: "来源2" }, { text: "来源3", value: "来源3" }, { text: "来源4", value: "来源4" }];
+    var ProblemType = [{ text: "类型1", value: "类型1" }, { text: "类型2", value: "类型2" }, { text: "类型3", value: "类型3" }, { text: "类型4", value: "类型4" }];
+    $.extend($.fn.datagrid.defaults.editors, {
+        numberspinner: {
+            init: function (container, options) {
+                var input = $('<input type="text">').appendTo(container);
+                return input.numberspinner(options);
             },
-            datetimebox: {//datetimebox就是你要自定义editor的名称
-                tag:true,
-                init: function (container, options) {
-                    var editor = $('<input />').appendTo(container);
-                    editor.enableEdit = false;
-                    editor.datetimebox(options);
-                  //  editor.datetimebox('setValue', editor.textbox('getText'));
-                    return editor;
-                },
-                getValue: function (target) {
-                    var new_str = $(target).datetimebox('getValue').replace(/:/g, '-');
-                    new_str = new_str.replace(/ /g, '-');
-                    var arr = new_str.split("-");
-                    var datum = new Date(Date.UTC(arr[0], arr[1] - 1, arr[2], arr[3] - 8, arr[4], arr[5]));
-                    var timeStamp = datum.getTime();
+            destroy: function (target) {
+                $(target).numberspinner('destroy');
+            },
+            getValue: function (target) {
+                return $(target).numberspinner('getValue');
+            },
+            setValue: function (target, value) {
+                $(target).numberspinner('setValue', value);
+            },
+            resize: function (target, width) {
+                $(target).numberspinner('resize', width);
+            }
+        },
+        datetimebox: {
+            //datetimebox就是你要自定义editor的名称
+            init: function (container, options) {
+                var editor = $('<input />').appendTo(container);
+                editor.enableEdit = false;
+                editor.datetimebox(options);
+                return editor;
+            },
+            getValue: function (target) {
+                var new_str = $(target).datetimebox('getValue').replace(/:/g, '-');
+                new_str = new_str.replace(/ /g, '-');
+                var arr = new_str.split("-");
+                var datum = new Date(Date.UTC(arr[0], arr[1] - 1, arr[2], arr[3] - 8, arr[4], arr[5]));
+                var timeStamp = datum.getTime();
 
-                    return new Date(timeStamp).format("yyyy-MM-dd hh:mm:ss");
-                    //return timeStamp;
-                },
-                setValue: function (target, value) {
-                    var time = $(".datagrid-cell-c1-Id").attr("test_time");
-                   
-                    console.debug("tar" + $(target));
-                    console.debug("val" + value);
+                return new Date(timeStamp).format("yyyy-MM-dd hh:mm:ss");
+                //return timeStamp;
+            },
+            setValue: function (target, value) {
+                    var time = $("#grid-@ViewBag.GridId").attr("test_time");
                     if ((!time) || time.indexOf("(", 0) != -1)
-                    value = $.Mes.tools.formatDate(time);
-                   
+                    {
+                        value = $.Mes.tools.formatDate(time);
+                        $("#grid-@ViewBag.GridId").removeAttr("test_time");
+                    }
+
                     if (value)
                         $(target).datetimebox('setValue', new Date(value).format("yyyy-MM-dd hh:mm:ss"));
                     else
                         $(target).datetimebox('setValue', new Date().format("yyyy-MM-dd hh:mm:ss"));
                 },
-                resize: function (target, width) {
+                resize: function(target, width) {
                     $(target).datetimebox('resize', width);
                 },
-                destroy: function (target) {
+                destroy: function(target) {
                     $(target).datetimebox('destroy');
                 }
             }
@@ -78,42 +77,84 @@
 
 
         columns = [
-            [
-                { field: "Id", title: "编号", width: 40, halign: "center", align: "right", sortable: true },
-                { field: "Department", title: "部门", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: Department } } },
-                { field: "Factory", title: "工厂", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: Factory } } },
-                { field: "QuestionFrom", title: "问题来源", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: QuestionFrom } } },
-                { field: "Detail", title: "细节", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
-                { field: "Reason", title: "问题原因", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
-                { field: "Solution", title: "解决方案", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
-                { field: "Type", title: "类型", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: ProblemType } } },
-                { field: "Workers", title: "解决人", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
-                { field: "Suggestion", title: "建议", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
-                { field: "IsComplete", title: "是否完成", width: 80, sortable: true, formatter: formatBoolean, editor: { type: "combobox", options: { required: true, data: $.Mes.data.bool, valueField: "id", textField: "text" } } },
-                { field: "IsPeople", title: "是否人为", width: 80, sortable: true, formatter: formatBoolean, editor: { type: "combobox", options: { required: true, data: $.Mes.data.bool, valueField: "id", textField: "text" } } },
-                { field: "Remark", title: "备注", width: 300, sortable: true, editor: { type: "textarea", options: { required: true, validType: "length[1,500]" } } },
+        [
+           // { field: "Id", title: "编号", width: 40, halign: "center", align: "right", sortable: true },
+            { field: "Department", title: "部门", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: Department } } },
+            { field: "Factory", title: "工厂", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: Factory } } },
+            { field: "QuestionFrom", title: "问题来源", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: QuestionFrom } } },
+            { field: "Detail", title: "细节", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
+            { field: "Reason", title: "问题原因", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
+            { field: "Solution", title: "解决方案", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
+            { field: "Type", title: "类型", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: ProblemType } } },
+            { field: "Workers", title: "解决人", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
+            { field: "Suggestion", title: "建议", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
+            { field: "IsComplete", title: "是否完成", width: 80, sortable: true, formatter: formatBoolean, editor: { type: "combobox", options: { required: true, data: $.Mes.data.bool, valueField: "id", textField: "text" } } },
+            {
+            field: "IsPeople", title:
+            "是否人为", width:
+            80, sortable:
+            true, formatter:
+            formatBoolean, editor:
+            {
+                type: "combobox", options:
                 {
-                    field: "ProblemTime",
-                    title: "异常时间",
-                    width: 150,
-                    sortable: true,
-                    formatter: function(value) {
-                        if ( (!value)||value.indexOf("(", 0) != -1)
-                            return $.Mes.tools.formatDate(value);
-                        else {
-                            return value;
-                        }
-                    },
-                    editor: {
-                        type: "datetimebox",
-                        options: {
-                        
-                        }
-                    }
-                },
-               
-                { field: "CreatedTime", title: "创建时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } }
-            ]
+                    required: true, data:
+                    $.Mes.data.bool, valueField:
+                    "id", textField:
+                    "text"
+                }
+            }
+        },
+        {
+            field: "Remark", title:
+            "备注", width:
+            300, sortable:
+            true, editor:
+            {
+                type: "textarea", options:
+                {
+                    required: true, validType:
+                    "length[1,500]"
+                }
+            }
+        },
+        {
+            field: "ProblemTime",
+                title:
+            "异常时间",
+                width:
+            150,
+                sortable:
+            true,
+                formatter:
+
+            function(value) {
+                if ((!value) || value.indexOf("(", 0) != -1)
+                    return $.Mes.tools.formatDate(value);
+                else {
+                    return value;
+                }
+            },
+            editor: {
+                type: "datetimebox",
+                    options:
+                {
+
+                }
+            }
+        },
+
+        {
+            field: "CreatedTime", title:
+            "创建时间", width:
+            150, halign:
+            "center", align:
+            "center", sortable:
+            true, formatter:
+
+            function(value) { return $.Mes.tools.formatDate(value); }
+        }
+        ]
         ];
     </script>
     <div id="User2Role_dlg"></div>
