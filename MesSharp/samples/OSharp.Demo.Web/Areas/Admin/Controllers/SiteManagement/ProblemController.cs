@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 using Mes.Demo.Contracts.SiteManagement;
 using Mes.Demo.Dtos.SiteManagement;
+using Mes.Demo.Models.Identity;
 using Mes.Demo.Models.SiteManagement;
 using Mes.Utility;
 using Mes.Utility.Data;
@@ -60,7 +61,22 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         public ActionResult Add([ModelBinder(typeof(JsonBinder<ProblemDto>))] ICollection<ProblemDto> dtos)
         {
             dtos.CheckNotNull("dtos");
-            OperationResult result = SiteManagementContract.AddProblems(dtos.ToArray());
+            OperationResult result;
+            //登录超时，重定向首页
+            User user = (User)Session["user"];
+            if (user == null)
+            {
+                result = new OperationResult(OperationResultType.Error);
+                result.Message = "超时,请重新登陆";
+            }
+            else
+            {
+                foreach (var problemDto in dtos)
+                {
+                    problemDto.Workers = user.NickName;
+                }
+                result = SiteManagementContract.AddProblems(dtos.ToArray());
+            }
             return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
         }
 

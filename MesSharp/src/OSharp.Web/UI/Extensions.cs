@@ -36,6 +36,8 @@ namespace Mes.Web.UI
                     return AjaxResultType.Success;
                 case OperationResultType.NoChanged:
                     return AjaxResultType.Info;
+                case OperationResultType.ValidError:
+                    return AjaxResultType.Warning;
                 default:
                     return AjaxResultType.Error;
             }

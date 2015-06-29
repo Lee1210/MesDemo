@@ -12,10 +12,10 @@
 {
     <script type="text/javascript">
     var selectTreeData = null;
-    var Department = [{ text: "部门1", value: "部门1" }, { text: "部门2", value: "部门2" }, { text: "部门3", value: "部门3" }, { text: "部门4", value: "部门4" }];
-    var Factory = [{ text: "工厂1", value: "工厂1" }, { text: "工厂2", value: "工厂2" }, { text: "工厂3", value: "工厂3" }, { text: "工厂4", value: "工厂4" }];
-    var QuestionFrom = [{ text: "来源1", value: "来源1" }, { text: "来源2", value: "来源2" }, { text: "来源3", value: "来源3" }, { text: "来源4", value: "来源4" }];
-    var ProblemType = [{ text: "类型1", value: "类型1" }, { text: "类型2", value: "类型2" }, { text: "类型3", value: "类型3" }, { text: "类型4", value: "类型4" }];
+    var Department = [{ text: "生产", value: "生产" }, { text: "计划", value: "计划" }, { text: "工程", value: "工程" }, { text: "质量", value: "质量" }, { text: "仓库", value: "仓库" }];
+    var Factory = [{ text: "龙旗一厂", value: "龙旗一厂" }, { text: "龙旗二厂", value: "龙旗二厂" }, { text: "深圳振华", value: "深圳振华" }];
+    var QuestionFrom = [{ text: "邮件报警", value: "邮件报警" }, { text: "用户反馈", value: "用户反馈" }, { text: "客户反馈", value: "客户反馈" }];
+    var ProblemType = [{ text: "MES系统", value: "MES系统" }, { text: "订单导入", value: "订单导入" }, { text: "入库比对", value: "入库比对" }, { text: "出库扫描", value: "出库扫描" }, { text: "数据回传", value: "数据回传" }];
     $.extend($.fn.datagrid.defaults.editors, {
         numberspinner: {
             init: function (container, options) {
@@ -44,9 +44,9 @@
                 return editor;
             },
             getValue: function (target) {
-                var new_str = $(target).datetimebox('getValue').replace(/:/g, '-');
-                new_str = new_str.replace(/ /g, '-');
-                var arr = new_str.split("-");
+                var newStr = $(target).datetimebox('getValue').replace(/:/g, '-');
+                newStr = newStr.replace(/ /g, '-');
+                var arr = newStr.split("-");
                 var datum = new Date(Date.UTC(arr[0], arr[1] - 1, arr[2], arr[3] - 8, arr[4], arr[5]));
                 var timeStamp = datum.getTime();
 
@@ -82,12 +82,12 @@
             { field: "Department", title: "部门", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: Department } } },
             { field: "Factory", title: "工厂", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: Factory } } },
             { field: "QuestionFrom", title: "问题来源", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: QuestionFrom } } },
-            { field: "Detail", title: "细节", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
-            { field: "Reason", title: "问题原因", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
-            { field: "Solution", title: "解决方案", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
+            { field: "Detail", title: "细节", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,1000]" } } },
+            { field: "Reason", title: "问题原因", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,1000]" } } },
+            { field: "Solution", title: "解决方案", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,1000]" } } },
             { field: "Type", title: "类型", width: 150, sortable: true, editor: { type: "combobox", valueField: "label", textField: "value", options: { required: true, data: ProblemType } } },
-            { field: "Workers", title: "解决人", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
-            { field: "Suggestion", title: "建议", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,50]" } } },
+            
+            { field: "Suggestion", title: "建议", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,1000]" } } },
             { field: "IsComplete", title: "是否完成", width: 80, sortable: true, formatter: formatBoolean, editor: { type: "combobox", options: { required: true, data: $.Mes.data.bool, valueField: "id", textField: "text" } } },
             {
             field: "IsPeople", title:
@@ -143,7 +143,7 @@
                 }
             }
         },
-
+        { field: "Workers", title: "解决人", width: 150, sortable: true },
         {
             field: "CreatedTime", title:
             "创建时间", width:
