@@ -53,12 +53,6 @@
     <Compile Include="EnumTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\osharp2\src\Util\Util.csproj">
-      <Project>{eece9b01-394b-4b1a-964a-6d9dcef14fa2}</Project>
-      <Name>Util</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
