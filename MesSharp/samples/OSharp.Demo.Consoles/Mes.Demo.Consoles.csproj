@@ -93,6 +93,10 @@
       <Project>{946e0a0a-8280-46b3-893e-1b00a554ccab}</Project>
       <Name>Mes.Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Util\Util.csproj">
+      <Project>{eece9b01-394b-4b1a-964a-6d9dcef14fa2}</Project>
+      <Name>Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OSharp.Demo.Contracts\Mes.Demo.Contracts.csproj">
       <Project>{2e6d22c7-37d5-4f1f-8d3e-2bcbd8f71b88}</Project>
       <Name>Mes.Demo.Contracts</Name>
