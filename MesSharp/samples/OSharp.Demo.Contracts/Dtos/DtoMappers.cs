@@ -26,6 +26,10 @@ namespace Mes.Demo.Dtos
 
             //SiteManagement
             Mapper.CreateMap<ProblemDto, Problem>();
+            Mapper.CreateMap<FactoryDto, Factory>();
+            Mapper.CreateMap<DepartmentDto, Department>();
+            Mapper.CreateMap<ProblemSourceDto, ProblemSource>();
+            Mapper.CreateMap<ProblemTypeDto, ProblemType>();
         }
     }
 }

@@ -106,6 +106,50 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         }
 
         [AjaxOnly]
+        public ActionResult DepartmentList()
+        {
+            var data = SiteManagementContract.Departments.ToList().Select(d => new
+            {
+                text=d.Text,
+                value=d.Value
+            });
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [AjaxOnly]
+        public ActionResult ProblemTypeList()
+        {
+            var data = SiteManagementContract.ProblemTypes.ToList().Select(d => new
+            {
+                text = d.Text,
+                value = d.Value
+            });
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [AjaxOnly]
+        public ActionResult FactoryList()
+        {
+            var data = SiteManagementContract.Factorys.ToList().Select(d => new
+            {
+                text = d.Text,
+                value = d.Value
+            });
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [AjaxOnly]
+        public ActionResult ProblemSourceList()
+        {
+            var data = SiteManagementContract.ProblemSources.ToList().Select(d => new
+            {
+                text = d.Text,
+                value = d.Value
+            });
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [AjaxOnly]
         public ActionResult WorkersReport(string fromDate)
         {
             var data = Data(fromDate, "workers");
@@ -179,12 +223,12 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 var markLineData1 = new { type = "average", name = "平均值" };
                 var markLineList = new ArrayList() { markLineData1 };
                 var markLine = new { data = markLineList };
-                var seriestest1 = new { name = dutyGroup.Key, type = "line", data = dutyhourlist, markPoint = markPoint, markLine = markLine };
+                var seriestest1 = new { name = dutyGroup.Key, type = "line", data = dutyhourlist, markPoint, markLine };
 
                 seriesList.Add(seriestest1);
             }
 
-            var data = new { seriesList = seriesList, xAxisdata = xAxisdata, legenddata = legenddata, titletext = titletext, titlesubtext = titlesubtext };
+            var data = new { seriesList, xAxisdata, legenddata, titletext, titlesubtext };
             return data;
         }
 

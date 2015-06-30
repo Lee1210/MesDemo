@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "问题来源列表";
+    Layout = "~/Areas/Admin/Views/Shared/_DataGridLayout.cshtml";
+    ViewBag.GridId = "ProblemSource";
+    ViewBag.GridDataUrl = Url.Action("GridData");
+    ViewBag.AddUrl = Url.Action("Add");
+    ViewBag.EditUrl = Url.Action("Edit");
+    ViewBag.DeleteUrl = Url.Action("Delete");
+   
+}
+@section customScript
+{
+    <script type="text/javascript">
+        var selectTreeData = null;
+        columns = [[
+            
+            { field: "Text", title: "问题来源名称", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,200]" } } },
+            { field: "Value", title: "问题来源值", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,200]" } } },
+            { field: "CreatedTime", title: "创建时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } }
+            
+        ]];
+
+    </script>
+}
+

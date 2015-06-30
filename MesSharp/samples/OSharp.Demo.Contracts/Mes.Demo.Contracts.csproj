@@ -51,7 +51,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IIdentityContract.cs" />
-    <Compile Include="Contracts\SiteManagement\ISiteManagement.Problem.cs" />
+    <Compile Include="Contracts\SiteManagement\ISiteManagement.ProblemSource.cs" />
+    <Compile Include="Contracts\SiteManagement\ISiteManagement.ProblemType.cs" />
+    <Compile Include="Contracts\SiteManagement\ISiteManagement.Factory.cs" />
+    <Compile Include="Contracts\SiteManagement\ISiteManagement.Department.cs" />
+    <Compile Include="Contracts\SiteManagement\ISiteManagement.Problem.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Contracts\Test\ITestContract.Line.cs" />
     <Compile Include="Contracts\Test\ITestContract.Station.cs" />
     <Compile Include="Dtos\DtoMappers.cs" />
@@ -59,7 +65,13 @@
     <Compile Include="Dtos\Identity\OrganizationDto.cs" />
     <Compile Include="Dtos\Identity\RoleDto.cs" />
     <Compile Include="Dtos\Identity\UserDto.cs" />
-    <Compile Include="Dtos\SiteManagement\ProblemDto.cs" />
+    <Compile Include="Dtos\SiteManagement\ProblemSourceDto.cs" />
+    <Compile Include="Dtos\SiteManagement\ProblemTypeDto.cs" />
+    <Compile Include="Dtos\SiteManagement\FactoryDto.cs" />
+    <Compile Include="Dtos\SiteManagement\DepartmentDto.cs" />
+    <Compile Include="Dtos\SiteManagement\ProblemDto.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Dtos\Test\LineDto.cs" />
     <Compile Include="Dtos\Test\StationDto.cs" />
     <Compile Include="Models\Identity\Menu.cs" />
@@ -67,6 +79,10 @@
     <Compile Include="Models\Identity\Role.cs" />
     <Compile Include="Models\Identity\User.cs" />
     <Compile Include="Models\Identity\UserExtend.cs" />
+    <Compile Include="Models\SiteManagement\ProblemSource.cs" />
+    <Compile Include="Models\SiteManagement\ProblemType.cs" />
+    <Compile Include="Models\SiteManagement\Factory.cs" />
+    <Compile Include="Models\SiteManagement\Department.cs" />
     <Compile Include="Models\SiteManagement\Problem.cs" />
     <Compile Include="Models\Test\Line.cs" />
     <Compile Include="Models\Test\Station.cs" />

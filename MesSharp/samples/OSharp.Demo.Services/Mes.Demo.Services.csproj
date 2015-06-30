@@ -75,7 +75,13 @@
     <Compile Include="ModelConfigurations\Identity\UserExtendConfiguration.generated.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ModelConfigurations\SiteManagement\LineConfiguration.cs" />
+    <Compile Include="ModelConfigurations\SiteManagement\ProblemSourceConfiguration.cs" />
+    <Compile Include="ModelConfigurations\SiteManagement\ProblemTypeConfiguration.cs" />
+    <Compile Include="ModelConfigurations\SiteManagement\FactoryConfiguration.cs" />
+    <Compile Include="ModelConfigurations\SiteManagement\DepartmentConfiguration.cs" />
+    <Compile Include="ModelConfigurations\SiteManagement\ProblemConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ModelConfigurations\Test\LineConfiguration.cs" />
     <Compile Include="ModelConfigurations\Test\StationConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +95,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\SiteManagement\SiteManagementService.cs" />
+    <Compile Include="Services\SiteManagement\SiteManagementService.ProblemSource.cs" />
+    <Compile Include="Services\SiteManagement\SiteManagementService.ProblemType.cs" />
+    <Compile Include="Services\SiteManagement\SiteManagementService.Factory.cs" />
+    <Compile Include="Services\SiteManagement\SiteManagementService.Department.cs" />
     <Compile Include="Services\SiteManagement\SiteManagementService.Problem.cs" />
     <Compile Include="Services\Test\TestService.cs" />
     <Compile Include="Services\Test\TestService.Line.cs" />

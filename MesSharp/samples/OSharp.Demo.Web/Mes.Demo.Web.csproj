@@ -404,6 +404,10 @@
     <Content Include="Areas\Admin\Views\Organizations\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_TreeGridLayout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Department\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Factory\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProblemSource\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProblemType\Index.cshtml" />
     <None Include="Areas\Admin\Views\Line\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Role2User.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Role2Privage.cshtml" />
@@ -474,6 +478,10 @@
     <Compile Include="Areas\Admin\Controllers\Identity\OrganizationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\Identity\RolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\Identity\UsersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SiteManagement\ProblemSourceController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SiteManagement\ProblemTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SiteManagement\FactoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SiteManagement\DepartmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\SiteManagement\ProblemController.cs" />
     <Compile Include="Areas\Admin\Controllers\Test\LineController.cs" />
     <Compile Include="Areas\Admin\Controllers\Test\StationController.cs" />
