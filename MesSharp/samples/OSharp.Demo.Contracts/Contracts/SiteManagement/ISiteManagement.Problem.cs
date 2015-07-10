@@ -50,6 +50,13 @@ namespace Mes.Demo.Contracts.SiteManagement
         /// <param name="ids">要删除的异常信息编号</param>
         /// <returns>业务操作结果</returns>
         OperationResult DeleteProblems(params int[] ids);
+
+        /// <summary>
+        /// 删除异常信息(逻辑删除)
+        /// </summary>
+        /// <param name="ids">要删除的异常信息编号</param>
+        /// <returns>业务操作结果</returns>
+        OperationResult DeleteProblems_false(params int[] ids);
     }
 }
       

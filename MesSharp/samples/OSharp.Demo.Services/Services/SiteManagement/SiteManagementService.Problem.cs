@@ -64,6 +64,33 @@ namespace Mes.Demo.Services.Test
         {
             return ProblemRepository.Delete(ids);
         }
+        public OperationResult DeleteProblems_false(params int[] ids)
+        {
+            UnitOfWork.TransactionEnabled = true;
+            int i = 0;
+            foreach (var id in ids)
+            {
+                Problem problem = Problems.FirstOrDefault(p => p.Id == id);
+                if (problem != null)
+                {
+                    problem.IsDeleted = true;
+                    i++;
+                }
+
+            }
+            i = UnitOfWork.SaveChanges();
+            OperationResult result = new OperationResult(OperationResultType.Success);
+            if (i > 0)
+            {
+                result.Message = string.Format("删除了{0}条数据", i);
+            }
+            else
+            {
+                result.ResultType = OperationResultType.Error;
+                result.Message = string.Format("删除失败");
+            }
+            return result;
+        }
     }
 }
       

@@ -115,6 +115,17 @@
     <Content Include="Content\images\checknomark.gif" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\icons.png" />
+    <Content Include="Content\images\Login\bg.gif" />
+    <Content Include="Content\images\Login\inputbg.gif" />
+    <Content Include="Content\images\Login\lbg.gif" />
+    <Content Include="Content\images\Login\login.gif" />
+    <Content Include="Content\images\Login\login01.jpg" />
+    <Content Include="Content\images\Login\login02.jpg" />
+    <Content Include="Content\images\Login\login03.jpg" />
+    <Content Include="Content\images\Login\login04.jpg" />
+    <Content Include="Content\images\Login\login05.jpg" />
+    <Content Include="Content\images\Login\password.gif" />
+    <Content Include="Content\images\Login\user.gif" />
     <Content Include="Content\images\tools.png" />
     <Content Include="Content\Mes-admin.css" />
     <Content Include="Content\Mes-icons.css" />

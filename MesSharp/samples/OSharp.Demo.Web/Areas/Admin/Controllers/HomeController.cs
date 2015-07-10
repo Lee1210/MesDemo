@@ -1,16 +1,11 @@
-﻿
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 using Mes.Demo.Contracts;
 using Mes.Demo.Dtos.Identity;
 using Mes.Demo.Models.Identity;
 using Mes.Demo.Web.ViewModels;
-using Mes.Utility;
 using Mes.Utility.Logging;
 using Mes.Web.Mvc.Security;
 
@@ -77,11 +72,13 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         #endregion
 
         #region 视图功能
-
-        #endregion
-
         public ActionResult Index()
         {
+            User user = (User)Session["user"];
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
             Logger.Debug("访问后台管理首页");
             return View();
         }
@@ -90,17 +87,17 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         {
             return View();
         }
-        
+
 
         public ActionResult Login(UserDto userDto)
         {
-            
             var user = IdentityContract.Users.FirstOrDefault(u => u.Name == userDto.Name && u.Password == userDto.Password);
             if (user == null)
                 return View();
-            Session.Add("user",user);
+            Session.Add("user", user);
             return RedirectToAction("Index");
         }
-      
+        #endregion
+        
     }
 }

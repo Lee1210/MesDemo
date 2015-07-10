@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
 
 using Mes.Demo.Contracts.SiteManagement;
@@ -12,15 +11,12 @@ using Mes.Demo.Models.Identity;
 using Mes.Demo.Models.SiteManagement;
 using Mes.Utility;
 using Mes.Utility.Data;
-using Mes.Utility.Extensions;
 using Mes.Utility.Filter;
 using Mes.Web.Mvc.Binders;
 using Mes.Web.Mvc.Security;
 using Mes.Web.UI;
 
 using Util;
-
-using Enum = Util.Enum;
 
 
 namespace Mes.Demo.Web.Areas.Admin.Controllers
@@ -35,7 +31,9 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         {
             int total;
             GridRequest request = new GridRequest(Request);
-            var datas = GetQueryData<Problem, int>(SiteManagementContract.Problems, out total, request).Select(m => new
+            var datas = GetQueryData<Problem, int>(SiteManagementContract.Problems, out total, request).
+                Where(m=>m.IsDeleted==false).
+                Select(m => new
             {
                 m.ProblemTime,
                 m.Department,
@@ -94,7 +92,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         public ActionResult Delete([ModelBinder(typeof(JsonBinder<int>))] ICollection<int> ids)
         {
             ids.CheckNotNull("ids");
-            OperationResult result = SiteManagementContract.DeleteProblems(ids.ToArray());
+            OperationResult result= SiteManagementContract.DeleteProblems_false(ids.ToArray());
             return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
         }
 
@@ -159,6 +157,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         private object Data(string fromDate,string groupByFiled)
         {
             const string problemTime = "ProblemTime";
+            const string isDeleted = "IsDeleted";
             fromDate.CheckNotNullOrEmpty("fromDate");
             DateTime date = Conv.ToDate(fromDate);
             DateTime beginTime;
@@ -191,7 +190,8 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 Rules = new List<FilterRule>
                 {
                     new FilterRule(problemTime, beginTime, FilterOperate.GreaterOrEqual),
-                    new FilterRule(problemTime, endTime, FilterOperate.LessOrEqual)
+                    new FilterRule(problemTime, endTime, FilterOperate.LessOrEqual),
+                    new FilterRule(isDeleted, false, FilterOperate.Equal)
                 },
                 Operate = FilterOperate.And
             };
