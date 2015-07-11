@@ -87,14 +87,12 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
 
         public ActionResult GetUsers()
         {
-            var users = IdentityContract.Users.ToList();
-            List<object> data = new List<object>();
-            foreach (var user in users)
+            var users = IdentityContract.Users.Select(u=>new
             {
-                var item = new { Id = user.Id, Name = user.Name };
-                data.Add(item);
-            }
-            return Json(data, JsonRequestBehavior.AllowGet);
+                u.Id,
+                u.Name
+            });
+            return Json(users, JsonRequestBehavior.AllowGet);
         }
        
 
@@ -117,14 +115,14 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         public ActionResult GetMenuData(int id)
         {
             var menus=IdentityContract.Menus.ToList();
-            var role2menus = IdentityContract.Roles.First(r => r.Id == id).Menus.Select(m=>m.Id);
+            var role2Menus = IdentityContract.Roles.First(r => r.Id == id).Menus.Select(m=>m.Id);
             var data = new ArrayList();
             foreach (var menu in menus.Where(m=>m.TreePath=="1"))
             {
                 var childrentest = new ArrayList();
                 foreach (var childrenitem in menu.Children)
                 {
-                    if (role2menus.Contains(childrenitem.Id))
+                    if (role2Menus.Contains(childrenitem.Id))
                     {
                         childrentest.Add(new { id = childrenitem.Id, text = childrenitem.Remark ,@checked=true});
                     }
@@ -133,7 +131,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                         childrentest.Add(new { id = childrenitem.Id, text = childrenitem.Remark });
                     }
                 }
-                if (role2menus.Contains(menu.Id))
+                if (role2Menus.Contains(menu.Id))
                     data.Add(new { id = menu.Id, text = menu.Remark, children = childrentest, @checked = true });
                 else
                 {

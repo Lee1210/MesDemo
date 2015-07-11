@@ -24,5 +24,10 @@ namespace Mes.Demo.Dtos.Identity
         public int SortCode { get; set; }
 
         public int? ParentId { get; set; }
+
+        [StringLength(50)]
+        public string ActionName { get; set; }
+      
+        public string TreePath { get; set; }
     }
 }

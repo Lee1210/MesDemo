@@ -10,7 +10,10 @@ using Mes.Core;
 using Mes.Core.Caching;
 using Mes.Core.Data;
 using Mes.Demo.Contracts;
+using Mes.Demo.Dtos.Identity;
 using Mes.Demo.Models.Identity;
+using Mes.Demo.Models.SiteManagement;
+using Mes.Demo.Services;
 using Mes.Utility.Develop.T4;
 using Mes.Utility.Extensions;
 
@@ -26,6 +29,17 @@ namespace Mes.Demo.Consoles
 
         public IIdentityContract IdentityContract { get; set; }
         public ITestContract ITestContract { get; set; }
+
+        public IRepository<Menu, int> MenuRepository  { get; set; }
+        public IRepository<User, int> UserRepository { get; set; }
+        public IRepository<Role, int> RoleRepository { get; set; }
+        public IRepository<Problem, int> ProblemRepository { get; set; }
+        public IRepository<ProblemType, int> ProblemTypeRepository { get; set; }
+        public IRepository<Factory, int> FactoryRepository { get; set; }
+
+        public IRepository<ProblemSource, int> ProblemSourceRepository { get; set; }
+
+        public IRepository<Department, int> DepartmentRepository { get; set; }
 
         private static void Main(string[] args)
         {
@@ -165,9 +179,74 @@ namespace Mes.Demo.Consoles
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// 数据库初始化
+        /// </summary>
         private static void Method05()
         {
-          
+            Menu root = new Menu() {Name = "root", Remark = "根", Parent = null, TreePath = "0", ActionName = "Index", SortCode = 0 };
+            Menu privage = new Menu() {Name = "privage", Remark = "权限", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 2 };
+            Menu privage21 = new Menu() {  Name = "Users", Remark = "用户管理", Parent = privage, TreePath = "2", ActionName = "Index", SortCode = 1 };
+            Menu privage22 = new Menu() {  Name = "Roles", Remark = "角色管理", Parent = privage, TreePath = "2", ActionName = "Index", SortCode = 2 };
+
+            Menu siteManagement = new Menu() {Name = "SiteManagement", Remark = "现场管理", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 3 };
+            Menu siteManagement31 = new Menu() {  Name = "Problem", Remark = "异常管理", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 1} ;
+            Menu siteManagement32 = new Menu() {  Name = "Problem", Remark = "异常报表", Parent = siteManagement, TreePath = "2", ActionName = "report", SortCode = 2 };
+            Menu siteManagement33 = new Menu() {  Name = "Department", Remark = "部门", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 3 };
+            Menu siteManagement34 = new Menu() { Name = "Factory", Remark = "工厂", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 4 };
+            Menu siteManagement35 = new Menu() {  Name = "ProblemSource", Remark = "问题来源", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 5 };
+            Menu siteManagement36 = new Menu() {  Name = "ProblemType", Remark = "问题类型", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 6 };
+
+            List<Menu> menus = new List<Menu> { root, privage, privage21, privage22, siteManagement, siteManagement31, siteManagement32, siteManagement33, siteManagement34, siteManagement35, siteManagement36 };
+
+            User user1 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user1", NickName = "梁贵", Password = "123", };
+            User user2 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user2", NickName = "梁贵2", Password = "123", };
+            List<User> users = new List<User> { user1,user2 };
+
+            Role role1 = new Role() { Name = "role1", Remark = "role1" };
+            Role role2 = new Role() { Name = "role2", Remark = "role2" };
+            role1.Menus = menus;
+            role1.Users = users;
+            List<Role> roles = new List<Role> { role1, role2 };
+
+            Factory factory1 = new Factory() { Text = "龙旗一厂", Value = "龙旗一厂" };
+            Factory factory2 = new Factory() { Text = "龙旗二厂", Value = "龙旗二厂" };
+            Factory factory3 = new Factory() { Text = "深圳振华", Value = "深圳振华" };
+            List<Factory> factorys = new List<Factory> { factory1, factory2, factory3 };
+
+            Department department1 = new Department() { Text = "生产", Value = "生产" };
+            Department department2 = new Department() { Text = "计划", Value = "计划" };
+            Department department3 = new Department() { Text = "工程", Value = "工程" };
+            Department department4 = new Department() { Text = "质量", Value = "质量" };
+            Department department5 = new Department() { Text = "仓库", Value = "仓库" };
+            List<Department> departments = new List<Department> { department1, department2, department3, department4, department5 };
+
+            ProblemSource problemSource1 = new ProblemSource() { Text = "邮件预警", Value = "邮件预警" };
+            ProblemSource problemSource2 = new ProblemSource() { Text = "用户反馈", Value = "用户反馈" };
+            ProblemSource problemSource3 = new ProblemSource() { Text = "客户反馈", Value = "客户反馈" };
+            List<ProblemSource> problemSources = new List<ProblemSource> { problemSource1, problemSource2, problemSource3 };
+
+            ProblemType problemType1 = new ProblemType() { Text = "MES系统", Value = "MES系统" };
+            ProblemType problemType2 = new ProblemType() { Text = "订单导入", Value = "订单导入" };
+            ProblemType problemType3 = new ProblemType() { Text = "入库比对", Value = "入库比对" };
+            ProblemType problemType4 = new ProblemType() { Text = "出库扫描", Value = "出库扫描" };
+            ProblemType problemType5 = new ProblemType() { Text = "数据回传", Value = "数据回传" };
+            List<ProblemType> problemTypes = new List<ProblemType> { problemType1, problemType2, problemType3, problemType4, problemType5 };
+
+            Problem problem1 = new Problem() { Department = "生产",  Factory = "龙旗一厂", QuestionFrom = "邮件预警", Type = "MES系统",Workers = "梁贵",ProblemTime = DateTime.Now, Detail = "detail1", Reason = "reason1", IsComplete = true, IsPeople = true, IsDeleted = false, Remark = "remark1", Solution = "solution1", Suggestion = "suggestion1"};
+            Problem problem2 = new Problem() { Department = "生产", Factory = "龙旗一厂", QuestionFrom = "邮件预警", Type = "MES系统", Workers = "梁贵", ProblemTime = DateTime.Now.AddDays(1), Detail = "detail1", Reason = "reason1", IsComplete = true, IsPeople = true, IsDeleted = false, Remark = "remark1", Solution = "solution1", Suggestion = "suggestion1" };
+            List<Problem> problems = new List<Problem> { problem1, problem2 };
+
+            _program.MenuRepository.UnitOfWork.TransactionEnabled = true;
+            Console.WriteLine(_program.MenuRepository.Insert(menus.AsEnumerable()));
+            Console.WriteLine(_program.UserRepository.Insert(users.AsEnumerable()));
+            Console.WriteLine(_program.RoleRepository.Insert(roles.AsEnumerable()));
+            Console.WriteLine(_program.FactoryRepository.Insert(factorys.AsEnumerable()));
+            Console.WriteLine(_program.DepartmentRepository.Insert(departments.AsEnumerable()));
+            Console.WriteLine(_program.ProblemSourceRepository.Insert(problemSources.AsEnumerable()));
+            Console.WriteLine(_program.ProblemTypeRepository.Insert(problemTypes.AsEnumerable()));
+            Console.WriteLine(_program.ProblemRepository.Insert(problems.AsEnumerable()));
+            _program.MenuRepository.UnitOfWork.SaveChanges();
         }
 
         private static void Method06()

@@ -81,25 +81,14 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
 
         public ActionResult GetRoles()
         {
-            var roles = IdentityContract.Roles.ToList();
-            List<object> data = new List<object>();
-            foreach (var role in roles)
+            var roles = IdentityContract.Roles.Select(r=>new
             {
-                var item = new { Id = role.Id, Name = role.Name };
-                data.Add(item);
-            }
-            return Json(data, JsonRequestBehavior.AllowGet);
+                r.Id,
+                r.Name
+            });
+            return Json(roles, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult User2Role(int? id)
-        {
-            var firstOrDefault = IdentityContract.Users.FirstOrDefault(u => u.Id == id);
-            if (firstOrDefault != null)
-            {
-                var data = firstOrDefault.Roles.Select(r => r.Id);
-                ViewBag.SelectedId = string.Join(",", data);
-            }
-            return View();
-        }
+       
 
         [HttpPost]
         [AjaxOnly]
@@ -115,7 +104,16 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
 
         #region 视图功能
 
-
+        public ActionResult User2Role(int? id)
+        {
+            var firstOrDefault = IdentityContract.Users.FirstOrDefault(u => u.Id == id);
+            if (firstOrDefault != null)
+            {
+                var data = firstOrDefault.Roles.Select(r => r.Id);
+                ViewBag.SelectedId = string.Join(",", data);
+            }
+            return View();
+        }
         #endregion
     }
 }

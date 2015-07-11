@@ -14,6 +14,7 @@ using Mes.Core.Caching;
 using Mes.Core.Data;
 using Mes.Core.Data.Entity;
 using Mes.Demo.Consoles.Logging;
+using Mes.Demo.Dtos;
 using Mes.Utility.Logging;
 
 
@@ -29,6 +30,7 @@ namespace Mes.Demo.Consoles
             CachingInit();
             LoggingInit();
             DatabaseInit();
+            DtoMappers.MapperRegister();
         }
 
         private static void AutofacRegisters()
