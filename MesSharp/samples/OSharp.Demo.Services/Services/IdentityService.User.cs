@@ -88,6 +88,7 @@ namespace Mes.Demo.Services
             beforeSelect.Except(select).ToList().ForEach(n => user.Roles.Remove(RoleRepository.GetByKey(n)));
             select.Except(beforeSelect).ToList().ForEach(n => user.Roles.Add(RoleRepository.GetByKey(n)));
             operationResult.Message = "修改了：" + UserRepository.UnitOfWork.SaveChanges() + "条数据";
+            operationResult.Data = user;
             return operationResult;
         }
 
