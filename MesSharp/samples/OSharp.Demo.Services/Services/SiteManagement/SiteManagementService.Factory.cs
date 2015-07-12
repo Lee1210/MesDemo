@@ -18,7 +18,7 @@ namespace Mes.Demo.Services.Test
 {
     public partial class SiteManagementService
     {        
-        public IRepository<Factory, int> FactoryRepository {protected get; set; }
+        public virtual IRepository<Factory, int> FactoryRepository { get; set; }
 
         /// <summary>
         /// 获取部门 信息查询数据集

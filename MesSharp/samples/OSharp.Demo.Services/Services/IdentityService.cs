@@ -31,12 +31,12 @@ namespace Mes.Demo.Services
         /// <summary>
         /// 获取或设置 角色信息仓储对象
         /// </summary>
-        public IRepository<Role, int> RoleRepository { protected get; set; }
+        public virtual IRepository<Role, int> RoleRepository {  get; set; }
 
         /// <summary>
         /// 获取或设置 用户信息仓储对象
         /// </summary>
-        public IRepository<User, int> UserRepository { protected get; set; }
+        public virtual IRepository<User, int> UserRepository {  get; set; }
 
         /// <summary>
         /// 获取或设置 用户扩展信息仓储对象

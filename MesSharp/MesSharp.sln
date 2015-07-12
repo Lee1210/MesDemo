@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mes.Demo.Consoles2", "sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "src\Util\Util.csproj", "{EECE9B01-394B-4B1A-964A-6D9DCEF14FA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestService", "UnitTestProject1\UnitTestService.csproj", "{38CC728A-0B51-424F-94AB-4D217C22AA51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestSiteManagementService", "UnitTestProject1\UnitTestSiteManagementService.csproj", "{38CC728A-0B51-424F-94AB-4D217C22AA51}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{EEEB0916-EA9D-4507-97FB-7357964B0AB3}"
 EndProject

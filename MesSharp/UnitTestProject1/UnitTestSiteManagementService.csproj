@@ -74,6 +74,10 @@
       <Project>{F7C67C95-FACB-4160-9A88-CB738E65E034}</Project>
       <Name>Mes.Core.NET45</Name>
     </ProjectReference>
+    <ProjectReference Include="..\src\OSharp.Utility\Mes.Utility.csproj">
+      <Project>{946E0A0A-8280-46B3-893E-1B00A554CCAB}</Project>
+      <Name>Mes.Utility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
