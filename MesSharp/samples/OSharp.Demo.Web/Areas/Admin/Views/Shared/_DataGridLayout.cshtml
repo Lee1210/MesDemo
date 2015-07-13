@@ -131,11 +131,15 @@
             if (data.Type == "Success") {
                 grid.datagrid("reload");
             }
-            if (data.Type == "Error") {
+            if (data.Type == "Error") {                
                 $.Mes.easyui.msg.error(data.Content);
-            } else {
-                $.Mes.easyui.msg.tip(data || data.Content);
+            }
+            if (data.Type == "ActionAuthority") {
+                $.Mes.easyui.msg.error(data.Content);
                 grid.datagrid("rejectChanges");
+            }
+            else {
+                $.Mes.easyui.msg.tip( data.Content);               
             }
         }
 

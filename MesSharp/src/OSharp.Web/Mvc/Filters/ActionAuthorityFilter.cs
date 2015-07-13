@@ -13,8 +13,9 @@ namespace Mes.Web.Mvc.Filters
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         { //在Action执行前执行
             if (filterContext.HttpContext.Session["user1"] == null)
-            {               
-                filterContext.Result = new ContentResult { Content = @"('抱歉,你不具有当前操作的权限！')" };//功能权限弹出提示框
+            {
+                var data = new { Type = "ActionAuthority", Content = "不具有当前操作的权限!" };
+                filterContext.Result = new JsonResult { Data= data };//功能权限弹出提示框
                 
                 //filterContext.HttpContext.Response.Redirect("/admin/Home/Index");
             }
