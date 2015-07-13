@@ -92,6 +92,40 @@ namespace Mes.Demo.Services
             return operationResult;
         }
 
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
+        public OperationResult Login(string userName, string password)
+        {
+            OperationResult operationResult = new OperationResult(OperationResultType.Error);
+            try
+            {
+                userName.CheckNotNullOrEmpty("userName");
+                userName.CheckNotNullOrEmpty("password");
+            }
+            catch (Exception)
+            {
+                operationResult.Message = "账号密码不能为空";
+                return operationResult;
+            }
+            var user = Users.FirstOrDefault(u => u.Name == userName);
+            if (user == null)
+            {
+                operationResult.Message = "用户不存在";
+                return operationResult;
+            }
+            if (user.Password!=password)
+            {
+                operationResult.Message = "密码错误";
+                return operationResult;
+            }
+            operationResult.ResultType=OperationResultType.Success;
+            operationResult.Data = user;
+            return operationResult;
+        }
         #endregion
     }
 }

@@ -102,6 +102,14 @@ namespace Mes.Demo.Contracts
         /// <returns>业务操作结果</returns>
         OperationResult SetRoleUsers(int id, int[] userIds);
 
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
+        OperationResult Login(string userName, string password);
+
         #endregion
 
         #region 用户信息业务
@@ -188,5 +196,7 @@ namespace Mes.Demo.Contracts
         #endregion
 
         OperationResult SetRolePrivages(int userId, int[] selectId);
+
+        
     }
 }
