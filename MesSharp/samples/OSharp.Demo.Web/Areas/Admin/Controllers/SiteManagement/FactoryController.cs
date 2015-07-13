@@ -17,6 +17,7 @@ using Mes.Utility.Data;
 using Mes.Web.Mvc.Binders;
 using Mes.Web.Mvc.Security;
 using Mes.Web.UI;
+using Mes.Web.Mvc.Filters;
 
 
 namespace Mes.Demo.Web.Areas.Admin.Controllers
@@ -52,8 +53,10 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
         }
 
+        
         [HttpPost]
         [AjaxOnly]
+        [ActionAuthorityFilter]
         public ActionResult Edit([ModelBinder(typeof(JsonBinder<FactoryDto>))] ICollection<FactoryDto> dtos)
         {
             dtos.CheckNotNull("dtos");

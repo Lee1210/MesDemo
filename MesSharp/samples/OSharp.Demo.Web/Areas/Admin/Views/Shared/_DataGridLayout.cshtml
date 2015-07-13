@@ -134,7 +134,8 @@
             if (data.Type == "Error") {
                 $.Mes.easyui.msg.error(data.Content);
             } else {
-                $.Mes.easyui.msg.tip(data.Content);
+                $.Mes.easyui.msg.tip(data || data.Content);
+                grid.datagrid("rejectChanges");
             }
         }
 
