@@ -48,20 +48,52 @@ namespace UnitTestProject1
             user1.Roles = _roles;
         }
 
+        //{1,2}-{1}
         [TestMethod]
         public void Test_IdentityService_SetUserRoles()
         {
-            OperationResult operationResult = _identityService.SetUserRoles(2, new[] { 1 });
+            OperationResult operationResult = _identityService.SetUserRoles(1, new[] { 1 });
+            _userRepository.Received().GetByKey(1);
+            _roleRepository.Received().GetByKey(2);
             Assert.AreEqual(operationResult.ResultType, OperationResultType.Success);
             Assert.AreEqual(((User)operationResult.Data).Roles.First(), _roles[0]);
+            
         }
 
+        //{1,2}-{1,2}
+        [TestMethod]
+        public void Test_IdentityService_SetUserRoles_Null()
+        {
+            OperationResult operationResult = _identityService.SetUserRoles(1, null);
+            _userRepository.Received().GetByKey(1);
+            _roleRepository.Received().GetByKey(1);
+            _roleRepository.Received().GetByKey(2);
+            Assert.AreEqual(operationResult.ResultType, OperationResultType.Success);
+            Assert.AreEqual(((User)operationResult.Data).Roles.Count, 0);
+        }
+
+        //null+{1,2}
         [TestMethod]
         public void Test_IdentityService_SetUserRoles2()
         {
             OperationResult operationResult = _identityService.SetUserRoles(2, new[] { 1,2 });
+            _userRepository.Received().GetByKey(2);
+            _roleRepository.Received().GetByKey(1);
+            _roleRepository.Received().GetByKey(2);
             Assert.AreEqual(operationResult.ResultType, OperationResultType.Success);
             Assert.AreEqual(((User)operationResult.Data).Roles.Count, 2);
         }
+
+        //null+{2}
+        [TestMethod]
+        public void Test_IdentityService_SetUserRoles3()
+        {
+            OperationResult operationResult = _identityService.SetUserRoles(2, new[] { 2 });
+            _userRepository.Received().GetByKey(2);
+            _roleRepository.Received().GetByKey(2);
+            Assert.AreEqual(operationResult.ResultType, OperationResultType.Success);
+            Assert.AreEqual(((User)operationResult.Data).Roles.Count, 1);
+        }
+        
     }
 }
