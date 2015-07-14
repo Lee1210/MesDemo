@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -42,7 +43,17 @@ namespace Mes.Demo.Services
         /// <returns>业务操作结果</returns>
         public OperationResult AddUsers(params UserDto[] dtos)
         {
-            return UserRepository.Insert(dtos);
+            return UserRepository.Insert(dtos,
+                dto =>
+                {
+                    if (CheckUserExists(u=>u.Name==dto.Name))
+                        throw new Exception(string.Format("{0}已存在",dto.Name));
+                },
+                (dto,user) =>
+                {
+                    user.Password = "123";
+                    return user;
+                });
         }
 
         /// <summary>
@@ -52,7 +63,12 @@ namespace Mes.Demo.Services
         /// <returns>业务操作结果</returns>
         public OperationResult EditUsers(params UserDto[] dtos)
         {
-            return UserRepository.Update(dtos);
+            return UserRepository.Update(dtos,
+                dto =>
+                {
+                    if (CheckUserExists(u => u.Name == dto.Name))
+                        throw new Exception(string.Format("{0}已存在", dto.Name));
+                });
         }
 
         /// <summary>

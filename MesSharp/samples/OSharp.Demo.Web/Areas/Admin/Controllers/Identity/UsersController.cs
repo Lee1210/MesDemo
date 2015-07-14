@@ -51,13 +51,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         public ActionResult Add([ModelBinder(typeof(JsonBinder<UserDto>))] ICollection<UserDto> dtos)
         {
             dtos.CheckNotNull("dtos");
-            //初始化密码
-            foreach (var userDto in dtos)
-            {
-                userDto.Password = "123";
-            }
             OperationResult result = IdentityContract.AddUsers(dtos.ToArray());
-           
             return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
         }
 

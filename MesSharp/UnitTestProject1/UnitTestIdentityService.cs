@@ -44,6 +44,7 @@ namespace UnitTestProject1
             _roleRepository = Substitute.For<IRepository<Role, int>>();
             _userRepository.GetByKey(Arg.Any<int>()).ReturnsForAnyArgs(x => _users.Find(r => r.Id == (int)x[0]));
             _userRepository.Entities.Returns(_users.AsQueryable());
+            
             _roleRepository.Entities.Returns(_roles.AsQueryable());
             _roleRepository.GetByKey(Arg.Any<int>()).Returns(x => _roles.Find(r => r.Id == (int)x[0]));
             _identityService.UserRepository.Returns(_userRepository);
