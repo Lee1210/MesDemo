@@ -140,6 +140,10 @@
                     $.Mes.easyui.msg.error(data.Content);
                     grid.datagrid("rejectChanges");
                     break;
+                case "TimeOut":
+                    $.Mes.easyui.msg.error(data.Content);
+                    grid.datagrid("rejectChanges");
+                    break;
                 default:
                     $.Mes.easyui.msg.tip(data.Content);
             }

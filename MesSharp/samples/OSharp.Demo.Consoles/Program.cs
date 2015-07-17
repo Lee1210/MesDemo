@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Reflection;
 
 using Autofac;
+
+using Mafly.Mail;
 
 using Mes.Core;
 using Mes.Core.Caching;
@@ -251,7 +254,45 @@ namespace Mes.Demo.Consoles
 
         private static void Method06()
         {
-           
+            var mailService = new Mail();
+
+            //参数：接收者邮箱、内容
+            mailService.Send("229042735@qq.com", "测试邮件发送！");
+
+            //参数：接收者邮箱、接收者名字、内容
+            mailService.Send("229042735@qq.com", "mafly", "测试邮件发送！");
+
+            //参数：接收者邮箱、接收者名字、邮件主题、内容
+            mailService.Send("229042735@qq.com", "mafly", "邮件发送", "测试邮件发送！");
+
+            //使用MailInfo对象模式  参数：接收者邮箱、接收者名字、邮件主题、内容
+            mailService.Send(new MailInfo
+            {
+                Receiver = "229042735@qq.com",
+                ReceiverName = "mafly",
+                Subject = "邮件发送",
+                Body = "测试邮件发送！"
+            });
+
+            //使用MailInfo对象模式  参数：接收者邮箱、接收者名字、邮件主题、内容、附件路径
+            mailService.Send(
+                new MailInfo
+                {
+                    Receiver = "229042735@qq.com",
+                    ReceiverName = "mafly",
+                    Subject = "带附件邮件发送",
+                    Body = "测试带附件邮件发送！"
+                }, "../../Program.cs");
+
+            //使用MailInfo对象模式  参数：接收者邮箱、接收者名字、邮件主题、内容、多附件路径
+            mailService.Send(
+                new MailInfo
+                {
+                    Receiver = "229042735@qq.com",
+                    ReceiverName = "mafly",
+                    Subject = "带附件邮件发送",
+                    Body = "测试带附件邮件发送！"
+                }, new Attachment("../../Program.cs"), new Attachment("../../App.config"));
         }
 
         public class ActionPermission
@@ -312,7 +353,13 @@ namespace Mes.Demo.Consoles
 
         private static void Method08()
         {
-           
+            Assembly assembly = Assembly.Load("Mes.Demo.Contracts");
+            Type baseType = typeof(IAddDto);
+            IEnumerable<Type> modelTypes = assembly.GetTypes().Where(m => baseType.IsAssignableFrom(m) && !m.IsAbstract);
+            foreach (var modelType in modelTypes)
+            {
+                Console.WriteLine(modelType.Name+" || "+modelType.Name.Split("Dto")[0]);
+            }
         }
 
         private static void Method09()
