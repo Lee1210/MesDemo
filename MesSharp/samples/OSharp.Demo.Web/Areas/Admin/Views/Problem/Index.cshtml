@@ -19,10 +19,24 @@
             if (row) {
                 $('#dlg').dialog('open').dialog('setTitle', 'queryProblem');
                 $('#fm').form('load', row);
+
                 var value = $.Mes.tools.formatDate($('#dlg_ProblemTime').textbox('getValue'));
                 $('#dlg_ProblemTime').textbox('setText', new Date(value).format("yyyy-MM-dd hh:mm:ss"));
                 var value2 = $.Mes.tools.formatDate($('#dlg_CreatedTime').textbox('getValue'));
                 $('#dlg_CreatedTime').textbox('setText', new Date(value2).format("yyyy-MM-dd hh:mm:ss"));
+                var value3 = $('#dlg_IsComplete').textbox('getValue');
+                if (value3=="true")
+                    $('#dlg_IsComplete').textbox('setText', '是');
+                else {
+                    $('#dlg_IsComplete').textbox('setText', '否');
+                }
+
+                var value4 = $('#dlg_IsPeople').textbox('getValue');
+                if (value4=="true")
+                    $('#dlg_IsPeople').textbox('setText', '是');
+                else {
+                    $('#dlg_IsPeople').textbox('setText', '否');
+                }
             }
         }
         toolbarData.push({ text: "查询", iconCls: "icon-search", handler: queryProblem });
@@ -197,11 +211,11 @@
 
                 <span class="fitem">
                     <label>是否完成:</label>
-                    <input name="IsComplete" class="easyui-textbox" editable="false">
+                    <input id="dlg_IsComplete" name="IsComplete" class="easyui-textbox" editable="false">
                 </span>
                 <span class="fitem">
                     <label>是否人为:</label>
-                    <input name="IsPeople" class="easyui-textbox" editable="false">
+                    <input id="dlg_IsPeople" name="IsPeople" class="easyui-textbox" editable="false">
                 </span>
             </div>
             <p></p>
