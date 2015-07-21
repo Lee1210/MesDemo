@@ -97,9 +97,9 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         }
 
         [AjaxOnly]
-        public ActionResult DepartmentReport(string fromDate)
+        public ActionResult DepartmentReport(string fromDate,string endDate)
         {
-            var data = Data(fromDate, "department");
+            var data = Data(fromDate,endDate, "department");
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -148,39 +148,40 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         }
 
         [AjaxOnly]
-        public ActionResult WorkersReport(string fromDate)
+        public ActionResult WorkersReport(string fromDate, string endDate)
         {
-            var data = Data(fromDate, "workers");
+            var data = Data(fromDate,endDate, "workers");
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        private object Data(string fromDate,string groupByFiled)
+        private object Data(string fromDate,string endDate,string groupByFiled)
         {
             const string problemTime = "ProblemTime";
             const string isDeleted = "IsDeleted";
             fromDate.CheckNotNullOrEmpty("fromDate");
-            DateTime date = Conv.ToDate(fromDate);
-            DateTime beginTime;
-            DateTime endTime;
-            if (date.DayOfWeek != 0)
-            {
-                beginTime = date.AddDays((double)(1 - date.DayOfWeek));
-                endTime = date.AddDays((double)(8 - date.DayOfWeek));
-            }
-            else
-            {
-                endTime = date;
-                beginTime = date.AddDays(-6);
-            }
+            endDate.CheckNotNullOrEmpty("endDate");
+          //  DateTime date = Conv.ToDate(fromDate);
+            DateTime beginTime=Conv.ToDate(fromDate);
+            DateTime endTime = Conv.ToDate(endDate); 
+            //if (date.DayOfWeek != 0)
+            //{
+            //    beginTime = date.AddDays((double)(1 - date.DayOfWeek));
+            //    endTime = date.AddDays((double)(8 - date.DayOfWeek));
+            //}
+            //else
+            //{
+            //    endTime = date;
+            //    beginTime = date.AddDays(-6);
+            //}
 
             var xAxisdata = new ArrayList();
             //部门辅助开关
             var legenddata = new ArrayList();
             //标题
-            const string titletext = "异常工时";
+            const string titletext = "异常统计";
             //子标题
-            var titlesubtext = beginTime.ToString("yyyyMMdd") + "-" + (endTime.ToString("yyyyMMdd").ToInt()-1);
-            for (int i = 0; i < 7; i++)
+            var titlesubtext = beginTime.ToString("yyyyMMdd") + "-" + endTime.ToString("yyyyMMdd");
+            for (int i = 0; i < endTime.ToString("yyyyMMdd").ToInt() - beginTime.ToString("yyyyMMdd").ToInt()+1; i++)
             {
                 xAxisdata.Add(beginTime.AddDays(i).ToDateString());
             }
@@ -190,7 +191,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 Rules = new List<FilterRule>
                 {
                     new FilterRule(problemTime, beginTime, FilterOperate.GreaterOrEqual),
-                    new FilterRule(problemTime, endTime, FilterOperate.LessOrEqual),
+                    new FilterRule(problemTime, endTime.AddDays(1), FilterOperate.LessOrEqual),
                     new FilterRule(isDeleted, false, FilterOperate.Equal)
                 },
                 Operate = FilterOperate.And
@@ -210,7 +211,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 legenddata.Add(dutyGroup.Key);
                 var dutyhourlist = new ArrayList();
 
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < endTime.ToString("yyyyMMdd").ToInt() - beginTime.ToString("yyyyMMdd").ToInt() + 1; i++)
                 {
                     int b = dutyGroup.AsQueryable().Count(g => g.ProblemTime.ToDateString() == beginTime.AddDays(i).ToDateString());
                     dutyhourlist.Add(b);

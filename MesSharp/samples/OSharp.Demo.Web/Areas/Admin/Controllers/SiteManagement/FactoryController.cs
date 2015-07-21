@@ -22,6 +22,7 @@ using Mes.Web.Mvc.Filters;
 
 namespace Mes.Demo.Web.Areas.Admin.Controllers
 {
+    
     public class FactoryController : AdminBaseController
     {
         public ISiteManagementContract SiteManagementContract { get; set; }
@@ -56,7 +57,6 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         
         [HttpPost]
         [AjaxOnly]
-        [ActionAuthorityFilter]
         public ActionResult Edit([ModelBinder(typeof(JsonBinder<FactoryDto>))] ICollection<FactoryDto> dtos)
         {
             dtos.CheckNotNull("dtos");

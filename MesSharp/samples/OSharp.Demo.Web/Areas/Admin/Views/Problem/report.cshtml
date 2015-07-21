@@ -10,7 +10,8 @@
 <button onclick="test1(this)">by部门</button>
 <button onclick="test2(this)">by解决者</button>
 <p>
-@Html.Label("开始日期")<input id="dd" type="text" class="easyui-datebox" required="required">
+    @Html.Label("开始日期")<input id="dd" type="text" class="easyui-datebox" required="required">
+    @Html.Label("结束日期")<input id="de" type="text" class="easyui-datebox" required="required">
 </p>
 
 <div id="main" style="height:400px"></div>
@@ -25,12 +26,14 @@
     });
 
     function test1(objs) {
-       var datetime1 = $('#dd').datebox('getValue');
-       $.post("@ViewBag.DepartmentReport", { fromDate: datetime1 }, ajaxResultHandler, "json");
+        var datetime1 = $('#dd').datebox('getValue');
+        var datetime2 = $('#de').datebox('getValue');
+       $.post("@ViewBag.DepartmentReport", { fromDate: datetime1,endDate:datetime2 }, ajaxResultHandler, "json");
     }
     function test2(objs) {
         var datetime1 = $('#dd').datebox('getValue');
-        $.post("@ViewBag.WorkersReport", { fromDate: datetime1 }, ajaxResultHandler, "json");
+        var datetime2 = $('#de').datebox('getValue');
+        $.post("@ViewBag.WorkersReport", { fromDate: datetime1, endDate: datetime2 }, ajaxResultHandler, "json");
     }
 
     function ajaxResultHandler(data) {
