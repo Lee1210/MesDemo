@@ -181,7 +181,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             const string titletext = "异常统计";
             //子标题
             var titlesubtext = beginTime.ToString("yyyyMMdd") + "-" + endTime.ToString("yyyyMMdd");
-            for (int i = 0; i < endTime.ToString("yyyyMMdd").ToInt() - beginTime.ToString("yyyyMMdd").ToInt()+1; i++)
+            for (int i = 0; i < endTime.DayOfYear - beginTime.DayOfYear+1; i++)
             {
                 xAxisdata.Add(beginTime.AddDays(i).ToDateString());
             }
@@ -211,7 +211,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 legenddata.Add(dutyGroup.Key);
                 var dutyhourlist = new ArrayList();
 
-                for (int i = 0; i < endTime.ToString("yyyyMMdd").ToInt() - beginTime.ToString("yyyyMMdd").ToInt() + 1; i++)
+                for (int i = 0; i < endTime.DayOfYear - beginTime.DayOfYear + 1; i++)
                 {
                     int b = dutyGroup.AsQueryable().Count(g => g.ProblemTime.ToDateString() == beginTime.AddDays(i).ToDateString());
                     dutyhourlist.Add(b);
