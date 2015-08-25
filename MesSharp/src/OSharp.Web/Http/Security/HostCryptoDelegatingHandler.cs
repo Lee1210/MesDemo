@@ -9,6 +9,7 @@ using System.Web.Http;
 
 using Mes.Utility;
 using Mes.Utility.Exceptions;
+using Mes.Utility.Extensions;
 using Mes.Utility.Logging;
 using Mes.Utility.Secutiry;
 using Mes.Web.Http.Internal;

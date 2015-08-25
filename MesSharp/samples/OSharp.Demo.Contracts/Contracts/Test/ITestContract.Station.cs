@@ -6,12 +6,14 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+
 using Mes.Core;
 using Mes.Demo.Dtos.Test;
 using Mes.Demo.Models.Test;
 using Mes.Utility.Data;
 
-namespace Mes.Demo.Contracts
+
+namespace Mes.Demo.Contracts.Test
 {
 	public partial interface ITestContract:IDependency
     {

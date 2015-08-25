@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Mes.Core.Data.Entity.Extensions;
 using Mes.Core.Logging;
 using Mes.Utility.Exceptions;
 using Mes.Utility.Extensions;

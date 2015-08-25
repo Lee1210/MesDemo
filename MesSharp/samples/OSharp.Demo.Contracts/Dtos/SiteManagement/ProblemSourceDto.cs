@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 using Mes.Core.Data;
 
 
-namespace Mes.Demo.Models.SiteManagement
+namespace Mes.Demo.Dtos.SiteManagement
 {
     public class ProblemSourceDto : IAddDto, IEditDto<int>
     {

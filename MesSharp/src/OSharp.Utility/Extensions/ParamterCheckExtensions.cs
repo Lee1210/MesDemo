@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Linq;
 using Mes.Utility.Properties;
 
 
-namespace Mes.Utility
+namespace Mes.Utility.Extensions
 {
     /// <summary>
     /// 用于参数检查的扩展方法

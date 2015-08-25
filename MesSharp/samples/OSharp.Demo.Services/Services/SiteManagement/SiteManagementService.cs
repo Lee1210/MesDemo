@@ -5,11 +5,10 @@
 
 using Mes.Core;
 using Mes.Core.Data;
-using Mes.Demo.Contracts;
 using Mes.Demo.Contracts.SiteManagement;
 
 
-namespace Mes.Demo.Services.Test
+namespace Mes.Demo.Services.SiteManagement
 {
 	public partial class SiteManagementService :ServiceBase, ISiteManagementContract
     {

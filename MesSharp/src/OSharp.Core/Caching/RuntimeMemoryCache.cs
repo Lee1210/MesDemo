@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Caching;
 
 using Mes.Utility;
+using Mes.Utility.Extensions;
 
 
 namespace Mes.Core.Caching

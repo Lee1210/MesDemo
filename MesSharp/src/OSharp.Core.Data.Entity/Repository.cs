@@ -2,11 +2,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
+using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+using EntityFramework.Extensions;
+
+using Mes.Core.Data.Entity.Extensions;
 using Mes.Utility;
 using Mes.Utility.Data;
 using Mes.Utility.Extensions;
@@ -65,6 +72,72 @@ namespace Mes.Core.Data.Entity
             entities = entities as TEntity[] ?? entities.ToArray();
             _dbSet.AddRange(entities);
             return SaveChanges();
+        }
+
+        /// <summary>
+        /// 批量插入实体
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <typeparam name="T"></typeparam>
+        public void BulkInsertAll<T>(IEnumerable<T> entities)
+        {
+            entities = entities.ToArray();
+            string cs = ((DbContext)_unitOfWork).Database.Connection.ConnectionString;
+            var conn = new SqlConnection(cs);
+            conn.Open();
+            Type t = typeof(T);
+
+            var bulkCopy = new SqlBulkCopy(conn)
+            {
+                DestinationTableName = t.Name+"s"
+            };
+
+            var properties = t.GetProperties().Where(EventTypeFilter).ToArray();
+            var table = new DataTable();
+
+            foreach (var property in properties)
+            {
+                Type propertyType = property.PropertyType;
+                if (propertyType.IsGenericType &&
+                    propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    propertyType = Nullable.GetUnderlyingType(propertyType);
+                }
+
+                table.Columns.Add(new DataColumn(property.Name, propertyType));
+            }
+
+            foreach (var entity in entities)
+            {
+                table.Rows.Add(properties.Select(
+                  property => GetPropertyValue(
+                  property.GetValue(entity, null))).ToArray());
+            }
+
+            foreach (DataColumn dc in table.Columns)
+            {
+                bulkCopy.ColumnMappings.Add(dc.ColumnName, dc.ColumnName);
+            }
+            bulkCopy.WriteToServer(table);
+            conn.Close();
+        }
+
+        private bool EventTypeFilter(System.Reflection.PropertyInfo p)
+        {
+            var attribute = Attribute.GetCustomAttribute(p,
+                typeof(AssociationAttribute)) as AssociationAttribute;
+
+            if (attribute == null) return true;
+            if (attribute.IsForeignKey == false) return true;
+
+            return false;
+        }
+
+        private object GetPropertyValue(object o)
+        {
+            if (o == null)
+                return DBNull.Value;
+            return o;
         }
 
         /// <summary>

@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
@@ -9,14 +7,13 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 using Mes.Core.Logging;
-using Mes.Utility;
+using Mes.Utility.Extensions;
 
 
-namespace Mes.Core.Data.Entity
+namespace Mes.Core.Data.Entity.Extensions
 {
     /// <summary>
     /// 上下文扩展辅助操作类

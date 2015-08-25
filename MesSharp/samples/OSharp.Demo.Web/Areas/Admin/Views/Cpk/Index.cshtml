@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "工厂信息列表";
+    Layout = "~/Areas/Admin/Views/Shared/_DataGridLayout.cshtml";
+    ViewBag.GridId = "Cpk";
+    ViewBag.GridDataUrl = Url.Action("GridData");
+    ViewBag.AddUrl = Url.Action("Add");
+    ViewBag.EditUrl = Url.Action("Edit");
+    ViewBag.DeleteUrl = Url.Action("Delete");
+    ViewBag.ExcelUrl = Url.Action("CreateExcel");
+ 
+}
+@section customScript
+{
+    <script type="text/javascript">
+        var selectTreeData = null;
+        columns = [[
+            { field: "PlatForm", title: "平台", width: 180, sortable: true },
+            { field: "ProjectName", title: "项目", width: 50, sortable: true },
+            { field: "Opcode", title: "工序", width: 50, sortable: true },
+            { field: "Ip", title: "Ip", width: 100, sortable: true },
+            { field: "Sn", title: "Sn", width: 100, sortable: true },
+            { field: "TestTime", title: "测试时间", width: 50, sortable: true },
+            { field: "Result", title: "测试结果", width: 50, sortable: true },
+            { field: "Wgsn", title: "Wgsn", width: 50, sortable: true },
+              { field: "Tch", title: "Tch", width: 50, sortable: true },
+            { field: "Pcl", title: "Pcl", width: 100, sortable: true },
+            { field: "TestVal", title: "TestVal", width: 80, sortable: true },
+            { field: "MinVal", title: "MinVal", width: 50, sortable: true },
+            { field: "MaxVal", title: "MaxVal", width: 50, sortable: true },
+            { field: "ReadLogDate", title: "读取时间", width: 150, sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } },
+            { field: "TestDate", title: "TestDate", width: 150, sortable: true },
+            { field: "LogFileName", title: "文件名", width: 150, sortable: true },
+             { field: "CreatedTime", title: "创建时间", width: 150, sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } }
+            
+        ]];
+
+    </script>
+}
+

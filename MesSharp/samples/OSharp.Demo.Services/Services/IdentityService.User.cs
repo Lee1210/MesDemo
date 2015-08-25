@@ -9,6 +9,7 @@ using Mes.Demo.Dtos.Identity;
 using Mes.Demo.Models.Identity;
 using Mes.Utility;
 using Mes.Utility.Data;
+using Mes.Utility.Extensions;
 
 
 namespace Mes.Demo.Services

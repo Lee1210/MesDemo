@@ -48,6 +48,15 @@ namespace Mes.Core.Data
         /// <returns>操作影响的行数</returns>
         int Insert(IEnumerable<TEntity> entities);
 
+
+        /// <summary>
+        /// 批量插入实体
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <typeparam name="T"></typeparam>
+        void BulkInsertAll<T>(IEnumerable<T> entities);
+
+
         /// <summary>
         /// 以DTO为载体批量插入实体
         /// </summary>

@@ -6,6 +6,8 @@
 using Mes.Core;
 using Mes.Core.Data;
 using Mes.Demo.Contracts;
+using Mes.Demo.Contracts.Test;
+
 
 namespace Mes.Demo.Services.Test
 {

@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 using Mes.Utility;
+using Mes.Utility.Extensions;
 
 
 namespace Mes.Core.Caching

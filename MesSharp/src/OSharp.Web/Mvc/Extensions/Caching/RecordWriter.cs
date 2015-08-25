@@ -1,13 +1,9 @@
-﻿
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 
-namespace Mes.Web.Mvc.Extensions
+namespace Mes.Web.Mvc.Extensions.Caching
 {
     internal class RecordWriter : TextWriter
     {

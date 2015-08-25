@@ -8,6 +8,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNet.SignalR.Json;
 
 using Mes.Utility;
+using Mes.Utility.Extensions;
 
 
 namespace Mes.Web.SignalR.Hubs

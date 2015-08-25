@@ -14,7 +14,7 @@
     <script type="text/javascript">
         var rownumbers = true, singleSelect = false, ctrlSelect = true, multiSort = false, pageSize = 25;
         var grid, frozenColumns = [[]], columns = [[]], filterData = [], enableFilterData = true, editIndex = undefined, columnMenu = undefined;
-
+        var excelfilterRules = [];
         var startfunction = function() {
         };
         var endfunction = function() {
@@ -127,6 +127,10 @@
             });
         };
 
+        var exportExcel = function() {
+            window.open("Cpk/CreateExcel?excelfilterRules=" + excelfilterRules);
+        };
+
         function ajaxResultHandler(data) {
             switch (data.Type) {
                 case "Success":
@@ -175,6 +179,10 @@
             @if (toolbarItem.Contains("delete"))
             {
                 @:{ text: "删除", iconCls: "icon-remove", handler: deleteRows },
+            }
+            @if (toolbarItem.Contains("export"))
+            {
+            @:{ text: "导出", iconCls: "icon-export", handler: exportExcel },
             }
         ];
     </script>
@@ -271,6 +279,7 @@
             if (param.filterRules) {
                 if (param.filterRules != "[]") {
                     param.where = getFilterGroup(param.filterRules);
+                    excelfilterRules = param.where;
                 }
                 delete param.filterRules;
             }

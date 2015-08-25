@@ -1,6 +1,7 @@
 ﻿using Mes.Core.Data;
+using Mes.Demo.Dtos.SiteManagement;
 using Mes.Demo.Models.SiteManagement;
-using Mes.Demo.Services.Test;
+using Mes.Demo.Services.SiteManagement;
 using Mes.Utility.Data;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
 
-namespace UnitTestService
+namespace UnitTestProject1
 {
     [TestClass]
     public class UnitTestSiteManagementService

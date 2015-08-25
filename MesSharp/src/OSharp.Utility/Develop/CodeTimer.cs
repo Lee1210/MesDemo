@@ -85,8 +85,44 @@ namespace Mes.Utility.Develop
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// 计时器，传入操作标识名，重复次数，操作过程获取操作的性能数据
+        /// </summary>
+        /// <param name="name"> 操作标识名 </param>
+        /// <param name="iteration"> 重复次数 </param>
+        /// <param name="action"> 操作过程的Action </param>
+        public static double TimeLong(string name, int iteration, Action action)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return 0;
+            }
+
+            ConsoleColor currentForeColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(name);
+
+
+
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            for (int i = 0; i < iteration; i++)
+            {
+                action();
+            }
+
+            watch.Stop();
+
+            Console.ForegroundColor = currentForeColor;
+            double ms = watch.Elapsed.TotalMilliseconds;
+            Console.WriteLine("\tTime Elapsed:\t" + ms + "ms");
+            Console.WriteLine();
+            return ms;
+        }
         #endregion
     }
+
 
 
     internal static class NativeMethods

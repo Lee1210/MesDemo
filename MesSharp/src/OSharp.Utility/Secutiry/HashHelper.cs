@@ -1,6 +1,8 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
+using Mes.Utility.Extensions;
+
 
 namespace Mes.Utility.Secutiry
 {

@@ -6,15 +6,14 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+
 using Mes.Core.Data;
 using Mes.Demo.Dtos.SiteManagement;
-using Mes.Demo.Dtos.Test;
 using Mes.Demo.Models.SiteManagement;
-using Mes.Demo.Models.Test;
-using Mes.Utility;
 using Mes.Utility.Data;
 
-namespace Mes.Demo.Services.Test
+
+namespace Mes.Demo.Services.SiteManagement
 {
     public partial class SiteManagementService
     {        

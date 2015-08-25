@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 using Mes.Core.Data.Entity.Migrations;
 using Mes.Utility;
+using Mes.Utility.Extensions;
 
 
 namespace Mes.Core.Data.Entity

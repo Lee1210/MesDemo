@@ -2,7 +2,7 @@
 using AutoMapper;
 
 
-namespace Mes.Core.Data.Entity
+namespace Mes.Core.Data.Entity.Extensions
 {
     /// <summary>
     /// AutoMapper 辅助扩展方法

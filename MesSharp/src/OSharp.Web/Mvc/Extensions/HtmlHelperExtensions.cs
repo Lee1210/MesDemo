@@ -6,6 +6,8 @@ using System.Text;
 using System.Web.Caching;
 using System.Web.Mvc;
 
+using Mes.Web.Mvc.Extensions.Caching;
+
 
 namespace Mes.Web.Mvc.Extensions
 {

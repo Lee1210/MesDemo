@@ -13,10 +13,13 @@ using Mes.Core;
 using Mes.Core.Caching;
 using Mes.Core.Data;
 using Mes.Demo.Contracts;
+using Mes.Demo.Contracts.Test;
 using Mes.Demo.Dtos.Identity;
 using Mes.Demo.Models.Identity;
 using Mes.Demo.Models.SiteManagement;
+using Mes.Demo.Models.TestLog;
 using Mes.Demo.Services;
+using Mes.Utility.Develop;
 using Mes.Utility.Develop.T4;
 using Mes.Utility.Extensions;
 
@@ -43,6 +46,8 @@ namespace Mes.Demo.Consoles
         public IRepository<ProblemSource, int> ProblemSourceRepository { get; set; }
 
         public IRepository<Department, int> DepartmentRepository { get; set; }
+
+        public IRepository<Cpk,int> CpkRepository { get; set; }
 
         private static void Main(string[] args)
         {
@@ -188,6 +193,7 @@ namespace Mes.Demo.Consoles
         private static void Method05()
         {
             Menu root = new Menu() {Name = "root", Remark = "根", Parent = null, TreePath = "0", ActionName = "Index", SortCode = 0 };
+
             Menu privage = new Menu() {Name = "privage", Remark = "权限", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 2 };
             Menu privage21 = new Menu() {  Name = "Users", Remark = "用户管理", Parent = privage, TreePath = "2", ActionName = "Index", SortCode = 1 };
             Menu privage22 = new Menu() {  Name = "Roles", Remark = "角色管理", Parent = privage, TreePath = "2", ActionName = "Index", SortCode = 2 };
@@ -200,7 +206,12 @@ namespace Mes.Demo.Consoles
             Menu siteManagement35 = new Menu() {  Name = "ProblemSource", Remark = "问题来源", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 5 };
             Menu siteManagement36 = new Menu() {  Name = "ProblemType", Remark = "问题类型", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 6 };
 
-            List<Menu> menus = new List<Menu> { root, privage, privage21, privage22, siteManagement, siteManagement31, siteManagement32, siteManagement33, siteManagement34, siteManagement35, siteManagement36 };
+            Menu TestLog = new Menu() { Name = "TestLog", Remark = "测试数据", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 4 };
+            Menu TestLog1 = new Menu() { Name = "Cpk", Remark = "Cpk测试数据", Parent = TestLog, TreePath = "2", ActionName = "Index", SortCode = 1 };
+            Menu TestLog2 = new Menu() { Name = "OperationLog", Remark = "测试数据操作Log", Parent = TestLog, TreePath = "2", ActionName = "Index", SortCode = 2 };
+
+
+            List<Menu> menus = new List<Menu> { root, privage, privage21, privage22, siteManagement, siteManagement31, siteManagement32, siteManagement33, siteManagement34, siteManagement35, siteManagement36, TestLog, TestLog1, TestLog2 };
 
             User user1 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user1", NickName = "梁贵", Password = "123", };
             User user2 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user2", NickName = "梁贵2", Password = "123", };
@@ -419,12 +430,33 @@ namespace Mes.Demo.Consoles
 
         private static void Method10()
         {
-            throw new NotImplementedException();
+            CodeTimer.Time("insert",
+                1,
+                () =>
+                {
+                    List<Cpk> cpks = new List<Cpk>();
+                    for (int i = 0; i < 10000; i++)
+                    {
+                        cpks.Add(new Cpk() { Ip = "123.123.123.123", CreatedTime = DateTime.Now, ReadLogDate = DateTime.Today, LogFileName = "12341234123412341234", IsDeleted = false, MaxVal = 21.01, MinVal = 20.12, Opcode = "cit", Pcl = "pcl" });
+                    }
+                    _program.CpkRepository.Insert(cpks);
+                });
+           
         }
 
         private static void Method11()
         {
-            throw new NotImplementedException();
+            CodeTimer.Time("insert",
+               1,
+               () =>
+               {
+                   List<Cpk> cpks = new List<Cpk>();
+                   for (int i = 0; i < 10000; i++)
+                   {
+                       cpks.Add(new Cpk() { Ip = "123.123.123.123", CreatedTime = DateTime.Now, ReadLogDate = DateTime.Today, LogFileName = "12341234123412341234", IsDeleted = false, MaxVal = 21.01, MinVal = 20.12, Opcode = "cit", Pcl = "pcl"});
+                   }
+                   _program.CpkRepository.BulkInsertAll(cpks);
+               });
         }
 
         private static void Method12()

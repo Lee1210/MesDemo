@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\TestLog\ITestLogContract.Cpk.cs" />
+    <Compile Include="Contracts\TestLog\ITestLogContract.OperationLog.cs" />
     <Compile Include="Contracts\IIdentityContract.cs" />
     <Compile Include="Contracts\SiteManagement\ISiteManagement.ProblemSource.cs" />
     <Compile Include="Contracts\SiteManagement\ISiteManagement.ProblemType.cs" />
@@ -60,6 +62,8 @@
     </Compile>
     <Compile Include="Contracts\Test\ITestContract.Line.cs" />
     <Compile Include="Contracts\Test\ITestContract.Station.cs" />
+    <Compile Include="Dtos\TestLog\CpkDto.cs" />
+    <Compile Include="Dtos\TestLog\OperationLogDto.cs" />
     <Compile Include="Dtos\DtoMappers.cs" />
     <Compile Include="Dtos\Identity\MenuDto.cs" />
     <Compile Include="Dtos\Identity\OrganizationDto.cs" />
@@ -74,6 +78,9 @@
     </Compile>
     <Compile Include="Dtos\Test\LineDto.cs" />
     <Compile Include="Dtos\Test\StationDto.cs" />
+    <Compile Include="Models\TestLog\TestReslut.cs" />
+    <Compile Include="Models\TestLog\Cpk.cs" />
+    <Compile Include="Models\TestLog\OperationLog.cs" />
     <Compile Include="Models\Identity\Menu.cs" />
     <Compile Include="Models\Identity\Organization.cs" />
     <Compile Include="Models\Identity\Role.cs" />

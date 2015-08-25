@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "工厂信息列表";
+    Layout = "~/Areas/Admin/Views/Shared/_DataGridLayout.cshtml";
+    ViewBag.GridId = "OperationLog";
+    ViewBag.GridDataUrl = Url.Action("GridData");
+    ViewBag.AddUrl = Url.Action("Add");
+    ViewBag.EditUrl = Url.Action("Edit");
+    ViewBag.DeleteUrl = Url.Action("Delete");
+   
+}
+@section customScript
+{
+    <script type="text/javascript">
+        var selectTreeData = null;
+        columns = [[
+            
+            { field: "Num", title: "文件数量", width: 150, sortable: true },
+            { field: "MoveTimes", title: "移动时间", width: 150, sortable: true },
+            { field: "ReadTimes", title: "读取时间", width: 150, sortable: true },
+            { field: "ZipTimes", title: "压缩时间", width: 150, sortable: true },
+            { field: "DeleteTimes", title: "删除时间", width: 150, sortable: true },
+            { field: "TotalTimes", title: "总时间", width: 150, sortable: true },
+            { field: "OperationType", title: "操作类型", width: 150, sortable: true },
+            { field: "CreatedTime", title: "创建时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } }
+            
+        ]];
+
+    </script>
+}
+

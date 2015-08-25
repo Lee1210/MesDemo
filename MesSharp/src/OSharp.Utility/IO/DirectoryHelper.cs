@@ -3,6 +3,8 @@
 using System;
 using System.IO;
 
+using Mes.Utility.Extensions;
+
 
 namespace Mes.Utility.IO
 {
