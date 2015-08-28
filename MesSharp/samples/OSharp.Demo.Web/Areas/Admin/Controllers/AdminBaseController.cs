@@ -55,7 +55,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 return DBNull.Value;
             return o;
         }
-        public void Excel<T>(IEnumerable<T> entities, string fileName)
+        public virtual void Excel<T>(IEnumerable<T> entities, string fileName)
         {
             var response = Response;
             response.ContentEncoding = System.Text.Encoding.GetEncoding("GB2312");

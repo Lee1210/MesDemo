@@ -64,6 +64,7 @@ namespace Mes.Core.Data.Extensions
             pageSize.CheckGreaterThan("pageSize", 0);
 
             total = source.Count(predicate);
+            //total = 100000;
             source = source.Where(predicate);
             if (sortConditions == null || sortConditions.Length == 0)
             {

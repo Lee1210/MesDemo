@@ -38,6 +38,7 @@ namespace Mes.Core.Data.Entity
         {
             _unitOfWork = unitOfWork;
             _dbSet = ((DbContext)unitOfWork).Set<TEntity>();
+            ((DbContext)unitOfWork).Database.CommandTimeout = 180;
         }
 
         /// <summary>

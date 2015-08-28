@@ -163,8 +163,12 @@ namespace Mes.Demo.Consoles
         private static void Method03()
         {
             List<Menu> list= _program.IdentityContract.Menus.ToList();
-           
-            Console.WriteLine(list.FirstOrDefault(m=>m.Id==5).Children.Count);
+
+            var firstOrDefault = list.FirstOrDefault(m=>m.Id==5);
+            if (firstOrDefault != null)
+            {
+                Console.WriteLine(firstOrDefault.Children.Count);
+            }
         }
 
         private static void Method04()
@@ -461,7 +465,18 @@ namespace Mes.Demo.Consoles
 
         private static void Method12()
         {
-            throw new NotImplementedException();
+            CodeTimer.Time("insert",
+                1,
+                () =>
+                {
+                    var list = _program.CpkRepository.Entities.ToList();
+                    double sum = 0;
+                    foreach (var a in list)
+                    {
+                        sum += a.TestVal;
+                    }
+                    Console.WriteLine(sum/list.Count);
+                });
         }
 
         private static void Method13()
