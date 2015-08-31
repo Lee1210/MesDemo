@@ -43,72 +43,67 @@ namespace CpkDemo
         public static string SysLogPath = ConfigurationManager.AppSettings["SYS_LOG_PATH"];
         public static string ConnectionString = ConfigurationManager.ConnectionStrings["SQLConnString3"].ConnectionString;
         #region ExcelHead
-        private static readonly ArrayList Excelhzs = new ArrayList()
-        {
-            300,
-            315,
-            335,
-            355,
-            375,
-            400,
-            425,
-            450,
-            475,
-            500,
-            530,
-            560,
-            600,
-            630,
-            670,
-            710,
-            750,
-            800,
-            900,
-            1000,
-            1060,
-            1120,
-            1180,
-            1250,
-            1320,
-            1400,
-            1500,
-            1600,
-            1700,
-            1800,
-            1900,
-            2000,
-            2120,
-            2240,
-            2360,
-            2500,
-            2650,
-            2800,
-            3000,
-            3150,
-            3550,
-            3750,
-            4000,
-            4250,
-            4500,
-            4750,
-            5000,
-            5300,
-            5600,
-            6000,
-            6300,
-            6700,
-            7100,
-            7500,
-            8000
-        }; //
+       
         #endregion
         private static string ZipFileName { get; set; }
-        private static DataTable dtTable { get; set; }
+        
 
         // ReSharper disable once UnusedParameter.Local
         private static void Main(string[] args)
         {
-            dtTable = new DataTable();
+            //var dt3 = CpksFile();
+            //InsertDb(dt3);
+
+            ReadAndInsert();
+            Console.ReadLine();
+        }
+
+        public static void  ReadAndInsert()
+        {
+            
+            DirectoryInfo myFolder = new DirectoryInfo(CpkLogFromPath);
+
+            foreach (var directory in myFolder.GetDirectories())
+            {
+                CodeTimer.Time(directory.Name,1,
+                    () =>
+                    {
+                        DataTable dataTable = new DataTable();
+                        {
+                            dataTable.Columns.Add("PlatForm", typeof(string));
+                            dataTable.Columns.Add("ProjectName", typeof(string));
+                            dataTable.Columns.Add("Opcode", typeof(string));
+                            dataTable.Columns.Add("Ip", typeof(string));
+                            dataTable.Columns.Add("Sn", typeof(string));
+                            dataTable.Columns.Add("TestDate", typeof(int));
+                            dataTable.Columns.Add("TestTime", typeof(string));
+                            dataTable.Columns.Add("Result", typeof(int));
+                            dataTable.Columns.Add("Wgsn", typeof(string));
+                            dataTable.Columns.Add("Tch", typeof(string));
+                            dataTable.Columns.Add("Pcl", typeof(string));
+                            dataTable.Columns.Add("TestItem", typeof(string));
+                            dataTable.Columns.Add("TestVal", typeof(string));
+                            dataTable.Columns.Add("MinVal", typeof(double));
+                            dataTable.Columns.Add("MaxVal", typeof(double));
+                            dataTable.Columns.Add("ReadLogDate", typeof(DateTime));
+                            dataTable.Columns.Add("LogFileName", typeof(string));
+                            dataTable.Columns.Add("IsDeleted", typeof(bool));
+                            dataTable.Columns.Add("CreatedTime", typeof(DateTime));
+                            dataTable.Columns.Add("ZipFileName", typeof(string));
+                        }
+                        dataTable.TableName = "Cpks";
+                        GetAll2(directory, CpkTransfaseDataTable2, dataTable, directory.Name);
+                        InsertDb(dataTable);
+                        dataTable.Dispose();
+                    });
+                
+            }
+
+        }
+
+        private static void Cpk()
+        {
+            DataTable dtTable = new DataTable();
             {
                 dtTable.Columns.Add("PlatForm", typeof(string));
                 dtTable.Columns.Add("ProjectName", typeof(string));
@@ -127,18 +122,25 @@ namespace CpkDemo
                 dtTable.Columns.Add("MaxVal", typeof(double));
                 dtTable.Columns.Add("ReadLogDate", typeof(DateTime));
                 dtTable.Columns.Add("LogFileName", typeof(string));
+                dtTable.Columns.Add("ZipFileName", typeof(string));
                 dtTable.Columns.Add("IsDeleted", typeof(bool));
                 dtTable.Columns.Add("CreatedTime", typeof(DateTime));
             }
 
             dtTable.TableName = "Cpks";
-            Excute(CpkLogFromPath, CpkLogToPath, CpkTransfaseDataTable, "CPK");
+            
+        }
+
+        private static void CpkCount()
+        {
             List<double> list = new List<double>();
             for (int i = 0; i < 1000000; i++)
             {
                 list.Add(21.00001);
             }
+
             #region
+
             List<double> list2 = new List<double>
             {
                 31.90799,
@@ -489,7 +491,9 @@ namespace CpkDemo
                 31.67931,
                 31.63608,
             };
+
             #endregion
+
             CodeTimer.TimeLong("平均值",
                 1,
                 () =>
@@ -502,12 +506,35 @@ namespace CpkDemo
                 {
                     Console.WriteLine(StandardDeviation(list3, 35, 29));
                 });
-          //  Console.ReadLine();
         }
 
-        private static void Excute(string logFromPath, string logToPath, Action<FileInfo,DataTable> transfaseDataTable, string operTable)
+        private static void Excute(string logFromPath, string logToPath, Action<FileInfo, DataTable> transfaseDataTable, string operTable)
         {
             double move = 0, read = 0, zip = 0, del = 0;
+            DataTable dataTable = new DataTable();
+            {
+                dataTable.Columns.Add("PlatForm", typeof(string));
+                dataTable.Columns.Add("ProjectName", typeof(string));
+                dataTable.Columns.Add("Opcode", typeof(string));
+                dataTable.Columns.Add("Ip", typeof(string));
+                dataTable.Columns.Add("Sn", typeof(string));
+                dataTable.Columns.Add("TestDate", typeof(int));
+                dataTable.Columns.Add("TestTime", typeof(string));
+                dataTable.Columns.Add("Result", typeof(int));
+                dataTable.Columns.Add("Wgsn", typeof(string));
+                dataTable.Columns.Add("Tch", typeof(string));
+                dataTable.Columns.Add("Pcl", typeof(string));
+                dataTable.Columns.Add("TestItem", typeof(string));
+                dataTable.Columns.Add("TestVal", typeof(string));
+                dataTable.Columns.Add("MinVal", typeof(double));
+                dataTable.Columns.Add("MaxVal", typeof(double));
+                dataTable.Columns.Add("ReadLogDate", typeof(DateTime));
+                dataTable.Columns.Add("LogFileName", typeof(string));
+                dataTable.Columns.Add("IsDeleted", typeof(bool));
+                dataTable.Columns.Add("CreatedTime", typeof(DateTime));
+                dataTable.Columns.Add("ZipFileName", typeof(string));
+            }
+            dataTable.TableName = "Cpks";
             var total = CodeTimer.TimeLong("总共时间",
                 1,
                 () =>
@@ -518,9 +545,9 @@ namespace CpkDemo
                     {
                         return;
                     }
-                    ZipFileName = DateTime.Now.ToString("yyyyMMddHHmm");
+                    string zipFileName = DateTime.Now.ToString("yyyyMMddHHmm");
 
-                    string logToAbsPath = logToPath + "\\" + ZipFileName;
+                    string logToAbsPath = logToPath + "\\" + zipFileName;
 
                     try
                     {
@@ -529,8 +556,8 @@ namespace CpkDemo
                         DirectoryInfo myFolder = new DirectoryInfo(logToAbsPath);
                         read = CodeTimer.TimeLong("解析数据", 1, () =>
                         {
-                            GetAll(myFolder, transfaseDataTable);
-                            InsertDb(dtTable);
+                            GetAll(myFolder, transfaseDataTable, dataTable);
+                            InsertDb(dataTable);
                         }
                         );
 
@@ -591,14 +618,13 @@ namespace CpkDemo
 
         #region 递归
 
-        public static void GetAll(DirectoryInfo dir, Action<FileInfo,DataTable> act) //搜索文件夹中的文件
+        public static void GetAll(DirectoryInfo dir, Action<FileInfo,DataTable> act,DataTable dt) //搜索文件夹中的文件
         {
             foreach (var file in dir.GetFiles())
             {
-                //readLogNum++;
                 try
                 {
-                    act(file, dtTable);
+                    act(file,dt);
                 }
                 catch (Exception)
                 {
@@ -608,7 +634,27 @@ namespace CpkDemo
             DirectoryInfo[] allDir = dir.GetDirectories();
             foreach (DirectoryInfo d in allDir)
             {
-                GetAll(d, act);
+                GetAll(d, act,dt);
+            }
+        }
+
+        public static void GetAll2(DirectoryInfo dir, Action<FileInfo, DataTable,string> act, DataTable dt,string zipName) //搜索文件夹中的文件
+        {
+            foreach (var file in dir.GetFiles())
+            {
+                try
+                {
+                    act(file, dt, zipName);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+            DirectoryInfo[] allDir = dir.GetDirectories();
+            foreach (DirectoryInfo d in allDir)
+            {
+                GetAll2(d, act, dt, zipName);
             }
         }
 
@@ -628,7 +674,7 @@ namespace CpkDemo
             return result;
         }
 
-        private static void CpkTransfaseDataTable(FileInfo chosenFile,DataTable dt)
+        private static void CpkTransfaseDataTable(FileInfo chosenFile, DataTable dt )
         {
             string logFile = chosenFile.Name;
             string[] timesArr = chosenFile.Name.Split('_');
@@ -702,6 +748,7 @@ namespace CpkDemo
                     dr[16] = logFile;
                     dr[17] = 0;
                     dr[18] = DateTime.Now;
+                    dr[19] = ZipFileName;
                     dt.Rows.Add(dr);
                 }
                 catch (Exception)
@@ -711,6 +758,92 @@ namespace CpkDemo
                 }
             }
             
+        }
+
+        private static void CpkTransfaseDataTable2(FileInfo chosenFile, DataTable dt,string zipName)
+        {
+            string logFile = chosenFile.Name;
+            string[] timesArr = chosenFile.Name.Split('_');
+            string sn = timesArr[0];
+            string time = timesArr[1];
+            int testDate = 0;
+            int testTime = 0;
+            try
+            {
+                testDate = Convert.ToInt32(time.Substring(0, 8));
+                testTime = Convert.ToInt32(time.Substring(8));
+            }
+            catch (Exception)
+            {
+                DateTime currentTime = DateTime.Now;
+                string dateStr = currentTime.ToString("yyyyMMdd");
+                string timeStr = currentTime.ToString("HHmmss");
+                testDate = Convert.ToInt32(dateStr);
+                testTime = Convert.ToInt32(timeStr);
+            }
+
+            StringCollection linesCollection = ReadFileIntoStringCollection(chosenFile.FullName);
+            string[] linesArray = new string[linesCollection.Count];
+            linesCollection.CopyTo(linesArray, 0);
+
+            string platForm = linesArray[0].Split(':', ';')[1]; // 平台
+            string projectName = linesArray[1].Split(':', ';')[1]; // 项目名
+            string stationName = linesArray[2].Split(':', ';')[1]; // 站点
+            string ip = linesArray[3].Split(':', ';')[1]; // IP
+            string result = linesArray[7].Split(':', ';')[1]; //
+            DateTime readLogDate = DateTime.Now;
+            foreach (var line in linesArray.Skip(11))
+            {
+                try
+                {
+                    DataRow dr = dt.NewRow();
+                    string[] tStrings = line.Split('_', ':', ',', ';');
+
+                    if (tStrings.Count() == 9)
+                    {
+                        var testList = tStrings.ToList<string>();
+                        testList.RemoveAt(1);
+                        tStrings = testList.ToArray<string>();
+                    }
+                    string wgsn = tStrings[0]; // 测试频段
+                    string tch = tStrings[1]; // 信道
+                    string pcl = tStrings[2]; // 功率等级
+                    string testItem = tStrings[3]; // 测试类型(项)
+                    double testVal = double.Parse(tStrings[4]); // 测试值
+                    double minVal = double.Parse(tStrings[5]); // 最小值
+                    double maxVal = double.Parse(tStrings[6]); // 最大值
+
+                    dr[0] = platForm.ToUpper();
+                    dr[1] = projectName.ToUpper();
+                    dr[2] = stationName.ToUpper();
+                    dr[3] = ip;
+                    dr[4] = sn.ToUpper();
+                    dr[5] = testDate;
+                    dr[6] = testTime;
+                    dr[7] = result.ToUpper().Equals("PASS") ? 1 : 0;
+                    dr[8] = wgsn.ToUpper();
+                    dr[9] = tch.ToUpper();
+                    dr[10] = pcl.ToUpper();
+                    dr[11] = testItem.ToUpper();
+                    dr[12] = testVal;
+                    dr[13] = minVal;
+                    dr[14] = maxVal;
+                    //  dr[15] = System.Guid.NewGuid().ToString().ToUpper();
+                    dr[15] = readLogDate;
+                    // dr[17] = readLogTime;
+                    dr[16] = logFile;
+                    dr[17] = 0;
+                    dr[18] = DateTime.Now;
+                    dr[19] = zipName;
+                    dt.Rows.Add(dr);
+                }
+                catch (Exception e)
+                {
+                    string log = "log格式不正确[" + line + "]、log[" + logFile + "]";
+                    WriteSysLog(log);
+                }
+            }
+
         }
 
         private static void InsertDb(DataTable dt)
@@ -800,23 +933,6 @@ namespace CpkDemo
 
         #endregion
 
-        #region  递归
 
-        public ArrayList Al = new ArrayList();
-        //我把ArrayList当成动态数组用，非常好用
-        public void GetAllDirList(string strBaseDir)
-        {
-            DirectoryInfo directoryInfo = new DirectoryInfo(strBaseDir);
-            DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
-            foreach (DirectoryInfo info in directoryInfos)
-            {
-                Al.Add(info.FullName);
-                //diA[i].FullName是某个子目录的绝对地址，把它记录在ArrayList中
-                GetAllDirList(info.FullName);
-                //注意：递归了。逻辑思维正常的人应该能反应过来
-            }
-        }
-
-        #endregion
     }
 }

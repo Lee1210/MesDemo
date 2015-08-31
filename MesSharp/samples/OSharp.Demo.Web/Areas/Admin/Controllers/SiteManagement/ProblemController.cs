@@ -233,9 +233,79 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             return data;
         }
 
+        #region Overrides of AdminBaseController
+
+        public override void CreateExcel()
+        {
+            GridRequest request = new GridRequest(Request);
+            var filterGroup = request.FilterGroup;
+            Expression<Func<Problem, bool>> predicate = FilterHelper.GetExpression<Problem>(filterGroup);
+            var cpks = SiteManagementContract.Problems.Where(predicate).Select(m => new
+            {
+                m.ProblemTime,
+                m.Department,
+                m.Factory,
+                m.QuestionFrom,
+                m.Detail,
+                m.Reason,
+                m.Solution,
+                m.IsComplete,
+                m.IsPeople,
+                m.Workers,
+                m.Suggestion,
+                m.Remark,
+                m.Type,
+                m.CreatedTime
+            });
+            Excel(cpks, "Problem" + DateTime.Now.ToString("yyyyMMddhhmmss"));
+        }
+
+        #endregion
+
         public ActionResult Report()
         {
             return View();
         }
-	}
+
+        public  void CreateExcel2(string fromDate, string endDate)
+        {
+            const string problemTime = "ProblemTime";
+            const string isDeleted = "IsDeleted";
+            fromDate.CheckNotNullOrEmpty("fromDate");
+            endDate.CheckNotNullOrEmpty("endDate");
+          
+            DateTime beginTime = Conv.ToDate(fromDate);
+            DateTime endTime = Conv.ToDate(endDate);
+
+            FilterGroup group = new FilterGroup
+            {
+                Rules = new List<FilterRule>
+                {
+                    new FilterRule(problemTime, beginTime, FilterOperate.GreaterOrEqual),
+                    new FilterRule(problemTime, endTime.AddDays(1), FilterOperate.LessOrEqual),
+                    new FilterRule(isDeleted, false, FilterOperate.Equal)
+                },
+                Operate = FilterOperate.And
+            };
+            Expression<Func<Problem, bool>> predicate = FilterHelper.GetExpression<Problem>(@group);
+            var cpks = SiteManagementContract.Problems.Where(predicate).Select(m => new
+            {
+                m.ProblemTime,
+                m.Department,
+                m.Factory,
+                m.QuestionFrom,
+                m.Detail,
+                m.Reason,
+                m.Solution,
+                m.IsComplete,
+                m.IsPeople,
+                m.Workers,
+                m.Suggestion,
+                m.Remark,
+                m.Type,
+                m.CreatedTime
+            });
+            Excel(cpks, "Problem" + DateTime.Now.ToString("yyyyMMddhhmmss"));
+        }
+    }
 }

@@ -53,10 +53,10 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 m.TestVal,
                 m.MinVal,
                 m.MaxVal,
-                m.ReadLogDate,
                 m.TestDate,
                 m.LogFileName,
-                m.CreatedTime,
+                m.ZipFileName,
+                
             });
             
             return Json(new GridData<object>(datas, total), JsonRequestBehavior.AllowGet);
@@ -89,14 +89,13 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             OperationResult result = TestLogContract.DeleteCpks(ids.ToArray());
             return Json(result.ToAjaxResult(), JsonRequestBehavior.AllowGet);
         }
-
-
-        public void CreateExcel(string excelfilterRules,DataSet ds, string fileName)
+        
+        public override void CreateExcel()
         {
-           
-            var filterGroup= !excelfilterRules.IsNullOrEmpty() ? JsonHelper.FromJson<FilterGroup>(excelfilterRules) : new FilterGroup();
+            GridRequest request = new GridRequest(Request);
+            var filterGroup = request.FilterGroup;
             Expression<Func<Cpk, bool>> predicate = FilterHelper.GetExpression<Cpk>(filterGroup);
-            var cpks = TestLogContract.Cpks.Where(predicate).Select(m=>new
+            var cpks = TestLogContract.Cpks.Where(predicate).Select(m => new
             {
                 m.Id,
                 m.PlatForm,
@@ -112,14 +111,23 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 m.TestVal,
                 m.MinVal,
                 m.MaxVal,
-                m.ReadLogDate,
                 m.TestDate,
                 m.LogFileName,
-                m.CreatedTime,
+                m.ZipFileName
             });
-            Excel(cpks,"Cpk"+DateTime.Now.ToString("yyyyMMddhhmmss"));
+            if (cpks.Count() > 300000)
+            {
+                Response.Write("数量超过300000，不能下载");
+                return;
+            }
+            Excel(cpks, "Cpk" + DateTime.Now.ToString("yyyyMMddhhmmss"));
         }
 
+        public void DownLoadZip(string zipFileName)
+        {
+            string filePath = Server.MapPath("/DownLoad/") + zipFileName;
+            DownLoad(filePath, zipFileName );
+        }
         public override ActionResult Index()
         {
             ViewBag.ToolbarItem = "export";

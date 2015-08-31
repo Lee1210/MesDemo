@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    string toolbarItem = ViewBag.ToolbarItem ?? "add,edit,save,cancel,delete";
+    string toolbarItem = ViewBag.ToolbarItem ?? "add,edit,save,cancel,delete,export";
 }
 @section header{
 <style type="text/css">
@@ -33,7 +33,7 @@
             return '<span class="tree-file icon-' + icon + '"></span>';
         }
 
-        var addNewRow = function() {
+        var addNewRow = function () {
             if (!endEditing()) {
                 $.Mes.easyui.msg.tip("请先提交或取消正在编辑的行。");
                 return;
@@ -44,7 +44,7 @@
                 .datagrid("beginEdit", editIndex);
         };
 
-        var beginEdit = function() {
+        var beginEdit = function () {
             var row = grid.datagrid("getSelected");
             if (!row) {
                 $.Mes.easyui.msg.tip("请选择要编辑的行。");
@@ -54,7 +54,7 @@
             beginEditRow(index);
         };
 
-        var beginEditRow = function(index) {
+        var beginEditRow = function (index) {
 
             var row = grid.datagrid("getSelected");
             var time = row.ProblemTime;
@@ -75,12 +75,12 @@
             }
         };
 
-        var cancelEdit = function() {
+        var cancelEdit = function () {
             grid.datagrid("rejectChanges");
             editIndex = undefined;
         };
 
-        var saveChanges = function() {
+        var saveChanges = function () {
             if (!endEditing()) {
                 return;
             }
@@ -115,20 +115,20 @@
             $.post("@ViewBag.EditUrl", { dtos: JSON.stringify(objs) }, ajaxResultHandler);
         }
 
-        var deleteRows = function() {
+        var deleteRows = function () {
             var selectRows = grid.datagrid("getSelections");
             if (selectRows.length == 0) {
                 $.Mes.easyui.msg.tip("请先选中要删除的行。");
                 return;
             }
-            var ids = $.Enumerable.From(selectRows).Select(function(m) { return m.Id; }).ToArray();
-            $.Mes.easyui.msg.confirm("是否要删除所有选中的行？此操作是不可恢复的。", null, function() {
+            var ids = $.Enumerable.From(selectRows).Select(function (m) { return m.Id; }).ToArray();
+            $.Mes.easyui.msg.confirm("是否要删除所有选中的行？此操作是不可恢复的。", null, function () {
                 $.post("@ViewBag.DeleteUrl", { ids: JSON.stringify(ids) }, ajaxResultHandler);
             });
         };
 
-        var exportExcel = function() {
-            window.open("Cpk/CreateExcel?excelfilterRules=" + excelfilterRules);
+        var exportExcel = function () {
+            window.open("@ViewBag.CreateExcel");
         };
 
         function ajaxResultHandler(data) {

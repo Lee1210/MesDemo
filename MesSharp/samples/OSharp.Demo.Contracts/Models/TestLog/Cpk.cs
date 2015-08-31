@@ -53,5 +53,7 @@ namespace Mes.Demo.Models.TestLog
         
 
         public string LogFileName { get; set; }
+
+        public string ZipFileName { get; set; }
     }
 }

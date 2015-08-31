@@ -234,6 +234,17 @@ namespace FileClizz
         }
         #endregion
 
+        public static void GetFilesFromDirectory(DirectoryInfo directory,ref List<FileInfo> list)
+        {
+            list.AddRange(directory.GetFiles());
+            DirectoryInfo[] subDirectoryInfos =
+                directory.GetDirectories();
+            foreach (var subDirectoryInfo in subDirectoryInfos)
+            {
+                GetFilesFromDirectory(subDirectoryInfo,ref list);
+            }
+        }
+
         /// <summary>
         /// 解压功能(解压压缩文件到指定目录)
         /// </summary>

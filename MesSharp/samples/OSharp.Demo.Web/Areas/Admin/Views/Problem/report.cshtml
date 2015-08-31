@@ -3,12 +3,14 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     ViewBag.DepartmentReport = "DepartmentReport";
     ViewBag.WorkersReport = "WorkersReport";
+    ViewBag.CreateExcel2 = "CreateExcel2";
 }
 
 <h2>Welcome</h2>
 
 <button onclick="test1(this)">by部门</button>
 <button onclick="test2(this)">by解决者</button>
+<button onclick="test3(this)">导出</button>
 <p>
     @Html.Label("开始日期")<input id="dd" type="text" class="easyui-datebox" required="required">
     @Html.Label("结束日期")<input id="de" type="text" class="easyui-datebox" required="required">
@@ -28,12 +30,17 @@
     function test1(objs) {
         var datetime1 = $('#dd').datebox('getValue');
         var datetime2 = $('#de').datebox('getValue');
-       $.post("@ViewBag.DepartmentReport", { fromDate: datetime1,endDate:datetime2 }, ajaxResultHandler, "json");
+        $.post("@ViewBag.DepartmentReport", { fromDate: datetime1, endDate: datetime2 }, ajaxResultHandler, "json");
     }
     function test2(objs) {
         var datetime1 = $('#dd').datebox('getValue');
         var datetime2 = $('#de').datebox('getValue');
         $.post("@ViewBag.WorkersReport", { fromDate: datetime1, endDate: datetime2 }, ajaxResultHandler, "json");
+    }
+    function test3(objs) {
+        var datetime1 = $('#dd').datebox('getValue');
+        var datetime2 = $('#de').datebox('getValue');
+        window.open("@ViewBag.CreateExcel2?fromDate=" + datetime1 + "&&endDate=" + datetime2);
     }
 
     function ajaxResultHandler(data) {

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -38,6 +39,26 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public virtual void CreateExcel()
+        {
+            Response.Write("NoEscel");
+        }
+
+        public virtual void DownLoad(string filePath,string fileName)
+        {
+            FileInfo fileInfo = new FileInfo(filePath);
+            Response.Clear();
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+            Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+            Response.AddHeader("Content-Transfer-Encoding", "binary");
+            Response.ContentType = "application/octet-stream";
+            Response.ContentEncoding = System.Text.Encoding.GetEncoding("gb2312");
+            Response.WriteFile(fileInfo.FullName);
+            Response.Flush();
+            Response.End();
+        }
         private bool EventTypeFilter(System.Reflection.PropertyInfo p)
         {
             var attribute = Attribute.GetCustomAttribute(p,

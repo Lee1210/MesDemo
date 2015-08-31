@@ -63,8 +63,12 @@ namespace Mes.Core.Data.Extensions
             pageIndex.CheckGreaterThan("pageIndex", 0);
             pageSize.CheckGreaterThan("pageSize", 0);
 
+            if ((predicate.Type.FullName.Contains("Mes.Demo.Models.TestLog.Cpk")) &&(predicate.Body.ToString()=="True"))
+            {
+                total = 10000000;
+            }
+            else
             total = source.Count(predicate);
-            //total = 100000;
             source = source.Where(predicate);
             if (sortConditions == null || sortConditions.Length == 0)
             {

@@ -56,5 +56,7 @@ namespace Mes.Demo.Dtos.TestLog
 
 
         public string LogFileName { get; set; }
+
+        public string ZipFileName { get; set; }
     }
 }
