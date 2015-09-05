@@ -14,14 +14,18 @@ using Mes.Core.Caching;
 using Mes.Core.Data;
 using Mes.Demo.Contracts;
 using Mes.Demo.Contracts.Test;
+using Mes.Demo.Contracts.TestLog;
 using Mes.Demo.Dtos.Identity;
 using Mes.Demo.Models.Identity;
 using Mes.Demo.Models.SiteManagement;
 using Mes.Demo.Models.TestLog;
 using Mes.Demo.Services;
+using Mes.Demo.Services.TestLog;
+using Mes.Utility.Collections;
 using Mes.Utility.Develop;
 using Mes.Utility.Develop.T4;
 using Mes.Utility.Extensions;
+using Mes.Utility.Logging;
 
 using Util;
 
@@ -32,9 +36,12 @@ namespace Mes.Demo.Consoles
     {
         private static ICache Cache;
         private static Program _program;
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(Program));
 
         public IIdentityContract IdentityContract { get; set; }
         public ITestContract ITestContract { get; set; }
+
+        public ITestLogContract ITestLogContract { get; set; }
 
         public IRepository<Menu, int> MenuRepository  { get; set; }
         public IRepository<User, int> UserRepository { get; set; }
@@ -162,33 +169,18 @@ namespace Mes.Demo.Consoles
 
         private static void Method03()
         {
-            List<Menu> list= _program.IdentityContract.Menus.ToList();
-
-            var firstOrDefault = list.FirstOrDefault(m=>m.Id==5);
-            if (firstOrDefault != null)
+            List<Cpk> cpks = new List<Cpk>()
             {
-                Console.WriteLine(firstOrDefault.Children.Count);
-            }
+                new Cpk { Result = TestReslut.Pass, TestVal = 1, MaxVal = 1, MinVal = 1, ReadLogDate = DateTime.Now,TestDate = 1},
+                new Cpk { Result = TestReslut.Pass, TestVal = 1, MaxVal = 1, MinVal = 1, ReadLogDate = DateTime.Now,TestDate = 1},
+                new Cpk { Result = TestReslut.Pass, TestVal = 1, MaxVal = 1, MinVal = 1, ReadLogDate = DateTime.Now,TestDate = 1},
+            };
+           _program.CpkRepository.BulkInsertAll(cpks);
         }
 
         private static void Method04()
         {
-            DateTime date = Conv.ToDate("2015-07-04");
-            DateTime beginTime ;
-            DateTime endTime ;
-            if (date.DayOfWeek != 0)
-            {
-                 beginTime = date.AddDays((double)(1 - date.DayOfWeek));
-                 endTime = date.AddDays((double)(7 - date.DayOfWeek));
-            }
-            else
-            {
-                endTime = date;
-                beginTime = date.AddDays(-6);
-            }
-            Console.WriteLine(beginTime);
-            Console.WriteLine(endTime);
-            Console.ReadKey();
+            Logger.Info("TEST");
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Mes.Core.Data;
@@ -55,5 +56,7 @@ namespace Mes.Demo.Models.TestLog
         public string LogFileName { get; set; }
 
         public string ZipFileName { get; set; }
+
+     
     }
 }

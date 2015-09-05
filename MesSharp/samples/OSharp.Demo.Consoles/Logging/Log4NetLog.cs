@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-//  <copyright file="Log4NetLog.cs" company="柳柳软件">
-//      Copyright (c) 2014 66SOFT. All rights reserved.
-//  </copyright>
-//  <site>http://www.66soft.net</site>
-//  <last-editor>郭明锋</last-editor>
-//  <last-date>2014-08-28 12:20</last-date>
-// -----------------------------------------------------------------------
-
-using System;
+﻿using System;
 
 using log4net.Core;
 
@@ -18,65 +9,23 @@ using ILogger = log4net.Core.ILogger;
 
 namespace Mes.Demo.Consoles.Logging
 {
-    public class Log4NetLog : LogBase
+    /// <summary>
+    /// log4net 日志输出者适配类
+    /// </summary>
+    internal class Log4NetLog : LogBase
     {
         private static readonly Type DeclaringType = typeof(Log4NetLog);
         private readonly ILogger _logger;
 
-        internal Log4NetLog(ILoggerWrapper wrapper)
+        /// <summary>
+        /// 初始化一个<see cref="Log4NetLog"/>类型的新实例
+        /// </summary>
+        public Log4NetLog(ILoggerWrapper wrapper)
         {
             _logger = wrapper.Logger;
         }
 
         #region Overrides of LogBase
-
-        /// <summary>
-        /// 获取 是否允许<see cref="Mes.Core.Logging.LogLevel.Trace"/>级别的日志
-        /// </summary>
-        public override bool IsTraceEnabled
-        {
-            get { return _logger.IsEnabledFor(Level.Trace); }
-        }
-
-        /// <summary>
-        /// 获取 是否允许<see cref="Mes.Core.Logging.LogLevel.Debug"/>级别的日志
-        /// </summary>
-        public override bool IsDebugEnabled
-        {
-            get { return _logger.IsEnabledFor(Level.Debug); }
-        }
-
-        /// <summary>
-        /// 获取 是否允许<see cref="Mes.Core.Logging.LogLevel.Info"/>级别的日志
-        /// </summary>
-        public override bool IsInfoEnabled
-        {
-            get { return _logger.IsEnabledFor(Level.Info); }
-        }
-
-        /// <summary>
-        /// 获取 是否允许<see cref="Mes.Core.Logging.LogLevel.Warn"/>级别的日志
-        /// </summary>
-        public override bool IsWarnEnabled
-        {
-            get { return _logger.IsEnabledFor(Level.Warn); }
-        }
-
-        /// <summary>
-        /// 获取 是否允许<see cref="Mes.Core.Logging.LogLevel.Error"/>级别的日志
-        /// </summary>
-        public override bool IsErrorEnabled
-        {
-            get { return _logger.IsEnabledFor(Level.Error); }
-        }
-
-        /// <summary>
-        /// 获取 是否允许<see cref="Mes.Core.Logging.LogLevel.Fatal"/>级别的日志
-        /// </summary>
-        public override bool IsFatalEnabled
-        {
-            get { return _logger.IsEnabledFor(Level.Fatal); }
-        }
 
         /// <summary>
         /// 获取日志输出处理委托实例
@@ -86,9 +35,39 @@ namespace Mes.Demo.Consoles.Logging
         /// <param name="exception">日志异常</param>
         protected override void Write(LogLevel level, object message, Exception exception)
         {
-            Level level1 = GetLevel(level);
-            _logger.Log(DeclaringType, level1, message, exception);
+            Level log4NetLevel = GetLevel(level);
+            _logger.Log(DeclaringType, log4NetLevel, message, exception);
         }
+
+        /// <summary>
+        /// 获取 是否允许输出<see cref="LogLevel.Trace"/>级别的日志
+        /// </summary>
+        public override bool IsTraceEnabled { get { return _logger.IsEnabledFor(Level.Trace); } }
+
+        /// <summary>
+        /// 获取 是否允许输出<see cref="LogLevel.Debug"/>级别的日志
+        /// </summary>
+        public override bool IsDebugEnabled { get { return _logger.IsEnabledFor(Level.Debug); } }
+
+        /// <summary>
+        /// 获取 是否允许输出<see cref="LogLevel.Info"/>级别的日志
+        /// </summary>
+        public override bool IsInfoEnabled { get { return _logger.IsEnabledFor(Level.Info); } }
+
+        /// <summary>
+        /// 获取 是否允许输出<see cref="LogLevel.Warn"/>级别的日志
+        /// </summary>
+        public override bool IsWarnEnabled { get { return _logger.IsEnabledFor(Level.Warn); } }
+
+        /// <summary>
+        /// 获取 是否允许输出<see cref="LogLevel.Error"/>级别的日志
+        /// </summary>
+        public override bool IsErrorEnabled { get { return _logger.IsEnabledFor(Level.Error); } }
+
+        /// <summary>
+        /// 获取 是否允许输出<see cref="LogLevel.Fatal"/>级别的日志
+        /// </summary>
+        public override bool IsFatalEnabled { get { return _logger.IsEnabledFor(Level.Fatal); } }
 
         #endregion
 

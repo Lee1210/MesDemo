@@ -8,6 +8,7 @@
     ViewBag.DeleteUrl = Url.Action("Delete");
     ViewBag.CreateExcel = Url.Action("CreateExcel");
     ViewBag.DownLoadZip = Url.Action("DownLoadZip");
+    ViewBag.GetPotw = Url.Action("GetPotw");
 }
 @section customScript
 {
@@ -15,54 +16,60 @@
         var selectTreeData = null;
         enableFilterData = false;
         toolbarData = "#toolbarData";
-        var exportExcel = function () {
-            var platForm = $('#PlatForm').textbox('getValue');
+        var GetFilterRules = function () {
+            var g = $('#combogridPcl').combogrid('grid');	// 获取数据表格对象
+            var r = g.datagrid('getSelected');	// 获取选择的行
             var projectName = $('#ProjectName').textbox('getValue');
-            var pcl = $('#Pcl').textbox('getValue');
-            var opcode = $('#Opcode').textbox('getValue');
-            var tch = $('#Tch').textbox('getValue');
-            var testDate = $('#TestDate').textbox('getValue');
             var toolbarfilterRules = [];
-            if (platForm != "")
-                toolbarfilterRules.push({ "field": "PlatForm", "op": "equal", "value": platForm });
-            if (projectName != "")
+            if (projectName && r) {
                 toolbarfilterRules.push({ "field": "ProjectName", "op": "equal", "value": projectName });
-            if (pcl != "")
-                toolbarfilterRules.push({ "field": "Pcl", "op": "equal", "value": pcl });
-            if (opcode != "")
-                toolbarfilterRules.push({ "field": "Opcode", "op": "equal", "value": opcode });
-            if (tch != "")
-                toolbarfilterRules.push({ "field": "Tch", "op": "equal", "value": tch });
-            if (testDate != "")
-                toolbarfilterRules.push({ "field": "TestDate", "op": "equal", "value": testDate });
-            var group = new $.Mes.filter.group();
-            group.Rules = toolbarfilterRules;
-            window.open("@ViewBag.CreateExcel?where=" + JSON.stringify(group));
+                toolbarfilterRules.push({ "field": "Pcl", "op": "equal", "value": r.Pcl });
+                toolbarfilterRules.push({ "field": "Opcode", "op": "equal", "value": r.Opcode });
+                toolbarfilterRules.push({ "field": "Tch", "op": "equal", "value": r.Tch });
+                toolbarfilterRules.push({ "field": "Wgsn", "op": "equal", "value": r.Wgsn });
+                $('#combogridPcl').combo('setValues', [r.Tch, r.Opcode, r.Pcl, r.Wgsn]);
+                return toolbarfilterRules;
+            }
+            else {
+                $.Mes.easyui.msg.warning('不能为空');
+                return null;
+            }
+        }
+        var exportExcel = function () {
+            var toolbarfilterRules = GetFilterRules();
+            if (toolbarfilterRules) {
+                var group = new $.Mes.filter.group();
+                group.Rules = toolbarfilterRules;
+                window.open("@ViewBag.CreateExcel?where=" + JSON.stringify(group));
+            }
+
         };
         var DownLoadZip = function (zipFileName) {
             window.open("@ViewBag.DownLoadZip?zipFileName=" + zipFileName);
         }
+
         var Query = function () {
-            var platForm = $('#PlatForm').textbox('getValue');
-            var projectName = $('#ProjectName').textbox('getValue');
-            var pcl = $('#Pcl').textbox('getValue');
-            var opcode = $('#Opcode').textbox('getValue');
-            var tch = $('#Tch').textbox('getValue');
-            var toolbarfilterRules = [];
-            if (platForm != "")
-                toolbarfilterRules.push({ "field": "PlatForm", "op": "equal", "value": platForm });
-            if (projectName != "")
-                toolbarfilterRules.push({ "field": "ProjectName", "op": "equal", "value": projectName });
-            if (pcl != "")
-                toolbarfilterRules.push({ "field": "Pcl", "op": "equal", "value": pcl });
-            if (opcode != "")
-                toolbarfilterRules.push({ "field": "Opcode", "op": "equal", "value": opcode });
-            if (tch != "")
-                toolbarfilterRules.push({ "field": "Tch", "op": "equal", "value": tch });
-            $('#grid-@ViewBag.GridId').datagrid('load', {
-                filterRules: toolbarfilterRules
-            });
+            var toolbarfilterRules = GetFilterRules();
+            if (toolbarfilterRules) {
+                $('#grid-@ViewBag.GridId').datagrid('load', {
+                    filterRules: toolbarfilterRules
+                });
+            }
+
         }
+        //重写datagrid的初始化结束后的事件
+        var endfunction = function () {
+            $('#ProjectName').textbox('textbox').keydown(function (e) {
+                if (e.keyCode == 13) {
+                    var projectName = $('#ProjectName').textbox('getValue');
+                    if (projectName) {
+                        var g = $('#combogridPcl').combogrid('grid');	// 获取数据表格对象
+                        g.datagrid('load', "@ViewBag.GetPotw?projectName="+projectName);
+                    }
+                }
+            });
+        };
+
         columns = [
             [
                 { field: "PlatForm", title: "平台", width: 180, sortable: true },
@@ -78,36 +85,48 @@
                 { field: "TestVal", title: "TestVal", width: 80, sortable: true },
                 { field: "MinVal", title: "MinVal", width: 50, sortable: true },
                 { field: "MaxVal", title: "MaxVal", width: 50, sortable: true },
-              //  { field: "ReadLogDate", title: "读取时间", width: 150, sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } },
+                //  { field: "ReadLogDate", title: "读取时间", width: 150, sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } },
                 { field: "TestDate", title: "TestDate", width: 150, sortable: true },
                 { field: "LogFileName", title: "文件名", width: 150, sortable: true },
                 {
                     field: "ZipFileName", title: "压缩文件名", width: 150, sortable: true,
                     formatter: function (value, rec) {
-                        var btn = '<a  onclick="DownLoadZip(\'' + rec.ZipFileName+".zip" + '\')" href="javascript:void(0)">' + rec.ZipFileName+".zip" + '</a>';
+                        var btn = '<a  onclick="DownLoadZip(\'' + rec.ZipFileName + ".zip" + '\')" href="javascript:void(0)">' + rec.ZipFileName + ".zip" + '</a>';
                         return btn;
                     }
                 }
 
-              //  { field: "CreatedTime", title: "创建时间", width: 150, sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } }
+                //  { field: "CreatedTime", title: "创建时间", width: 150, sortable: true, formatter: function (value) { return $.Mes.tools.formatDate(value); } }
             ]
         ];
 
     </script>
-    <div id="toolbarData" style="padding:5px;height:auto">
-        <div style="margin-bottom:5px">
+    <div id="toolbarData" style="padding: 5px; height: auto">
+        <div style="margin-bottom: 5px">
             <a href="#" class="easyui-linkbutton" iconCls="icon-export" plain="true" onclick="javascript: exportExcel();">导出</a>
         </div>
         <div>
-            平台: <input id="PlatForm" class="easyui-textbox" style="width: 80px">
-            项目: <input id="ProjectName" class="easyui-textbox" style="width: 80px">
-            Pcl:  <input id="Pcl" class="easyui-textbox" style="width: 80px">
-            工序: <input id="Opcode" class="easyui-textbox" style="width:80px">
-            Tch: <input id="Tch" class="easyui-textbox" style="width: 80px">
-            TestDate:  <input id="TestDate" class="easyui-textbox" style="width:80px">
+            项目: <input id="ProjectName" class="easyui-textbox"   style="width: 80px">
+            功率:
+            <select id="combogridPcl" class="easyui-combogrid" name="dept" style="width: 250px;" onchange="javascript: alert('11');"
+                    data-options="
+            panelWidth:450,
+            idField:'Tch',
+            textField:'Tch',
+            
+            columns:[[
+                {field:'Tch',title:'Tch',width:60},
+                {field:'Opcode',title:'Opcode',width:100},
+                {field:'Pcl',title:'Pcl',width:120},
+                {field:'Wgsn',title:'Wgsn',width:100}
+            ]]
+        "></select>
+
+          
             <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="javascript: Query();">查询</a>
         </div>
     </div>
+   
 }
 
 

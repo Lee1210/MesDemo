@@ -9,7 +9,7 @@ using Mes.Demo.Contracts.SiteManagement;
 using Mes.Demo.Dtos.SiteManagement;
 using Mes.Demo.Models.SiteManagement;
 using Mes.Demo.Web.Areas.Admin.Controllers;
-using Mes.Demo.Web.Areas.Admin.Controllers.SiteManagement;
+
 using Mes.Utility.Data;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

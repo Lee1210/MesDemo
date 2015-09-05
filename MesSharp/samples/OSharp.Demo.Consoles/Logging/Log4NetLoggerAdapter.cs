@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-using log4net.Appender;
+﻿using log4net.Appender;
 using log4net.Config;
 using log4net.Core;
 using log4net.Filter;
@@ -13,7 +10,7 @@ using Mes.Utility.Logging;
 namespace Mes.Demo.Consoles.Logging
 {
     /// <summary>
-    /// log4net 日志功能适配器
+    /// log4net 日志输出适配器
     /// </summary>
     public class Log4NetLoggerAdapter : LoggerAdapterBase
     {
@@ -22,13 +19,6 @@ namespace Mes.Demo.Consoles.Logging
         /// </summary>
         public Log4NetLoggerAdapter()
         {
-            const string fileName = "log4net.config";
-            string configFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
-            if (File.Exists(configFile))
-            {
-                XmlConfigurator.ConfigureAndWatch(new FileInfo(configFile));
-                return;
-            }
             RollingFileAppender appender = new RollingFileAppender
             {
                 Name = "root",
@@ -38,21 +28,18 @@ namespace Mes.Demo.Consoles.Logging
                 RollingStyle = RollingFileAppender.RollingMode.Date,
                 DatePattern = "yyyyMMdd-HH\".log\"",
                 StaticLogFileName = false,
+                Threshold = Level.Debug,
                 MaxSizeRollBackups = 10,
-                Layout = new PatternLayout("[%d{yyyy-MM-dd HH:mm:ss.fff}] %-5p %c %t %w %n%m%n")
-                //Layout = new PatternLayout("[%d [%t] %-5p %c [%x] - %m%n]")
+                Layout = new PatternLayout("%n[%d{yyyy-MM-dd HH:mm:ss.fff}] %-5p %c %t %w %n%m%n")
             };
             appender.ClearFilters();
             appender.AddFilter(new LevelMatchFilter { LevelToMatch = Level.Info });
-            //PatternLayout layout = new PatternLayout("[%d{yyyy-MM-dd HH:mm:ss.fff}] %c.%M %t %n%m%n");
-            //appender.Layout = layout;
             BasicConfigurator.Configure(appender);
             appender.ActivateOptions();
         }
 
-        public string BasePath { get; set; }
 
-        #region Overrides of CachingLoggerAdapterBase
+        #region Overrides of LoggerAdapterBase
 
         /// <summary>
         /// 创建指定名称的缓存实例

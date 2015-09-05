@@ -184,19 +184,18 @@ namespace FileClizz
      
 
         #region  move
-        ///拷贝文件夹(包括子文件夹)到指定文件夹下
-        ///源文件夹和目标文件夹均需绝对路径
-        ///格式:CopyFolder(源文件夹,目标文件夹)
-        //----------------------------------------
-        //作者 14
-        //----------------------------------------
-        /// <summary>
+
         /// 拷贝文件夹(包括子文件夹)到指定文件夹下
-        /// 文件和文件夹分开复制，当是文件夹则递归复制
-        /// </summary>
-        /// <param name="strFromPath">待复制地址</param>
-        /// <param name="strToPath">目标地址</param>
-        public static void MoveFolder(string strFromPath, string strToPath)
+        /// 源文件夹和目标文件夹均需绝对路径
+        /// 格式:CopyFolder(源文件夹,目标文件夹)
+        ///  <summary>
+        ///  拷贝文件夹(包括子文件夹)到指定文件夹下
+        ///  文件和文件夹分开复制，当是文件夹则递归复制
+        ///  </summary>
+        ///  <param name="strFromPath">待复制地址</param>
+        ///  <param name="strToPath">目标地址</param>
+        /// <param name="fileCount">文件总数</param>
+        public static void MoveFolder(string strFromPath, string strToPath,ref int fileCount)
         {
             DirectoryInfo sourceDirectoryInfo = new DirectoryInfo(strFromPath);
             //如果目标文件夹中没有源文件夹
@@ -208,6 +207,7 @@ namespace FileClizz
             }
             //创建数组保存源文件夹下的文件名  
             FileInfo[] fileInfos = sourceDirectoryInfo.GetFiles();
+            fileCount += fileInfos.Count();
             //循环拷贝文件 
             foreach (var fileInfo in fileInfos)
             {
@@ -229,7 +229,7 @@ namespace FileClizz
             {
                 MoveFolder(
                     subDirectoryInfo.FullName,
-                    strToPath + "\\" + subDirectoryInfo.Name);
+                    strToPath + "\\" + subDirectoryInfo.Name,ref fileCount);
             }
         }
         #endregion

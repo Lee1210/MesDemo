@@ -1,5 +1,6 @@
 ﻿
 
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -59,5 +60,10 @@ namespace Mes.Demo.Models.Identity
         /// 获取或设置 用户角色集合
         /// </summary>
         public virtual ICollection<Role> Roles { get; set; }
+
+       
+
+      
+
     }
 }

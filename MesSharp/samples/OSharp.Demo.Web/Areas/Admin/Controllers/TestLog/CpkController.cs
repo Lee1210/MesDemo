@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -19,8 +18,6 @@ using Mes.Utility.Filter;
 using Mes.Web.Mvc.Binders;
 using Mes.Web.Mvc.Security;
 using Mes.Web.UI;
-
-using Util;
 
 
 namespace Mes.Demo.Web.Areas.Admin.Controllers
@@ -55,7 +52,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 m.MaxVal,
                 m.TestDate,
                 m.LogFileName,
-                m.ZipFileName,
+                m.ZipFileName
                 
             });
             
@@ -127,6 +124,23 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
         {
             string filePath = Server.MapPath("/DownLoad/") + zipFileName;
             DownLoad(filePath, zipFileName );
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult GetPotw(string projectName)
+        {
+            
+            var data = TestLogContract.Cpks
+                .Where(p => p.ProjectName == projectName.ToUpper())
+                .Select(p => new
+                {
+                    p.Tch, p.Opcode, p.Pcl, p.Wgsn
+                })
+                .Distinct()
+                .ToList();
+
+            return Json(data,JsonRequestBehavior.AllowGet);
         }
         public override ActionResult Index()
         {

@@ -130,7 +130,7 @@ namespace Mes.Core.Data.Entity
 
             if (attribute == null) return true;
             if (attribute.IsForeignKey == false) return true;
-
+            
             return false;
         }
 

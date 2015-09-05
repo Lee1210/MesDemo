@@ -45,5 +45,6 @@ namespace Mes.Demo.Contracts.TestLog
         /// <param name="ids">要删除的产线信息编号</param>
         /// <returns>业务操作结果</returns>
         OperationResult DeleteCpks(params int[] ids);
+        
     }
 }

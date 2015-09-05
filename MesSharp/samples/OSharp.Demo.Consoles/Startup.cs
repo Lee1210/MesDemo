@@ -59,7 +59,9 @@ namespace Mes.Demo.Consoles
 
         private static void LoggingInit()
         {
-            LogManager.AddLoggerAdapter(new Log4NetLoggerAdapter());
+            Log4NetLoggerAdapter adapter = new Log4NetLoggerAdapter();
+            LogManager.AddLoggerAdapter(adapter);
+
         }
 
         private static void DatabaseInit()

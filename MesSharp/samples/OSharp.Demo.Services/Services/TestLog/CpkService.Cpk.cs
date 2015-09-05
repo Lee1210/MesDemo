@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -58,5 +59,7 @@ namespace Mes.Demo.Services.TestLog
         {
             return CpkRepository.Delete(ids);
         }
+      
     }
+   
 }
