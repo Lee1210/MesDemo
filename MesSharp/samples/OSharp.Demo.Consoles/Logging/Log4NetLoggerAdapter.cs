@@ -23,6 +23,7 @@ namespace Mes.Demo.Consoles.Logging
             {
                 Name = "root",
                 File = "logs\\log_",
+               // File = "C:\\logs\\log_",
                 AppendToFile = true,
                 LockingModel = new FileAppender.MinimalLock(),
                 RollingStyle = RollingFileAppender.RollingMode.Date,

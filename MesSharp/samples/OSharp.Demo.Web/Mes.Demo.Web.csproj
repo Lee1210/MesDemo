@@ -438,6 +438,8 @@
     <Content Include="Config\MailSetting.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Areas\Admin\Views\SwipeCard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TemporaryCard\Index.cshtml" />
     <None Include="Scripts\jquery-1.11.1.intellisense.js" />
     <Content Include="Scripts\chart\bar.js" />
     <Content Include="Scripts\chart\chord.js" />
@@ -500,6 +502,8 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\Hr\TemporaryCardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\Hr\SwipeCardController.cs" />
     <Compile Include="Areas\Admin\Controllers\Identity\OrganizationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\Identity\RolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\Identity\UsersController.cs" />

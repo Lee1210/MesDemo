@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelConfigurations\Hr\TemporaryCardConfiguration.cs" />
+    <Compile Include="ModelConfigurations\Hr\SwipeCardConfiguration.cs" />
+    <Compile Include="ModelConfigurations\TestLog\TlogConfiguration.cs" />
     <Compile Include="ModelConfigurations\TestLog\OperationLogConfiguration.cs" />
     <Compile Include="ModelConfigurations\TestLog\CpkConfiguration.cs" />
     <Compile Include="ModelConfigurations\Identity\MenuConfigurations.cs" />
@@ -87,9 +90,13 @@
     <Compile Include="ModelConfigurations\Test\LineConfiguration.cs" />
     <Compile Include="ModelConfigurations\Test\StationConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\TestLog\CpkService.OperationLog.cs" />
-    <Compile Include="Services\TestLog\CpkService.Cpk.cs" />
-    <Compile Include="Services\TestLog\CpkService.cs" />
+    <Compile Include="Services\Hr\HrService.cs" />
+    <Compile Include="Services\Hr\HrService.TemporaryCard.cs" />
+    <Compile Include="Services\Hr\HrService.SwipeCard.cs" />
+    <Compile Include="Services\TestLog\TestLogService.Tlog.cs" />
+    <Compile Include="Services\TestLog\TestLogService.OperationLog.cs" />
+    <Compile Include="Services\TestLog\TestLogService.Cpk.cs" />
+    <Compile Include="Services\TestLog\TestLogService.cs" />
     <Compile Include="Services\IdentityService.cs" />
     <Compile Include="Services\IdentityService.Organization.cs">
       <SubType>Code</SubType>

@@ -36,7 +36,19 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,21 +56,47 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WComm_UDP">
+      <HintPath>..\packages\WComm_UDP.dll</HintPath>
+    </Reference>
     <Reference Include="ZipDll">
       <HintPath>..\packages\ZipDll.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CpkMath.cs" />
-    <Compile Include="FileUtil.cs" />
-    <Compile Include="LogResolver.cs" />
+    <Compile Include="Cpk\CpkMath.cs" />
+    <Compile Include="Cpk\FileUtil.cs" />
+    <Compile Include="Cpk\LogResolver.cs" />
+    <Compile Include="Menjin\Entrance.cs" />
+    <Compile Include="Menjin\HrUserRespority.cs" />
+    <Compile Include="Menjin\RecordModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\samples\OSharp.Demo.Contracts\Mes.Demo.Contracts.csproj">
+      <Project>{2E6D22C7-37D5-4F1F-8D3E-2BCBD8F71B88}</Project>
+      <Name>Mes.Demo.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\samples\OSharp.Demo.Services\Mes.Demo.Services.csproj">
+      <Project>{7d538b40-8c72-42ff-bdc6-135f22230eee}</Project>
+      <Name>Mes.Demo.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\src\OSharp.Core.Data.Entity\Mes.Core.Data.Entity.NET45.csproj">
+      <Project>{D58A373C-1A9C-4BF7-833D-427E4AEF8502}</Project>
+      <Name>Mes.Core.Data.Entity.NET45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\src\OSharp.Core\Mes.Core.NET45.csproj">
+      <Project>{F7C67C95-FACB-4160-9A88-CB738E65E034}</Project>
+      <Name>Mes.Core.NET45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\src\OSharp.Utility\Mes.Utility.csproj">
       <Project>{946e0a0a-8280-46b3-893e-1b00a554ccab}</Project>
       <Name>Mes.Utility</Name>

@@ -15,35 +15,31 @@ using Mes.Core.Data;
 using Mes.Demo.Contracts;
 using Mes.Demo.Contracts.Test;
 using Mes.Demo.Contracts.TestLog;
-using Mes.Demo.Dtos.Identity;
+using Mes.Demo.Models.Hr;
 using Mes.Demo.Models.Identity;
 using Mes.Demo.Models.SiteManagement;
 using Mes.Demo.Models.TestLog;
-using Mes.Demo.Services;
-using Mes.Demo.Services.TestLog;
-using Mes.Utility.Collections;
 using Mes.Utility.Develop;
 using Mes.Utility.Develop.T4;
 using Mes.Utility.Extensions;
 using Mes.Utility.Logging;
-
-using Util;
 
 
 namespace Mes.Demo.Consoles
 {
     internal class Program : IDependency
     {
-        private static ICache Cache;
+        private static ICache _cache;
         private static Program _program;
-        private static readonly ILogger Logger = LogManager.GetLogger(typeof(Program));
+        private static ILogger _logger;
+
 
         public IIdentityContract IdentityContract { get; set; }
-        public ITestContract ITestContract { get; set; }
+        public ITestContract TestContract { get; set; }
 
-        public ITestLogContract ITestLogContract { get; set; }
+        public ITestLogContract TestLogContract { get; set; }
 
-        public IRepository<Menu, int> MenuRepository  { get; set; }
+        public IRepository<Menu, int> MenuRepository { get; set; }
         public IRepository<User, int> UserRepository { get; set; }
         public IRepository<Role, int> RoleRepository { get; set; }
         public IRepository<Problem, int> ProblemRepository { get; set; }
@@ -54,7 +50,8 @@ namespace Mes.Demo.Consoles
 
         public IRepository<Department, int> DepartmentRepository { get; set; }
 
-        public IRepository<Cpk,int> CpkRepository { get; set; }
+        public IRepository<Cpk, int> CpkRepository { get; set; }
+        public IRepository<Tlog, int> TlogRepository { get; set; }
 
         private static void Main(string[] args)
         {
@@ -62,7 +59,8 @@ namespace Mes.Demo.Consoles
             {
                 Startup.Start();
                 _program = Startup.Container.Resolve<Program>();
-                Cache = CacheManager.GetCacher(typeof(Program));
+                _cache = CacheManager.GetCacher(typeof(Program));
+                _logger = LogManager.GetLogger(typeof(Program));
                 // ReSharper disable once LocalizableElement
                 Console.WriteLine("程序初始化完毕并启动成功。");
             }
@@ -163,8 +161,8 @@ namespace Mes.Demo.Consoles
 
         private static void Method02()
         {
-            
-            Console.WriteLine(_program.ITestContract.Lines.Count());
+
+            Console.WriteLine(_program.TlogRepository.Entities.ToList().Count());
         }
 
         private static void Method03()
@@ -175,12 +173,12 @@ namespace Mes.Demo.Consoles
                 new Cpk { Result = TestReslut.Pass, TestVal = 1, MaxVal = 1, MinVal = 1, ReadLogDate = DateTime.Now,TestDate = 1},
                 new Cpk { Result = TestReslut.Pass, TestVal = 1, MaxVal = 1, MinVal = 1, ReadLogDate = DateTime.Now,TestDate = 1},
             };
-           _program.CpkRepository.BulkInsertAll(cpks);
+            _program.CpkRepository.BulkInsertAll(cpks);
         }
 
         private static void Method04()
         {
-            Logger.Info("TEST");
+            _logger.Info("TEST");
         }
 
         /// <summary>
@@ -188,30 +186,37 @@ namespace Mes.Demo.Consoles
         /// </summary>
         private static void Method05()
         {
-            Menu root = new Menu() {Name = "root", Remark = "根", Parent = null, TreePath = "0", ActionName = "Index", SortCode = 0 };
+            Menu root = new Menu() { Name = "root", Remark = "根", Parent = null, TreePath = "0", ActionName = "Index", SortCode = 0 };
 
-            Menu privage = new Menu() {Name = "privage", Remark = "权限", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 2 };
-            Menu privage21 = new Menu() {  Name = "Users", Remark = "用户管理", Parent = privage, TreePath = "2", ActionName = "Index", SortCode = 1 };
-            Menu privage22 = new Menu() {  Name = "Roles", Remark = "角色管理", Parent = privage, TreePath = "2", ActionName = "Index", SortCode = 2 };
+            Menu privage = new Menu() { Name = "privage", Remark = "权限", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 2 };
+            Menu privage21 = new Menu() { Name = "Users", Remark = "用户管理", Parent = privage, TreePath = "2", ActionName = "Index", SortCode = 1 };
+            Menu privage22 = new Menu() { Name = "Roles", Remark = "角色管理", Parent = privage, TreePath = "2", ActionName = "Index", SortCode = 2 };
 
-            Menu siteManagement = new Menu() {Name = "SiteManagement", Remark = "现场管理", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 3 };
-            Menu siteManagement31 = new Menu() {  Name = "Problem", Remark = "异常管理", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 1} ;
-            Menu siteManagement32 = new Menu() {  Name = "Problem", Remark = "异常报表", Parent = siteManagement, TreePath = "2", ActionName = "report", SortCode = 2 };
-            Menu siteManagement33 = new Menu() {  Name = "Department", Remark = "部门", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 3 };
+            Menu siteManagement = new Menu() { Name = "SiteManagement", Remark = "现场管理", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 3 };
+            Menu siteManagement31 = new Menu() { Name = "Problem", Remark = "异常管理", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 1 };
+            Menu siteManagement32 = new Menu() { Name = "Problem", Remark = "异常报表", Parent = siteManagement, TreePath = "2", ActionName = "report", SortCode = 2 };
+            Menu siteManagement33 = new Menu() { Name = "Department", Remark = "部门", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 3 };
             Menu siteManagement34 = new Menu() { Name = "Factory", Remark = "工厂", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 4 };
-            Menu siteManagement35 = new Menu() {  Name = "ProblemSource", Remark = "问题来源", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 5 };
-            Menu siteManagement36 = new Menu() {  Name = "ProblemType", Remark = "问题类型", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 6 };
+            Menu siteManagement35 = new Menu() { Name = "ProblemSource", Remark = "问题来源", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 5 };
+            Menu siteManagement36 = new Menu() { Name = "ProblemType", Remark = "问题类型", Parent = siteManagement, TreePath = "2", ActionName = "Index", SortCode = 6 };
 
-            Menu TestLog = new Menu() { Name = "TestLog", Remark = "测试数据", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 4 };
-            Menu TestLog1 = new Menu() { Name = "Cpk", Remark = "Cpk测试数据", Parent = TestLog, TreePath = "2", ActionName = "Index", SortCode = 1 };
-            Menu TestLog2 = new Menu() { Name = "OperationLog", Remark = "测试数据操作Log", Parent = TestLog, TreePath = "2", ActionName = "Index", SortCode = 2 };
+            Menu testLog = new Menu() { Name = "TestLog", Remark = "测试数据", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 4 };
+            Menu testLog1 = new Menu() { Name = "Cpk", Remark = "Cpk测试数据", Parent = testLog, TreePath = "2", ActionName = "Index", SortCode = 1 };
+            Menu testLog2 = new Menu() { Name = "OperationLog", Remark = "测试数据操作Log", Parent = testLog, TreePath = "2", ActionName = "Index", SortCode = 2 };
+
+            Menu hr = new Menu() { Name = "Hr", Remark = "Hr数据", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 5 };
+            Menu hr1 = new Menu() { Name = "SwipeCard", Remark = "刷卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 1 };
+            Menu hr2 = new Menu() { Name = "TemporaryCard", Remark = "临时卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 2 };
 
 
-            List<Menu> menus = new List<Menu> { root, privage, privage21, privage22, siteManagement, siteManagement31, siteManagement32, siteManagement33, siteManagement34, siteManagement35, siteManagement36, TestLog, TestLog1, TestLog2 };
+            List<Menu> menus = new List<Menu> { root, privage, privage21, privage22,
+                siteManagement, siteManagement31, siteManagement32, siteManagement33, siteManagement34, siteManagement35, siteManagement36,
+                testLog, testLog1, testLog2,
+                hr,hr1,hr2 };
 
             User user1 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user1", NickName = "梁贵", Password = "123", };
             User user2 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user2", NickName = "梁贵2", Password = "123", };
-            List<User> users = new List<User> { user1,user2 };
+            List<User> users = new List<User> { user1, user2 };
 
             Role role1 = new Role() { Name = "role1", Remark = "role1" };
             Role role2 = new Role() { Name = "role2", Remark = "role2" };
@@ -243,10 +248,10 @@ namespace Mes.Demo.Consoles
             ProblemType problemType5 = new ProblemType() { Text = "数据回传", Value = "数据回传" };
             List<ProblemType> problemTypes = new List<ProblemType> { problemType1, problemType2, problemType3, problemType4, problemType5 };
 
-            Problem problem1 = new Problem() { Department = "生产",  Factory = "龙旗一厂", QuestionFrom = "邮件预警", Type = "MES系统",Workers = "梁贵",ProblemTime = DateTime.Now, Detail = "detail1", Reason = "reason1", IsComplete = true, IsPeople = true, IsDeleted = false, Remark = "remark1", Solution = "solution1", Suggestion = "suggestion1"};
+            Problem problem1 = new Problem() { Department = "生产", Factory = "龙旗一厂", QuestionFrom = "邮件预警", Type = "MES系统", Workers = "梁贵", ProblemTime = DateTime.Now, Detail = "detail1", Reason = "reason1", IsComplete = true, IsPeople = true, IsDeleted = false, Remark = "remark1", Solution = "solution1", Suggestion = "suggestion1" };
             Problem problem2 = new Problem() { Department = "生产", Factory = "龙旗一厂", QuestionFrom = "邮件预警", Type = "MES系统", Workers = "梁贵", ProblemTime = DateTime.Now.AddDays(1), Detail = "detail1", Reason = "reason1", IsComplete = true, IsPeople = true, IsDeleted = false, Remark = "remark1", Solution = "solution1", Suggestion = "suggestion1" };
             List<Problem> problems = new List<Problem> { problem1, problem2 };
-
+         
             _program.MenuRepository.UnitOfWork.TransactionEnabled = true;
             Console.WriteLine(_program.MenuRepository.Insert(menus.AsEnumerable()));
             Console.WriteLine(_program.UserRepository.Insert(users.AsEnumerable()));
@@ -365,7 +370,7 @@ namespace Mes.Demo.Consoles
             IEnumerable<Type> modelTypes = assembly.GetTypes().Where(m => baseType.IsAssignableFrom(m) && !m.IsAbstract);
             foreach (var modelType in modelTypes)
             {
-                Console.WriteLine(modelType.Name+" || "+modelType.Name.Split("Dto")[0]);
+                Console.WriteLine(modelType.Name + " || " + modelType.Name.Split("Dto")[0]);
             }
         }
 
@@ -402,7 +407,7 @@ namespace Mes.Demo.Consoles
                                             Console.WriteLine("[StringLength({0})]", customAttribute.ConstructorArguments[0]);
                                             break;
                                     }
-                                    string ConstructorArgumentsString = "";
+                                    string constructorArgumentsString = "";
                                     if (customAttribute.ConstructorArguments != null)
                                     {
                                         Console.Write(String.Join(",", customAttribute.ConstructorArguments.Select(m => m.Value).ToArray()));
@@ -437,7 +442,7 @@ namespace Mes.Demo.Consoles
                     }
                     _program.CpkRepository.Insert(cpks);
                 });
-           
+
         }
 
         private static void Method11()
@@ -449,7 +454,7 @@ namespace Mes.Demo.Consoles
                    List<Cpk> cpks = new List<Cpk>();
                    for (int i = 0; i < 10000; i++)
                    {
-                       cpks.Add(new Cpk() { Ip = "123.123.123.123", CreatedTime = DateTime.Now, ReadLogDate = DateTime.Today, LogFileName = "12341234123412341234", IsDeleted = false, MaxVal = 21.01, MinVal = 20.12, Opcode = "cit", Pcl = "pcl"});
+                       cpks.Add(new Cpk() { Ip = "123.123.123.123", CreatedTime = DateTime.Now, ReadLogDate = DateTime.Today, LogFileName = "12341234123412341234", IsDeleted = false, MaxVal = 21.01, MinVal = 20.12, Opcode = "cit", Pcl = "pcl" });
                    }
                    _program.CpkRepository.BulkInsertAll(cpks);
                });
@@ -467,7 +472,7 @@ namespace Mes.Demo.Consoles
                     {
                         sum += a.TestVal;
                     }
-                    Console.WriteLine(sum/list.Count);
+                    Console.WriteLine(sum / list.Count);
                 });
         }
 

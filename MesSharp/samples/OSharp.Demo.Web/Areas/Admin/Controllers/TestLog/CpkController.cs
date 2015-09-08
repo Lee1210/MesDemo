@@ -122,7 +122,7 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
 
         public void DownLoadZip(string zipFileName)
         {
-            string filePath = Server.MapPath("/DownLoad/") + zipFileName;
+            string filePath = Server.MapPath("/DownLoad/CPK/") + zipFileName;
             DownLoad(filePath, zipFileName );
         }
 

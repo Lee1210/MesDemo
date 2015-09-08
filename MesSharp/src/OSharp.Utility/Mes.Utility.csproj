@@ -87,6 +87,7 @@
     <Compile Include="Data\SingletonDictionary.cs" />
     <Compile Include="Data\SingletonList.cs" />
     <Compile Include="Data\SortCondition.cs" />
+    <Compile Include="DbHelper\SqlHelper.cs" />
     <Compile Include="Develop\CodeRamer.cs" />
     <Compile Include="Develop\CodeTimer.cs" />
     <Compile Include="Develop\T4\T4ModelInfo.cs" />
