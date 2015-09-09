@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\Hr\IHrContract.IgnoreCard.cs" />
     <Compile Include="Contracts\Hr\IHrContract.TemporaryCard.cs" />
     <Compile Include="Contracts\Hr\IHrContract.SwipeCard.cs" />
     <Compile Include="Contracts\TestLog\ITestLogContract.Tlog.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Contracts\Test\ITestContract.Line.cs" />
     <Compile Include="Contracts\Test\ITestContract.Station.cs" />
     <Compile Include="Dtos\Hr\SwipeCardDto.cs" />
+    <Compile Include="Dtos\Hr\IgnoreCardDto.cs" />
     <Compile Include="Dtos\Hr\TemporaryCardDto.cs" />
     <Compile Include="Dtos\TestLog\TlogDto.cs" />
     <Compile Include="Dtos\TestLog\CpkDto.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Dtos\Test\StationDto.cs" />
     <Compile Include="Models\Hr\DoorIoType.cs" />
     <Compile Include="Models\Hr\SwipeCard.cs" />
+    <Compile Include="Models\Hr\IgnoreCard.cs" />
     <Compile Include="Models\Hr\TemporaryCard.cs" />
     <Compile Include="Models\TestLog\LogFileType.cs" />
     <Compile Include="Models\TestLog\Tlog.cs" />

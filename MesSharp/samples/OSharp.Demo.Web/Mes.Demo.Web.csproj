@@ -425,6 +425,7 @@
     <Content Include="Areas\Admin\Views\ProblemSource\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ProblemType\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Cpk\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\IgnoreCard\Index.cshtml" />
     <None Include="Areas\Admin\Views\Line\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Role2User.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Role2Privage.cshtml" />
@@ -502,6 +503,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\Hr\IgnoreCardController.cs" />
     <Compile Include="Areas\Admin\Controllers\Hr\TemporaryCardController.cs" />
     <Compile Include="Areas\Admin\Controllers\Hr\SwipeCardController.cs" />
     <Compile Include="Areas\Admin\Controllers\Identity\OrganizationsController.cs" />

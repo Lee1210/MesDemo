@@ -207,12 +207,12 @@ namespace Mes.Demo.Consoles
             Menu hr = new Menu() { Name = "Hr", Remark = "Hr数据", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 5 };
             Menu hr1 = new Menu() { Name = "SwipeCard", Remark = "刷卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 1 };
             Menu hr2 = new Menu() { Name = "TemporaryCard", Remark = "临时卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 2 };
-
+            Menu hr3 = new Menu() { Name = "IgnoreCard", Remark = "过滤卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 3 };
 
             List<Menu> menus = new List<Menu> { root, privage, privage21, privage22,
                 siteManagement, siteManagement31, siteManagement32, siteManagement33, siteManagement34, siteManagement35, siteManagement36,
                 testLog, testLog1, testLog2,
-                hr,hr1,hr2 };
+                hr,hr1,hr2,hr3 };
 
             User user1 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user1", NickName = "梁贵", Password = "123", };
             User user2 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user2", NickName = "梁贵2", Password = "123", };

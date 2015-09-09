@@ -45,10 +45,13 @@ namespace CpkDemo
         private static ICache _cache;
         public LogResolver LogResolver { get; set; }
         public IRepository<SwipeCard, int> SwipeCardRepository { get; set; }
+
         public IRepository<TemporaryCard, int> TemporaryCardRepository { get; set; }
 
-        // ReSharper disable once UnusedParameter.Local
-        private static void Main(string[] args)
+        public IRepository<IgnoreCard, int> IgnoreCardRepository { get; set; }
+
+    // ReSharper disable once UnusedParameter.Local
+    private static void Main(string[] args)
         {
             Startup.Start();
             _program = Startup.Container.Resolve<Program>();
@@ -109,12 +112,15 @@ namespace CpkDemo
                          };
             var swipeCards = result.DistinctBy(b => new { b.Card, b.EmpNo, b.EmpName, b.BarCode, b.DoorIo, b.SwipdeDate, b.SwipeTime })
                 .OrderBy(m => m.SwipdeDate).ToList();
-            _program.SwipeCardRepository.BulkInsertAll(swipeCards);
 
-            //long[] cards = recordModels.Select(r => r.Card.CastTo<long>()).ToArray();
-            //var doors = new Int64[] { 1, 2 };
-            //entrance.InsertPrivaleges(cards, doors);
-            //entrance.ClearRecords();
+            List<string> ignoreEmpNos = _program.IgnoreCardRepository.Entities.Select(m => m.EmpNo).ToList();
+            var ignoreCards= swipeCards.SkipWhile(c => ignoreEmpNos.Contains(c.EmpNo)).ToList();
+            _program.SwipeCardRepository.BulkInsertAll(ignoreCards);
+
+            long[] cards = recordModels.Select(r => r.Card.CastTo<long>()).ToArray();
+            var doors = new Int64[] { 1, 2 };
+            entrance.InsertPrivaleges(cards, doors);
+            entrance.ClearRecords();
         }
 
         public static void EntranceExcute()
@@ -155,7 +161,10 @@ namespace CpkDemo
                          };
             var swipeCards = result.DistinctBy(b => new { b.Card, b.EmpNo, b.EmpName, b.BarCode, b.DoorIo, b.SwipdeDate, b.SwipeTime })
                 .OrderBy(m => m.SwipdeDate).ToList();
-            _program.SwipeCardRepository.BulkInsertAll(swipeCards);
+
+            List<string> ignoreEmpNos = _program.IgnoreCardRepository.Entities.Select(m => m.EmpNo).ToList();
+            var ignoreCards = swipeCards.SkipWhile(c => ignoreEmpNos.Contains(c.EmpNo)).ToList();
+            _program.SwipeCardRepository.BulkInsertAll(ignoreCards);
 
             long[] cards = recordModels.Select(r => r.Card.CastTo<long>()).ToArray();
             var doors = new Int64[] { 1, 2 };

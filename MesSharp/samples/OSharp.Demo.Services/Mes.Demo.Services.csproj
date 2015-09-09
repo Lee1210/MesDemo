@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelConfigurations\Hr\IgnoreCardConfiguration.cs" />
     <Compile Include="ModelConfigurations\Hr\TemporaryCardConfiguration.cs" />
     <Compile Include="ModelConfigurations\Hr\SwipeCardConfiguration.cs" />
     <Compile Include="ModelConfigurations\TestLog\TlogConfiguration.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="ModelConfigurations\Test\StationConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Hr\HrService.cs" />
+    <Compile Include="Services\Hr\HrService.IgnoreCard.cs" />
     <Compile Include="Services\Hr\HrService.TemporaryCard.cs" />
     <Compile Include="Services\Hr\HrService.SwipeCard.cs" />
     <Compile Include="Services\TestLog\TestLogService.Tlog.cs" />

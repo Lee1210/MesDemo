@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "产线信息列表";
+    Layout = "~/Areas/Admin/Views/Shared/_DataGridLayout.cshtml";
+    ViewBag.GridId = "IgnoreCard";
+    ViewBag.GridDataUrl = Url.Action("GridData");
+    ViewBag.AddUrl = Url.Action("Add");
+    ViewBag.EditUrl = Url.Action("Edit");
+    ViewBag.DeleteUrl = Url.Action("Delete");
+    ViewBag.CreateExcel = Url.Action("CreateExcel");
+
+}
+@section customScript
+{
+    <script type="text/javascript">
+        var selectTreeData = null;
+        columns = [[
+                { field: "EmpNo", title: "工号", width: 100, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,200]" } } },
+        
+        ]];
+
+    </script>
+}
+
