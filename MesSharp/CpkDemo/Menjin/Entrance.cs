@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -81,7 +82,7 @@ namespace menjin
         /// 删除单条刷卡记录
         /// </summary>
         /// <param name="index">索引</param>
-        public void DeleteRecord(long index)
+        public void RecordDelete(long index)
         {
             var strCmd = Wudp.CreateBstrCommand(ControllerSn, "8E10" + Wudp.NumToStrHex(index, 4));
             var strFrame = Wudp.udp_comm(strCmd, IpAddr, 60000);
@@ -90,12 +91,12 @@ namespace menjin
         /// <summary>
         /// 清空刷卡记录
         /// </summary>
-        public void ClearRecords()
+        public void RecordClear()
         {
             long count = RecordCount();
             for (int i = 1; i < count + 1; i++)
             {
-                DeleteRecord(i);
+                RecordDelete(i);
             }
             var strCmd = Wudp.CreateBstrCommand(ControllerSn, "8110" + Wudp.NumToStrHex(0, 3));
             var strFrame = Wudp.udp_comm(strCmd, IpAddr, 60000);
@@ -116,7 +117,7 @@ namespace menjin
         /// </summary>
         /// <param name="index"></param>
 
-        public void Privalege(long index)
+        public void PrivalegeQuery(long index)
         {
             var strCmd = Wudp.CreateBstrCommand(ControllerSn, "9510" + Wudp.NumToStrHex(index, 3));
             var strFrame = Wudp.udp_comm(strCmd, IpAddr, 60000);
@@ -126,7 +127,7 @@ namespace menjin
         /// 清空权限
         /// </summary>
 
-        public void DeletePrivaleges()
+        public void PrivalegesClear()
         {
             var strCmd = Wudp.CreateBstrCommand(ControllerSn, "9310");
             var strFrame = Wudp.udp_comm(strCmd, IpAddr, 60000);
@@ -139,7 +140,7 @@ namespace menjin
         /// <param name="door"></param>
         /// <param name="index"></param>
 
-        public void InsertPrivalege(long card, long door, long index)
+        public void PrivalegeAdd(long card, long door, long index)
         {
             var privilege = CardtoHey(card);
             privilege = privilege + Wudp.NumToStrHex(door, 1);     //  '门号
@@ -157,16 +158,70 @@ namespace menjin
                 Wudp.udp_comm(strCmd, IpAddr, 60000);
             }
         }
+
+        public void PrivalegeEndAdd(long card, long door)
+        {
+            var privilege = CardtoHey(card);
+            privilege = privilege + Wudp.NumToStrHex(door, 1);     //  '门号
+            privilege = privilege + Wudp.MSDateYmdToWCDateYmd("2007-8-14"); //    '有效起始日期
+            privilege = privilege + Wudp.MSDateYmdToWCDateYmd("2020-12-31");//    '有效截止日期
+            privilege = privilege + Wudp.NumToStrHex(1, 1);                 //    '时段索引号
+            privilege = privilege + Wudp.NumToStrHex(123456, 3);             //   '用户密码
+            privilege = privilege + Wudp.NumToStrHex(0, 4);                 //    '备用4字节(用0填充)
+            if (privilege.Length != 32)
+                Console.WriteLine(@"privilege leng not equal 32");
+            else
+            {
+                var strCmd = Wudp.CreateBstrCommand(ControllerSn, "0711" + Wudp.NumToStrHex(0, 2) + privilege);
+
+                Wudp.udp_comm(strCmd, IpAddr, 60000);
+            }
+        }
+
+        public void PrivalegeEndRemove(long card, long door)
+        {
+            var privilege = CardtoHey(card);
+            privilege = privilege + Wudp.NumToStrHex(door, 1);     //  '门号
+            privilege = privilege + Wudp.MSDateYmdToWCDateYmd("2007-8-14"); //    '有效起始日期
+            privilege = privilege + Wudp.MSDateYmdToWCDateYmd("2020-12-31");//    '有效截止日期
+            privilege = privilege + Wudp.NumToStrHex(1, 1);                 //    '时段索引号
+            privilege = privilege + Wudp.NumToStrHex(123456, 3);             //   '用户密码
+            privilege = privilege + Wudp.NumToStrHex(0, 4);                 //    '备用4字节(用0填充)
+            if (privilege.Length != 32)
+                Console.WriteLine(@"privilege leng not equal 32");
+            else
+            {
+                var strCmd = Wudp.CreateBstrCommand(ControllerSn, "0811" + Wudp.NumToStrHex(0, 2) + privilege);
+
+                Wudp.udp_comm(strCmd, IpAddr, 60000);
+            }
+        }
+
+        public void PrivalegeEndRemoveRange(long[] cards, long[] doors)
+        {
+            int index = 1;
+            cards = cards.OrderBy(c => c).ToArray();
+            doors = doors.OrderBy(d => d).ToArray();
+            foreach (var door in doors)
+            {
+                foreach (var card in cards)
+                {
+                    PrivalegeEndRemove(card, door);
+                    index = index + 1;
+                }
+            }
+            InitialComm();
+        }
         /// <summary>
         /// 插入权限
         /// </summary>
         /// <param name="cards"></param>
         /// <param name="doors"></param>
 
-        public void InsertPrivaleges(long[] cards, long[] doors)
+        public void PrivalegeAddRange(long[] cards, long[] doors)
         {
             //先清空权限
-            DeletePrivaleges();
+            PrivalegesClear();
             //权限索引从1开始插入  card door排序
             int index = 1;
             cards = cards.OrderBy(c => c).ToArray();
@@ -175,7 +230,26 @@ namespace menjin
             {
                 foreach (var card in cards)
                 {
-                    InsertPrivalege(card, door, index);
+                    PrivalegeAdd(card, door, index);
+                    index = index + 1;
+                }
+            }
+            InitialComm();
+        }
+
+        public void PrivalegeEndAddRange(long[] cards, long[] doors)
+        {
+            //先清空权限
+           
+            //权限索引从1开始插入  card door排序
+            int index = 1;
+            cards = cards.OrderBy(c => c).ToArray();
+            doors = doors.OrderBy(d => d).ToArray();
+            foreach (var door in doors)
+            {
+                foreach (var card in cards)
+                {
+                    PrivalegeEndAdd(card, door);
                     index = index + 1;
                 }
             }
@@ -212,6 +286,12 @@ namespace menjin
             return test.Substring(4, 2) + test.Substring(2, 2) + test.Substring(0, 2);
         }
 
-
+        public string SetTime(DateTime now)
+        {
+            string nowString = now.ToString("yyMMdd")+ now.DayOfWeek.CastTo<int>().CastTo<string>().PadLeft(2,'0')+now.ToString("HHmmss");
+            var strCmd = Wudp.CreateBstrCommand(ControllerSn, "8B10" + nowString);
+            return Wudp.udp_comm(strCmd, IpAddr, 60000);
+        }
+        
     }
 }
