@@ -93,6 +93,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cpk\CpkJob.cs" />
     <Compile Include="Cpk\StandardDistribution.cs" />
     <Compile Include="Cpk\CpkMath.cs" />
     <Compile Include="Cpk\FileUtil.cs" />

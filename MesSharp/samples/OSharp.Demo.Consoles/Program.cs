@@ -15,6 +15,7 @@ using Mes.Core.Data;
 using Mes.Demo.Contracts;
 using Mes.Demo.Contracts.Test;
 using Mes.Demo.Contracts.TestLog;
+using Mes.Demo.Contracts.WareHouse;
 using Mes.Demo.Models.Hr;
 using Mes.Demo.Models.Identity;
 using Mes.Demo.Models.SiteManagement;
@@ -53,6 +54,7 @@ namespace Mes.Demo.Consoles
         public IRepository<Cpk, int> CpkRepository { get; set; }
         public IRepository<Tlog, int> TlogRepository { get; set; }
 
+        public IWareHouseContract WareHouseContract { get; set; }
         private static void Main(string[] args)
         {
             try
@@ -161,8 +163,7 @@ namespace Mes.Demo.Consoles
 
         private static void Method02()
         {
-
-            Console.WriteLine(_program.TlogRepository.Entities.ToList().Count());
+            Console.WriteLine(_program.WareHouseContract.InWareHouse("model1", "123").Message);
         }
 
         private static void Method03()
@@ -178,6 +179,7 @@ namespace Mes.Demo.Consoles
 
         private static void Method04()
         {
+            Console.WriteLine(_program.WareHouseContract.OutWareHouse("123").Message);
             _logger.Info("TEST");
         }
 
@@ -208,11 +210,16 @@ namespace Mes.Demo.Consoles
             Menu hr1 = new Menu() { Name = "SwipeCard", Remark = "刷卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 1 };
             Menu hr2 = new Menu() { Name = "TemporaryCard", Remark = "临时卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 2 };
             Menu hr3 = new Menu() { Name = "IgnoreCard", Remark = "过滤卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 3 };
+            Menu warehouse=new Menu() { Name = "WareHouse", Remark = "WareHouse数据", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 6 }; 
+            Menu warehouse1 = new Menu() { Name = "PurchaseAndDelivery", Remark = "进出货查询", Parent = warehouse, TreePath = "2", ActionName = "Index", SortCode = 1 };
+            Menu warehouse2 = new Menu() { Name = "PurchaseAndDelivery", Remark = "进出货管理", Parent = warehouse, TreePath = "2", ActionName = "InAndOut", SortCode = 2 };
 
             List<Menu> menus = new List<Menu> { root, privage, privage21, privage22,
                 siteManagement, siteManagement31, siteManagement32, siteManagement33, siteManagement34, siteManagement35, siteManagement36,
                 testLog, testLog1, testLog2,
-                hr,hr1,hr2,hr3 };
+                hr,hr1,hr2,hr3,
+                warehouse,warehouse1,warehouse2
+            };
 
             User user1 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user1", NickName = "梁贵", Password = "123", };
             User user2 = new User() { Email = "123", CreatedTime = DateTime.Now, Name = "user2", NickName = "梁贵2", Password = "123", };

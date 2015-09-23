@@ -80,6 +80,10 @@ namespace CpkDemo.Menjin
 
         public void EntranceExcute()
         {
+            var ping = new Ping();
+            var pingReply = ping.Send("172.16.192.241");
+             if (pingReply != null && pingReply.Status != IPStatus.Success)
+                return;
             Entrance entrance37477 = new Entrance("172.16.192.241", 37477);
             Entrance entrance37647 = new Entrance("172.16.192.242", 37647);
 

@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="Contracts\Test\ITestContract.Line.cs" />
     <Compile Include="Contracts\Test\ITestContract.Station.cs" />
+    <Compile Include="Contracts\WareHouse\IWareHouseContract.PurchaseAndDelivery.cs" />
     <Compile Include="Dtos\Hr\SwipeCardDto.cs" />
     <Compile Include="Dtos\Hr\IgnoreCardDto.cs" />
     <Compile Include="Dtos\Hr\TemporaryCardDto.cs" />
@@ -86,6 +87,7 @@
     </Compile>
     <Compile Include="Dtos\Test\LineDto.cs" />
     <Compile Include="Dtos\Test\StationDto.cs" />
+    <Compile Include="Dtos\WareHouse\PurchaseAndDeliveryDto.cs" />
     <Compile Include="Models\Hr\DoorIoType.cs" />
     <Compile Include="Models\Hr\SwipeCard.cs" />
     <Compile Include="Models\Hr\IgnoreCard.cs" />
@@ -107,6 +109,8 @@
     <Compile Include="Models\SiteManagement\Problem.cs" />
     <Compile Include="Models\Test\Line.cs" />
     <Compile Include="Models\Test\Station.cs" />
+    <Compile Include="Models\WareHouse\PurchaseAndDelivery.cs" />
+    <Compile Include="Models\WareHouse\PurchaseAndDeliveryType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -431,6 +431,8 @@
     <Content Include="Areas\Admin\Views\Roles\Role2Privage.cshtml" />
     <Content Include="Areas\Admin\Views\Problem\report.cshtml" />
     <Content Include="Areas\Admin\Views\OperationLog\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PurchaseAndDelivery\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PurchaseAndDelivery\InAndOut.cshtml" />
     <None Include="Areas\Admin\Views\Station\Index.cshtml">
       <SubType>
       </SubType>
@@ -518,6 +520,7 @@
     <Compile Include="Areas\Admin\Controllers\TestLog\OperationLogController.cs" />
     <Compile Include="Areas\Admin\Controllers\Test\LineController.cs" />
     <Compile Include="Areas\Admin\Controllers\Test\StationController.cs" />
+    <Compile Include="Areas\Admin\Controllers\WareHouse\PurchaseAndDeliveryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

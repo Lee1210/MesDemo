@@ -6,6 +6,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+
+using WindowsServiceTest.Job;
+
 using Quartz;
 using Quartz.Impl;
 
@@ -20,10 +23,12 @@ namespace WindowsServiceTest
 
         protected override void OnStart(string[] args)
         {
+            using (System.IO.StreamWriter sw = new System.IO.StreamWriter("E:\\log.txt", true))
+            {
+                sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ") + "start.");
+            }
 
-            CpkDemo.Program.EntranceTest();
             ISchedulerFactory schedFact = new StdSchedulerFactory();
-
             // get a scheduler
             IScheduler sched = schedFact.GetScheduler();
             sched.Start();
@@ -33,26 +38,26 @@ namespace WindowsServiceTest
                 .WithIdentity("myJob", "group1")
                 .Build();
 
-           // Trigger the job to run now, and then every 40 seconds
-           ITrigger trigger = TriggerBuilder.Create()
-             .WithIdentity("myTrigger", "group1")
-             .StartNow()
-             .WithSimpleSchedule(x => x
-                 .WithIntervalInHours(1)
-                 .RepeatForever())
-             .Build();
+
             //ITrigger trigger = TriggerBuilder.Create()
-            //.WithIdentity("myTrigger", "group1")
-            //.WithCronSchedule("0/5 27 * * * ?")
-            //.ForJob("myJob", "group1")
-            //.Build();
-            //sched.ScheduleJob(job, trigger);
+            //  .WithIdentity("myTrigger", "group1")
+            //  .StartNow()
+            //  .WithSimpleSchedule(x => x
+            //      .WithIntervalInHours(1)
+            //      .RepeatForever())
+            //  .Build();
+            ITrigger trigger = TriggerBuilder.Create()
+            .WithIdentity("myTrigger", "group1")
+            .WithCronSchedule("0/5 * * * * ?")
+            .ForJob("myJob", "group1")
+            .Build();
+            sched.ScheduleJob(job, trigger);
 
         }
 
         protected override void OnStop()
         {
-            using (System.IO.StreamWriter sw = new System.IO.StreamWriter("C:\\log.txt", true))
+            using (System.IO.StreamWriter sw = new System.IO.StreamWriter("E:\\log.txt", true))
             {
                 sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss ") + "Stop.");
             }

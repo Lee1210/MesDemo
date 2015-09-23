@@ -37,7 +37,8 @@ namespace CpkDemo
 
         public static string SysLogPath = ConfigurationManager.AppSettings["SYS_LOG_PATH"];
         public static string ConnectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
-       
+
+      
         public  void CpkExcute(string logFromPath,
            string logToPath,
            Action<FileInfo, List<Cpk>, string> transfaseDataTable)

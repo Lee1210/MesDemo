@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Welcome";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.InWareHouse = "InWareHouse";
+    ViewBag.OutWareHouse = "OutWareHouse";
+}
+
+<div>退货</div>
+
+<p>
+    @Html.Label("机型")<input id="dd" type="text" class="easyui-textbox" required="required">
+    @Html.Label("SN")<input id="de" type="text" class="easyui-textbox" required="required">
+</p>
+
+<div>出货</div>
+<p>
+    @Html.Label("SN")<input id="dt" type="text" class="easyui-textbox" required="required">
+</p>
+
+<!-- <textarea id="myTextArea" cols="80 " rows="10 ">原始值</textarea>-->
+<script type="text/javascript">
+    function ajaxResultHandler(data) {
+        switch (data.Type) {
+            case "Success":
+                $.Mes.easyui.msg.tip(data.Content);
+              //  $("myTextArea").value = $("myTextArea").innerText + "\nvalue is ok!";
+                break;
+            case "Error":
+                $.Mes.easyui.msg.error(data.Content);
+                break;
+            default:
+                $.Mes.easyui.msg.tip(data.Content);
+        }
+    }
+    
+    function test1(objs) {
+        var model = $('#dd').textbox('getText');
+        var sn = $('#de').textbox('getText');
+        $.post("@ViewBag.InWareHouse", { model: model, sn: sn }, ajaxResultHandler, "json");
+    }
+
+    function test2(objs) {
+        var sn = $('#dt').textbox('getText');
+        $.post("@ViewBag.OutWareHouse", {sn: sn }, ajaxResultHandler, "json");
+    }
+    window.onload =function () {
+        $('#de').textbox('textbox').keydown(function (e) {
+            if (e.keyCode == 13) {
+                test1(this);
+                $('#de').textbox('setText', '');
+            }
+        });
+        $('#dt').textbox('textbox').keydown(function (e) {
+            if (e.keyCode == 13) {
+                test2(this);
+                $('#dt').textbox('setText', '');
+            }
+        });
+    };
+</script>
+
+

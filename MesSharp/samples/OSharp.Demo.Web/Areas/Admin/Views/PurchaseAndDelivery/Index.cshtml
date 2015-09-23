@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "进出货列表";
+    Layout = "~/Areas/Admin/Views/Shared/_DataGridLayout.cshtml";
+    ViewBag.GridId = "PurchaseAndDelivery";
+    ViewBag.GridDataUrl = Url.Action("GridData");
+    ViewBag.AddUrl = Url.Action("Add");
+    ViewBag.EditUrl = Url.Action("Edit");
+    ViewBag.DeleteUrl = Url.Action("Delete");
+    ViewBag.CreateExcel = Url.Action("CreateExcel");
+}
+@section customScript
+{
+    <script type="text/javascript">
+        var selectTreeData = null;
+        enableFilterData = false;
+        toolbarData = "#toolbarData";
+        var Query = function () {
+            var toolbarfilterRules = GetFilterRules();
+            if (toolbarfilterRules) {
+                $('#grid-@ViewBag.GridId').datagrid('load', {
+                    filterRules: toolbarfilterRules
+                });
+            }
+
+        }
+        var GetFilterRules = function () {
+            var SN = $('#SN').textbox('getValue');
+            var AdType = $('#AdType').textbox('getValue');
+            var toolbarfilterRules = [];
+
+            toolbarfilterRules.push({ "field": "Sn", "op": "equal", "value": SN });
+            toolbarfilterRules.push({ "field": "AdType", "op": "equal", "value": AdType });
+            return toolbarfilterRules;
+
+        }
+        var exportExcel = function () {
+            var toolbarfilterRules = GetFilterRules();
+            if (toolbarfilterRules) {
+                var group = new $.Mes.filter.group();
+                group.Rules = toolbarfilterRules;
+                window.open("@ViewBag.CreateExcel?where=" + JSON.stringify(group));
+            }
+
+        };
+
+        columns = [
+            [
+                { field: "Model", title: "机型", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,200]" } } },
+                { field: "Sn", title: "主板SN", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,200]" } } },
+                { field: "AdType", title: "状态", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,200]" } } },
+                { field: "CreatedTime", title: "退货时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } },
+                { field: "D2", title: "进货时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } },
+                { field: "D3", title: "二次退货时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } },
+                { field: "D4", title: "二次进货时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } }
+            ]
+        ];
+
+    </script>
+<div id="toolbarData" style="padding: 5px; height: auto">
+    <div style="margin-bottom: 5px">
+        <a href="#" class="easyui-linkbutton" iconCls="icon-export" plain="true" onclick="javascript: exportExcel();">导出</a>
+    </div>
+    <div>
+        SN: <input id="SN" class="easyui-textbox" style="width: 80px">
+        状态: <input id="AdType" class="easyui-textbox" style="width: 80px">
+        <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="javascript: Query();">查询</a>
+    </div>
+</div>
+}
+

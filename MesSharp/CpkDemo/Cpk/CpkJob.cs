@@ -7,7 +7,7 @@ using Quartz;
 
 namespace CpkDemo.Menjin
 {
-    class HrJob:IJob
+    class CpkJob:IJob
     {
         #region Implementation of IJob
 
@@ -26,9 +26,7 @@ namespace CpkDemo.Menjin
         /// <param name="context">The execution context.</param>
         public void Execute(IJobExecutionContext context)
         {
-
-            EntranceSolution entranceSolution = Startup.Container.Resolve<EntranceSolution>();
-            entranceSolution.EntranceExcute();
+            Program.LogExcute();
             //using (var stream = new System.IO.StreamWriter("E:\\log.txt", true))
             //{
             //    stream.WriteLine(DateTime.Now.ToString("hh:mm:ss"));

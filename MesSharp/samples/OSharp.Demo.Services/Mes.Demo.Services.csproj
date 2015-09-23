@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="ModelConfigurations\Test\LineConfiguration.cs" />
     <Compile Include="ModelConfigurations\Test\StationConfiguration.cs" />
+    <Compile Include="ModelConfigurations\WareHouse\PurchaseAndDeliveryConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Hr\HrService.cs" />
     <Compile Include="Services\Hr\HrService.IgnoreCard.cs" />
@@ -117,6 +118,8 @@
     <Compile Include="Services\Test\TestService.cs" />
     <Compile Include="Services\Test\TestService.Line.cs" />
     <Compile Include="Services\Test\TestService.Station.cs" />
+    <Compile Include="Services\WareHouse\WareHouseService.cs" />
+    <Compile Include="Services\WareHouse\WareHouseService.PurchaseAndDelivery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\OSharp.Core.Data.Entity\Mes.Core.Data.Entity.NET45.csproj">
