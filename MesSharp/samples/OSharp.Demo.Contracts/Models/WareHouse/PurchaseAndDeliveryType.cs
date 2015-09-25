@@ -9,13 +9,13 @@ namespace Mes.Demo.Models.WareHouse
 {
     public enum PurchaseAndDeliveryType
     {
-        [Description("已退货")]
-        已退货=1,
-        [Description("已进货")]
-        已进货 = 2,
-        [Description("二次退货")]
-        二次退货 =3,
-        [Description("二次进货")]
-        二次进货 =4
+        [Description("已退板")]
+        已退板 = 1,
+        [Description("已收板")]
+        已收板 = 2,
+        [Description("二次退板")]
+        二次退板 = 3,
+        [Description("二次收板")]
+        二次收板 = 4
     }
 }

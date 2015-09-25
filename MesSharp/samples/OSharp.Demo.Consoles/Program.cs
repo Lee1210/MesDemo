@@ -211,8 +211,8 @@ namespace Mes.Demo.Consoles
             Menu hr2 = new Menu() { Name = "TemporaryCard", Remark = "临时卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 2 };
             Menu hr3 = new Menu() { Name = "IgnoreCard", Remark = "过滤卡管理", Parent = hr, TreePath = "2", ActionName = "Index", SortCode = 3 };
             Menu warehouse=new Menu() { Name = "WareHouse", Remark = "WareHouse数据", Parent = root, TreePath = "1", ActionName = "Index", SortCode = 6 }; 
-            Menu warehouse1 = new Menu() { Name = "PurchaseAndDelivery", Remark = "进出货查询", Parent = warehouse, TreePath = "2", ActionName = "Index", SortCode = 1 };
-            Menu warehouse2 = new Menu() { Name = "PurchaseAndDelivery", Remark = "进出货管理", Parent = warehouse, TreePath = "2", ActionName = "InAndOut", SortCode = 2 };
+            Menu warehouse1 = new Menu() { Name = "PurchaseAndDelivery", Remark = "收退板查询", Parent = warehouse, TreePath = "2", ActionName = "Index", SortCode = 1 };
+            Menu warehouse2 = new Menu() { Name = "PurchaseAndDelivery", Remark = "收退板管理", Parent = warehouse, TreePath = "2", ActionName = "InAndOut", SortCode = 2 };
 
             List<Menu> menus = new List<Menu> { root, privage, privage21, privage22,
                 siteManagement, siteManagement31, siteManagement32, siteManagement33, siteManagement34, siteManagement35, siteManagement36,

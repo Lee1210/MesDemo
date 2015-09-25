@@ -118,10 +118,10 @@ namespace Mes.Demo.Web.Areas.Admin.Controllers
                 m.Model,
                 m.Sn,
                 AdType = m.AdType.ToDescription(),
-                退货时间=m.CreatedTime,
-                进货时间=m.D2,
-                二次退货时间=m.D3,
-                二次进货时间=m.D4
+                退板时间=m.CreatedTime,
+                收板时间=m.D2,
+                二次退板时间 = m.D3,
+                二次收板时间 = m.D4
             });
           
             Excel(purchaseAndDeliverys, "PurchaseAndDeliverys" + DateTime.Now.ToString("yyyyMMddhhmmss"));

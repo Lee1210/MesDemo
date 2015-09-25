@@ -69,23 +69,23 @@ namespace Mes.Demo.Services.WareHouse
             {
                 return new OperationResult(OperationResultType.Error) { Message = $"SN号:{sn}不存在！" };
             }
-            if (delivery.AdType == PurchaseAndDeliveryType.已退货)
+            if (delivery.AdType == PurchaseAndDeliveryType.已退板)
             {
-                delivery.AdType = PurchaseAndDeliveryType.已进货;
+                delivery.AdType = PurchaseAndDeliveryType.已收板;
                 delivery.D2=DateTime.Now;
                 delivery.Day2 = DateTime.Now.ToString("yyyyMMdd").CastTo<int>();
                 PurchaseAndDeliveryRepository.Update(delivery);
-                return new OperationResult(OperationResultType.Success) { Message = $"SN号:{sn}进货成功" };
+                return new OperationResult(OperationResultType.Success) { Message = $"SN号:{sn}收板成功" };
             }
-            if(delivery.AdType == PurchaseAndDeliveryType.二次退货)
+            if(delivery.AdType == PurchaseAndDeliveryType.二次退板)
             {
-                delivery.AdType = PurchaseAndDeliveryType.二次进货;
+                delivery.AdType = PurchaseAndDeliveryType.二次收板;
                 delivery.D4 = DateTime.Now;
                 delivery.Day4 = DateTime.Now.ToString("yyyyMMdd").CastTo<int>();
                 PurchaseAndDeliveryRepository.Update(delivery);
-                return new OperationResult(OperationResultType.Success) { Message = $"SN号:{sn}二次进货成功" };
+                return new OperationResult(OperationResultType.Success) { Message = $"SN号:{sn}二次收板成功" };
             }
-            return new OperationResult(OperationResultType.Error) { Message = $"SN:{sn} 当前状态为{delivery.AdType.ToDescription()},不能进货" };
+            return new OperationResult(OperationResultType.Error) { Message = $"SN:{sn} 当前状态为{delivery.AdType.ToDescription()},不能收板" };
         }
 
         public OperationResult InWareHouse(string model, string sn)
@@ -97,22 +97,30 @@ namespace Mes.Demo.Services.WareHouse
             {
                 PurchaseAndDeliveryRepository.Insert(new PurchaseAndDelivery()
                 {
-                    AdType = PurchaseAndDeliveryType.已退货,
+                    AdType = PurchaseAndDeliveryType.已退板,
                     Model = model,
                     Sn = sn,
                     Day1 = DateTime.Now.ToString("yyyyMMdd").CastTo<int>()
                 });
-                return new OperationResult(OperationResultType.Success) { Message = $"SN号:{sn}退货成功！" };
+                return new OperationResult(OperationResultType.Success) { Message = $"SN号:{sn}第一次退板成功！" };
             }
-            if (delivery.AdType == PurchaseAndDeliveryType.已进货)
+            if (delivery.AdType == PurchaseAndDeliveryType.已收板)
             {
-                delivery.AdType = PurchaseAndDeliveryType.二次退货;
+                delivery.AdType = PurchaseAndDeliveryType.二次退板;
                 delivery.D3 = DateTime.Now;
                 delivery.Day3 = DateTime.Now.ToString("yyyyMMdd").CastTo<int>();
                 PurchaseAndDeliveryRepository.Update(delivery);
-                return new OperationResult(OperationResultType.Success) { Message = $"SN号:{sn}二次退货成功" };
+                return new OperationResult(OperationResultType.Success) { Message = $"SN号:{sn}二次退板成功" };
             }
-            return new OperationResult(OperationResultType.Error) { Message = $"SN:{sn} 当前状态为{delivery.AdType.ToDescription()},不能退货" };
+            if (delivery.AdType == PurchaseAndDeliveryType.二次退板)
+            {
+                delivery.AdType = PurchaseAndDeliveryType.二次退板;
+                delivery.D3 = DateTime.Now;
+                delivery.Day3 = DateTime.Now.ToString("yyyyMMdd").CastTo<int>();
+                PurchaseAndDeliveryRepository.Update(delivery);
+                return new OperationResult(OperationResultType.Success) { Message = $"SN号:{sn}二次退板成功" };
+            }
+            return new OperationResult(OperationResultType.Error) { Message = $"SN:{sn} 当前状态为{delivery.AdType.ToDescription()},不能退板！提示：已维修两次，请报废处理" };
         }
     }
    

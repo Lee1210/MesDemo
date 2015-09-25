@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "进出货列表";
+    ViewBag.Title = "收板列表";
     Layout = "~/Areas/Admin/Views/Shared/_DataGridLayout.cshtml";
     ViewBag.GridId = "PurchaseAndDelivery";
     ViewBag.GridDataUrl = Url.Action("GridData");
@@ -48,10 +48,10 @@
                 { field: "Model", title: "机型", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,200]" } } },
                 { field: "Sn", title: "主板SN", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,200]" } } },
                 { field: "AdType", title: "状态", width: 150, sortable: true, editor: { type: "validatebox", options: { required: true, validType: "length[1,200]" } } },
-                { field: "CreatedTime", title: "退货时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } },
-                { field: "D2", title: "进货时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } },
-                { field: "D3", title: "二次退货时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } },
-                { field: "D4", title: "二次进货时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } }
+                { field: "CreatedTime", title: "退板时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } },
+                { field: "D2", title: "收板时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } },
+                { field: "D3", title: "二次退板时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } },
+                { field: "D4", title: "二次收板时间", width: 150, halign: "center", align: "center", sortable: true, formatter: function(value) { return $.Mes.tools.formatDate(value); } }
             ]
         ];
 
