@@ -34,9 +34,8 @@
         var exportExcel = function () {
             var toolbarfilterRules = GetFilterRules();
             if (toolbarfilterRules) {
-                var group = new $.Mes.filter.group();
-                group.Rules = toolbarfilterRules;
-                window.open("@ViewBag.CreateExcel?where=" + JSON.stringify(group));
+                var group = getFilterGroup(toolbarfilterRules);
+                window.open("@ViewBag.CreateExcel?where=" + group);
             }
 
         };
