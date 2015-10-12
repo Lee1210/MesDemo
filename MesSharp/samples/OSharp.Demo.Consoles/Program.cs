@@ -461,7 +461,7 @@ namespace Mes.Demo.Consoles
                    List<Cpk> cpks = new List<Cpk>();
                    for (int i = 0; i < 10000; i++)
                    {
-                       cpks.Add(new Cpk() { Ip = "123.123.123.123", CreatedTime = DateTime.Now, ReadLogDate = DateTime.Today, LogFileName = "12341234123412341234", IsDeleted = false, MaxVal = 21.01, MinVal = 20.12, Opcode = "cit", Pcl = "pcl" });
+                       cpks.Add(new Cpk() { Ip = "123.123.123.124", CreatedTime = DateTime.Now, ReadLogDate = DateTime.Today, LogFileName = "12341234123412341234", IsDeleted = false, MaxVal = 21.01, MinVal = 20.12, Opcode = "cit", Pcl = "pcl" });
                    }
                    _program.CpkRepository.BulkInsertAll(cpks);
                });
